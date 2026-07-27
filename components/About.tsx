@@ -1,34 +1,112 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Section } from "./ui/Section";
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
+  // Check for reduced motion preference
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mediaQuery.matches);
 
-    const elements = sectionRef.current?.querySelectorAll(".animate-on-scroll");
-    elements?.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
   }, []);
+
+  // Import anime.js dynamically to avoid SSR issues
+  useEffect(() => {
+    if (!sectionRef.current || prefersReducedMotion) return;
+
+    const initAnimations = async () => {
+      const { animate, set, createTimeline, stagger } = await import("animejs");
+
+      const imageEl = imageRef.current;
+      const contentEl = contentRef.current;
+      const paragraphs = contentEl?.querySelectorAll("p");
+      const keyPoints = contentEl?.querySelectorAll(".key-point");
+
+      // Set initial states
+      if (imageEl) set(imageEl, { opacity: 0, translateX: -50, scale: 0.9 });
+      if (contentEl) set(contentEl, { opacity: 0, translateX: 50 });
+      if (paragraphs) set(paragraphs, { opacity: 0, translateY: 20 });
+      if (keyPoints) set(keyPoints, { opacity: 0, translateX: 30 });
+
+      // Create timeline
+      const timeline = createTimeline();
+
+      // Image animation: blurIn from left
+      if (imageEl) {
+        timeline.add(imageEl, {
+          opacity: [0, 1],
+          translateX: [-50, 0],
+          scale: [0.9, 1],
+          duration: 800,
+        });
+      }
+
+      // Content slide in from right
+      if (contentEl) {
+        timeline.add(contentEl, {
+          opacity: [0, 1],
+          translateX: [50, 0],
+          duration: 600,
+        }, "-=600");
+      }
+
+      // Paragraphs stagger
+      if (paragraphs && paragraphs.length > 0) {
+        timeline.add(paragraphs, {
+          opacity: [0, 1],
+          translateY: [20, 0],
+          duration: 500,
+          delay: stagger(100),
+        }, "-=400");
+      }
+
+      // Key points stagger with rotate
+      if (keyPoints && keyPoints.length > 0) {
+        timeline.add(keyPoints, {
+          opacity: [0, 1],
+          translateX: [30, 0],
+          duration: 400,
+          delay: stagger(80),
+        }, "-=300");
+      }
+
+      // Observe with IntersectionObserver for scroll-triggered animation
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              timeline.play();
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      if (sectionRef.current) {
+        observer.observe(sectionRef.current);
+      }
+
+      return () => observer.disconnect();
+    };
+
+    initAnimations();
+  }, [prefersReducedMotion]);
 
   return (
     <Section id="about" variant="light" ref={sectionRef}>
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         {/* Left - Image/Avatar Placeholder */}
-        <div className="order-2 lg:order-1 animate-on-scroll">
+        <div ref={imageRef} className="order-2 lg:order-1">
           <div className="relative max-w-md mx-auto">
             {/* Avatar Frame */}
             <div className="aspect-square rounded-[var(--radius-xl)] bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] overflow-hidden">
@@ -38,10 +116,10 @@ export function About() {
                   <div className="w-32 h-32 mx-auto rounded-full bg-[var(--color-surface-violet-soft)]/30 flex items-center justify-center mb-4">
                     <span className="text-5xl font-bold text-[var(--color-surface-violet-soft)]">AG</span>
                   </div>
-                  <p className="text-body-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540">
+                  <p className="text-body-lg font-[family-name:var(--font-inter)]">
                     Al Ghifari
                   </p>
-                  <p className="text-caption text-[var(--color-on-dark-mute)] font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460">
+                  <p className="text-caption text-[var(--color-on-dark-mute)] font-[family-name:var(--font-inter)]">
                     Freelance Web Developer
                   </p>
                 </div>
@@ -55,9 +133,9 @@ export function About() {
         </div>
 
         {/* Right - Content */}
-        <div className="order-1 lg:order-2 space-y-6">
-          <div className="animate-on-scroll">
-            <span className="inline-block text-micro font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-primary)] uppercase tracking-wider mb-2">
+        <div ref={contentRef} className="order-1 lg:order-2 space-y-6">
+          <div>
+            <span className="inline-block text-micro font-[family-name:var(--font-inter)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
               Tentang Saya
             </span>
             <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
@@ -65,17 +143,17 @@ export function About() {
             </h2>
           </div>
 
-          <div className="space-y-4 animate-on-scroll">
-            <p className="text-body-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)]">
+          <div className="space-y-4">
+            <p className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
               Hai! Saya Al Ghifari, seorang mahasiswa Teknik Informatika yang
               sedang dalam proses membangun karir di dunia pengembangan software.
             </p>
-            <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)]">
+            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
               Saya sangat menikmati proses mengubah ide menjadi produk digital
               yang nyata. Fokus utama saya adalah web development — mulai dari
               landing page sederhana hingga aplikasi web yang lebih kompleks.
             </p>
-            <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)]">
+            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
               Sebagai mahasiswa, saya terus belajar teknologi terbaru dan
               berusaha memberikan hasil terbaik untuk setiap project yang saya
               kerjakan. Saya percaya bahwa kualitas kerja lebih penting dari
@@ -84,7 +162,7 @@ export function About() {
           </div>
 
           {/* Key Points */}
-          <div className="grid grid-cols-2 gap-4 pt-4 animate-on-scroll">
+          <div className="grid grid-cols-2 gap-4 pt-4">
             {[
               {
                 icon: (
@@ -122,10 +200,10 @@ export function About() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-3 rounded-[var(--radius-md)] bg-[var(--color-canvas-soft)]"
+                className="key-point flex items-center gap-3 p-3 rounded-[var(--radius-md)] bg-[var(--color-canvas-soft)]"
               >
                 <span className="text-[var(--color-primary)]">{item.icon}</span>
-                <span className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink)]">
+                <span className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
                   {item.text}
                 </span>
               </div>

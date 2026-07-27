@@ -62,38 +62,209 @@ const reasons = [
   },
 ];
 
-export function WhyWorkWithMe() {
-  const sectionRef = useRef<HTMLElement>(null);
+function ReasonCard({ reason, index }: { reason: typeof reasons[0]; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
+    if (!cardRef.current) return;
+
+    const initAnimation = async () => {
+      const { animate, set, stagger } = await import("animejs");
+
+      const card = cardRef.current;
+
+      // Set initial state - slide from right
+      set(card, { opacity: 0, translateX: 50, translateY: 20 });
+
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              const { animate, stagger } = await import("animejs");
+
+              animate(card, {
+                opacity: [0, 1],
+                translateX: [50, 0],
+                translateY: [20, 0],
+                duration: 500,
+                delay: stagger(80),
+                easing: "easeOutQuart",
+              });
+
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(card);
+
+      return () => observer.disconnect();
+    };
+
+    initAnimation();
+  }, []);
+
+  // Icon rotate animation on hover
+  useEffect(() => {
+    if (!iconRef.current) return;
+
+    const initHover = async () => {
+      const { animate } = await import("animejs");
+
+      const icon = iconRef.current;
+      let animation: ReturnType<typeof animate> | null = null;
+
+      const handleMouseEnter = () => {
+        animation = animate(icon, {
+          rotate: [-10, 10, 0],
+          scale: [1, 1.1, 1],
+          duration: 400,
+          easing: "easeOutQuart",
         });
-      },
-      { threshold: 0.1 }
-    );
+      };
 
-    const elements = sectionRef.current?.querySelectorAll(".animate-on-scroll");
-    elements?.forEach((el) => observer.observe(el));
+      const handleMouseLeave = () => {
+        if (animation) animation.pause();
+        animate(icon, {
+          rotate: 0,
+          scale: 1,
+          duration: 200,
+          easing: "easeOutQuart",
+        });
+      };
 
-    return () => observer.disconnect();
+      icon.addEventListener("mouseenter", handleMouseEnter);
+      icon.addEventListener("mouseleave", handleMouseLeave);
+
+      return () => {
+        icon.removeEventListener("mouseenter", handleMouseEnter);
+        icon.removeEventListener("mouseleave", handleMouseLeave);
+        if (animation) animation.pause();
+      };
+    };
+
+    initHover();
+  }, []);
+
+  return (
+    <Card
+      ref={cardRef}
+      variant="feature-row"
+      className="group reason-card hover:shadow-md transition-shadow duration-300"
+    >
+      <div className="flex gap-4">
+        {/* Icon */}
+        <div
+          ref={iconRef}
+          className="flex-shrink-0 w-12 h-12 rounded-[var(--radius-md)] bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-primary)]"
+        >
+          {reason.icon}
+        </div>
+
+        {/* Content */}
+        <div>
+          <h3 className="text-heading-lg font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-1">
+            {reason.title}
+          </h3>
+          <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
+            {reason.description}
+          </p>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+export function WhyWorkWithMe() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!headerRef.current) return;
+
+    const initAnimation = async () => {
+      const { animate, set } = await import("animejs");
+
+      const header = headerRef.current;
+      const span = header.querySelector("span");
+      const h2 = header.querySelector("h2");
+      const p = header.querySelector("p");
+
+      set(header, { opacity: 0, translateY: 30 });
+      if (span) set(span, { opacity: 0 });
+      if (h2) set(h2, { opacity: 0, translateY: 20 });
+      if (p) set(p, { opacity: 0, translateY: 20 });
+
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              const { animate } = await import("animejs");
+
+              animate(header, {
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 600,
+                easing: "easeOutExpo",
+              });
+
+              if (span) {
+                animate(span, {
+                  opacity: [0, 1],
+                  duration: 400,
+                  delay: 200,
+                });
+              }
+
+              if (h2) {
+                animate(h2, {
+                  opacity: [0, 1],
+                  translateY: [20, 0],
+                  duration: 500,
+                  delay: 300,
+                  easing: "easeOutQuart",
+                });
+              }
+
+              if (p) {
+                animate(p, {
+                  opacity: [0, 1],
+                  translateY: [20, 0],
+                  duration: 500,
+                  delay: 400,
+                  easing: "easeOutQuart",
+                });
+              }
+
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(header);
+
+      return () => observer.disconnect();
+    };
+
+    initAnimation();
   }, []);
 
   return (
     <Section id="why-work-with-me" variant="light" ref={sectionRef}>
       {/* Header */}
-      <div className="text-center mb-12 animate-on-scroll">
-        <span className="inline-block text-micro font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-primary)] uppercase tracking-wider mb-2">
+      <div ref={headerRef} className="text-center mb-12">
+        <span className="inline-block text-micro font-[family-name:var(--font-inter)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
           Keunggulan
         </span>
         <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
           Kenapa Kerja Sama dengan Saya?
         </h2>
-        <p className="text-body-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] max-w-2xl mx-auto mt-4">
+        <p className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] max-w-2xl mx-auto mt-4">
           Saya berkomitmen memberikan pengalaman kerja sama yang nyaman dan hasil yang memuaskan
         </p>
       </div>
@@ -101,29 +272,7 @@ export function WhyWorkWithMe() {
       {/* Reasons Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {reasons.map((reason, index) => (
-          <Card
-            key={index}
-            variant="feature-row"
-            className="group hover:shadow-md transition-all duration-300 animate-on-scroll"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
-            <div className="flex gap-4">
-              {/* Icon */}
-              <div className="flex-shrink-0 w-12 h-12 rounded-[var(--radius-md)] bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-primary)] group-hover:scale-110 transition-transform duration-300">
-                {reason.icon}
-              </div>
-
-              {/* Content */}
-              <div>
-                <h3 className="text-heading-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 text-[var(--color-ink)] mb-1">
-                  {reason.title}
-                </h3>
-                <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)]">
-                  {reason.description}
-                </p>
-              </div>
-            </div>
-          </Card>
+          <ReasonCard key={index} reason={reason} index={index} />
         ))}
       </div>
     </Section>

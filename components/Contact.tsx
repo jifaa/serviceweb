@@ -54,8 +54,131 @@ interface FormErrors {
   message?: string;
 }
 
+function ContactItem({ link, index }: { link: typeof contactInfo[0]; index: number }) {
+  const itemRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (!itemRef.current) return;
+
+    const initAnimation = async () => {
+      const { animate, set } = await import("animejs");
+
+      const item = itemRef.current;
+      if (!item) return;
+
+      if (item) set(item, { opacity: 0, translateX: -20 });
+
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              const { animate } = await import("animejs");
+
+              animate(item, {
+                opacity: [0, 1],
+                translateX: [-20, 0],
+                duration: 400,
+                delay: index * 100,
+                easing: "easeOutQuart",
+              });
+
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(item);
+
+      return () => observer.disconnect();
+    };
+
+    initAnimation();
+  }, [index]);
+
+  return (
+    <a
+      ref={itemRef}
+      href={link.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-4 group p-3 -m-3 rounded-[var(--radius-md)] hover:bg-[var(--color-on-primary)]/5 transition-all duration-200"
+    >
+      <div
+        className="w-14 h-14 rounded-[var(--radius-lg)] flex items-center justify-center transition-transform duration-200 group-hover:scale-110 flex-shrink-0"
+        style={{ backgroundColor: `${link.color}20`, color: link.color }}
+      >
+        {link.icon}
+      </div>
+      <div className="min-w-0">
+        <p className="text-micro font-[family-name:var(--font-inter)] text-[var(--color-on-dark-faint)] uppercase tracking-wider">
+          {link.name}
+        </p>
+        <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-on-primary)] truncate">
+          {link.value}
+        </p>
+      </div>
+    </a>
+  );
+}
+
+function SubmitButton({ isSubmitting }: { isSubmitting: boolean }) {
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const prevSubmitting = useRef(isSubmitting);
+
+  useEffect(() => {
+    if (!buttonRef.current) return;
+
+    const initAnimation = async () => {
+      const { animate } = await import("animejs");
+
+      const button = buttonRef.current;
+
+      if (isSubmitting && !prevSubmitting.current) {
+        // Animate when loading starts
+        if (button) {
+          animate(button, {
+            scale: [1, 0.95, 1],
+            duration: 200,
+            easing: "easeOutQuart",
+          });
+        }
+      }
+
+      prevSubmitting.current = isSubmitting;
+    };
+
+    initAnimation();
+  }, [isSubmitting]);
+
+  return (
+    <Button
+      ref={buttonRef as any}
+      type="submit"
+      variant="primary-dark"
+      size="lg"
+      isLoading={isSubmitting}
+      className="w-full submit-button"
+    >
+      {!isSubmitting && (
+        <>
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+          </svg>
+          Kirim via WhatsApp
+        </>
+      )}
+    </Button>
+  );
+}
+
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const infoCardRef = useRef<HTMLDivElement>(null);
+  const formCardRef = useRef<HTMLDivElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
@@ -67,22 +190,105 @@ export function Contact() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
+    if (!headerRef.current || !infoCardRef.current || !formCardRef.current) return;
 
-    const elements = sectionRef.current?.querySelectorAll(".animate-on-scroll");
-    elements?.forEach((el) => observer.observe(el));
+    const initAnimation = async () => {
+      const { animate, set } = await import("animejs");
 
-    return () => observer.disconnect();
+      const header = headerRef.current;
+      const infoCard = infoCardRef.current;
+      const formCard = formCardRef.current;
+
+      // Set initial states
+      if (header) set(header, { opacity: 0, translateY: 30 });
+      if (infoCard) set(infoCard, { opacity: 0, translateX: -30 });
+      if (formCard) set(formCard, { opacity: 0, translateX: 30 });
+
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              const { animate } = await import("animejs");
+
+              // Header animation
+              if (header) {
+                animate(header, {
+                  opacity: [0, 1],
+                  translateY: [30, 0],
+                  duration: 600,
+                  easing: "easeOutExpo",
+                });
+              }
+
+              // Info card animation (blurIn from left)
+              if (infoCard) {
+                animate(infoCard, {
+                  opacity: [0, 1],
+                  translateX: [-30, 0],
+                  filter: ["blur(10px)", "blur(0px)"],
+                  duration: 600,
+                  delay: 200,
+                  easing: "easeOutQuart",
+                });
+              }
+
+              // Form card animation (slideUp from right)
+              if (formCard) {
+                animate(formCard, {
+                  opacity: [0, 1],
+                  translateX: [30, 0],
+                  duration: 600,
+                  delay: 300,
+                  easing: "easeOutQuart",
+                });
+              }
+
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(sectionRef.current!);
+
+      return () => observer.disconnect();
+    };
+
+    initAnimation();
   }, []);
+
+  // Success animation
+  useEffect(() => {
+    if (submitStatus === "success" && successRef.current) {
+      const animateSuccess = async () => {
+        const { animate, set } = await import("animejs");
+        const success = successRef.current!;
+        const svg = success.querySelector("svg");
+
+        set(success, { opacity: 0, scale: 0.8, translateY: 10 });
+
+        animate(success, {
+          opacity: [0, 1],
+          scale: [0.8, 1],
+          translateY: [10, 0],
+          duration: 400,
+          easing: "easeOutBack",
+        });
+
+        if (svg) {
+          animate(svg, {
+            rotate: [0, 360],
+            duration: 500,
+            delay: 200,
+            easing: "easeOutQuart",
+          });
+        }
+      };
+
+      animateSuccess();
+    }
+  }, [submitStatus]);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -141,7 +347,6 @@ export function Contact() {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error when user starts typing
     if (errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -150,58 +355,37 @@ export function Contact() {
   return (
     <Section id="contact" variant="light" ref={sectionRef}>
       {/* Header */}
-      <div className="text-center mb-16 animate-on-scroll">
-        <h2 className="text-display-xl font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink)] mb-4">
+      <div ref={headerRef} className="text-center mb-16">
+        <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-4">
           Mari Diskusi
         </h2>
-        <p className="text-body-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] max-w-xl mx-auto">
+        <p className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] max-w-xl mx-auto">
           Punya ide project atau pertanyaan? Hubungi saya — saya senang membantu mewujudkan ide Anda.
         </p>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Left - Contact Info */}
-        <div className="space-y-6 animate-on-scroll">
+        <div ref={infoCardRef} className="space-y-6">
           <Card variant="feature-light" className="bg-[var(--color-primary)] border-none h-full">
             <div className="space-y-8">
               <div className="space-y-2">
-                <h3 className="text-display-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 text-[var(--color-on-primary)]">
+                <h3 className="text-display-md font-[family-name:var(--font-inter)] text-[var(--color-on-primary)]">
                   Informasi Kontak
                 </h3>
-                <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-on-dark-faint)]">
+                <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-on-dark-faint)]">
                   Pilih cara terbaik untuk menghubungi saya
                 </p>
               </div>
 
               <div className="space-y-4">
                 {contactInfo.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-4 group p-3 -m-3 rounded-[var(--radius-md)] hover:bg-[var(--color-on-primary)]/5 transition-all duration-200"
-                  >
-                    <div
-                      className="w-14 h-14 rounded-[var(--radius-lg)] flex items-center justify-center transition-transform duration-200 group-hover:scale-105 flex-shrink-0"
-                      style={{ backgroundColor: `${link.color}20`, color: link.color }}
-                    >
-                      {link.icon}
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-micro font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-on-dark-faint)] uppercase tracking-wider">
-                        {link.name}
-                      </p>
-                      <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-on-primary)] truncate">
-                        {link.value}
-                      </p>
-                    </div>
-                  </a>
+                  <ContactItem key={index} link={link} index={index} />
                 ))}
               </div>
 
               <div className="pt-4 border-t border-[var(--color-on-dark-faint)]/20">
-                <p className="text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-on-dark-faint)]">
+                <p className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-on-dark-faint)]">
                   Respon biasanya dalam 1x24 jam. Untuk project urgent, WhatsApp adalah pilihan tercepat.
                 </p>
               </div>
@@ -210,14 +394,14 @@ export function Contact() {
         </div>
 
         {/* Right - Contact Form */}
-        <div className="animate-on-scroll delay-200">
+        <div ref={formCardRef}>
           <Card variant="feature-light" className="h-full">
             <div className="space-y-6">
               <div className="space-y-2">
-                <h3 className="text-display-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 text-[var(--color-ink)]">
+                <h3 className="text-display-md font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
                   Kirim Pesan
                 </h3>
-                <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)]">
+                <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
                   Isi formulir di bawah dan saya akan segera menghubungi Anda
                 </p>
               </div>
@@ -225,7 +409,7 @@ export function Contact() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 {/* Name Field */}
                 <div className="space-y-2">
-                  <label htmlFor="name" className="block text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-ink)]">
+                  <label htmlFor="name" className="block text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
                     Nama <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -239,7 +423,7 @@ export function Contact() {
                       w-full px-4 py-3 rounded-[var(--radius-sm)]
                       bg-[var(--color-canvas)]
                       text-[var(--color-ink)]
-                      text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460
+                      text-body-md font-[family-name:var(--font-inter)]
                       border transition-all duration-200
                       placeholder:text-[var(--color-ink-faint)]
                       focus:outline-none focus:ring-2 focus:ring-[var(--color-surface-violet-soft)] focus:border-transparent
@@ -255,7 +439,7 @@ export function Contact() {
 
                 {/* Email Field */}
                 <div className="space-y-2">
-                  <label htmlFor="email" className="block text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-ink)]">
+                  <label htmlFor="email" className="block text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
                     Email <span className="text-red-500">*</span>
                   </label>
                   <input
@@ -269,7 +453,7 @@ export function Contact() {
                       w-full px-4 py-3 rounded-[var(--radius-sm)]
                       bg-[var(--color-canvas)]
                       text-[var(--color-ink)]
-                      text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460
+                      text-body-md font-[family-name:var(--font-inter)]
                       border transition-all duration-200
                       placeholder:text-[var(--color-ink-faint)]
                       focus:outline-none focus:ring-2 focus:ring-[var(--color-surface-violet-soft)] focus:border-transparent
@@ -285,7 +469,7 @@ export function Contact() {
 
                 {/* Project Type Field */}
                 <div className="space-y-2">
-                  <label htmlFor="project" className="block text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-ink)]">
+                  <label htmlFor="project" className="block text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
                     Jenis Project
                   </label>
                   <select
@@ -297,7 +481,7 @@ export function Contact() {
                       w-full px-4 py-3 rounded-[var(--radius-sm)]
                       bg-[var(--color-canvas)]
                       text-[var(--color-ink)]
-                      text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460
+                      text-body-md font-[family-name:var(--font-inter)]
                       border border-[var(--color-hairline)] hover:border-[var(--color-hairline-dark)]
                       transition-all duration-200 cursor-pointer
                       focus:outline-none focus:ring-2 focus:ring-[var(--color-surface-violet-soft)] focus:border-transparent
@@ -316,7 +500,7 @@ export function Contact() {
 
                 {/* Message Field */}
                 <div className="space-y-2">
-                  <label htmlFor="message" className="block text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-ink)]">
+                  <label htmlFor="message" className="block text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
                     Pesan <span className="text-red-500">*</span>
                   </label>
                   <textarea
@@ -330,7 +514,7 @@ export function Contact() {
                       w-full px-4 py-3 rounded-[var(--radius-sm)]
                       bg-[var(--color-canvas)]
                       text-[var(--color-ink)]
-                      text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460
+                      text-body-md font-[family-name:var(--font-inter)]
                       border transition-all duration-200 resize-none
                       placeholder:text-[var(--color-ink-faint)]
                       focus:outline-none focus:ring-2 focus:ring-[var(--color-surface-violet-soft)] focus:border-transparent
@@ -345,27 +529,15 @@ export function Contact() {
                 </div>
 
                 {/* Submit Button */}
-                <Button
-                  type="submit"
-                  variant="primary-dark"
-                  size="lg"
-                  isLoading={isSubmitting}
-                  className="w-full"
-                >
-                  {!isSubmitting && (
-                    <>
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                      </svg>
-                      Kirim via WhatsApp
-                    </>
-                  )}
-                </Button>
+                <SubmitButton isSubmitting={isSubmitting} />
 
                 {/* Success Message */}
                 {submitStatus === "success" && (
-                  <div className="p-4 rounded-[var(--radius-md)] bg-green-50 border border-green-200 animate-fade-in">
-                    <p className="text-body-md text-green-700 font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-center">
+                  <div ref={successRef} className="p-4 rounded-[var(--radius-md)] bg-green-50 border border-green-200">
+                    <p className="text-body-md text-green-700 font-[family-name:var(--font-inter)] text-center flex items-center justify-center gap-2">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
                       Pesan terkirim! Mengalihkan ke WhatsApp...
                     </p>
                   </div>

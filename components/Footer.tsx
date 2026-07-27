@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useRef } from "react";
+
 const footerLinks = [
   {
     title: "Navigasi",
@@ -64,15 +66,181 @@ const socialLinks = [
   },
 ];
 
-export function Footer() {
-  const currentYear = new Date().getFullYear();
+function FooterColumn({ column, index }: { column: typeof footerLinks[0]; index: number }) {
+  const columnRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!columnRef.current) return;
+
+    const initAnimation = async () => {
+      const { animate, set } = await import("animejs");
+
+      const col = columnRef.current;
+
+      if (col) set(col, { opacity: 0, translateY: 20 });
+
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              const { animate } = await import("animejs");
+
+              if (col) {
+                animate(col, {
+                  opacity: [0, 1],
+                  translateY: [20, 0],
+                  duration: 500,
+                  delay: index * 100,
+                  easing: "easeOutQuart",
+                });
+              }
+
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      if (col) observer.observe(col);
+
+      return () => observer.disconnect();
+    };
+
+    initAnimation();
+  }, [index]);
 
   return (
-    <footer className="bg-[var(--color-canvas)] border-t border-[var(--color-hairline)]">
+    <div ref={columnRef}>
+      <h4 className="text-button-cap font-[family-name:var(--font-inter)] text-[var(--color-ink)] uppercase tracking-wider mb-4">
+        {column.title}
+      </h4>
+      <ul className="space-y-3">
+        {column.links.map((link, linkIndex) => (
+          <li key={linkIndex}>
+            <a
+              href={link.href}
+              target={link.external ? "_blank" : "_self"}
+              rel={link.external ? "noopener noreferrer" : ""}
+              className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] hover:text-[var(--color-primary)] transition-colors duration-200"
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function SocialButton({ link, index }: { link: typeof socialLinks[0]; index: number }) {
+  const buttonRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (!buttonRef.current) return;
+
+    const initAnimation = async () => {
+      const { animate, set } = await import("animejs");
+
+      const button = buttonRef.current;
+
+      if (button) set(button, { opacity: 0, scale: 0.8 });
+
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              const { animate } = await import("animejs");
+
+              if (button) {
+                animate(button, {
+                  opacity: [0, 1],
+                  scale: [0.8, 1],
+                  duration: 400,
+                  delay: 200 + index * 80,
+                  easing: "easeOutBack",
+                });
+              }
+
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      if (button) observer.observe(button);
+
+      return () => observer.disconnect();
+    };
+
+    initAnimation();
+  }, [index]);
+
+  return (
+    <a
+      ref={buttonRef}
+      href={link.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="w-10 h-10 rounded-[var(--radius-md)] bg-[var(--color-canvas-soft)] flex items-center justify-center text-[var(--color-ink-mute)] hover:bg-[var(--color-primary)] hover:text-[var(--color-on-primary)] transition-all duration-200"
+      aria-label={link.name}
+    >
+      {link.icon}
+    </a>
+  );
+}
+
+export function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+  const brandRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!footerRef.current || !brandRef.current) return;
+
+    const initAnimation = async () => {
+      const { animate, set } = await import("animejs");
+
+      const brand = brandRef.current;
+
+      if (brand) set(brand, { opacity: 0, translateY: 20 });
+
+      const observer = new IntersectionObserver(
+        async (entries) => {
+          entries.forEach(async (entry) => {
+            if (entry.isIntersecting) {
+              const { animate } = await import("animejs");
+
+              if (brand) {
+                animate(brand, {
+                  opacity: [0, 1],
+                  translateY: [20, 0],
+                  duration: 600,
+                  easing: "easeOutQuart",
+                });
+              }
+
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      observer.observe(footerRef.current!);
+
+      return () => observer.disconnect();
+    };
+
+    initAnimation();
+  }, []);
+
+  return (
+    <footer ref={footerRef} className="bg-[var(--color-canvas)] border-t border-[var(--color-hairline)]">
       <div className="max-w-[1100px] mx-auto px-[var(--spacing-lg)] md:px-[var(--spacing-xl)] py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div ref={brandRef} className="lg:col-span-1">
             <a href="#home" className="flex items-center gap-2 mb-4">
               <span className="text-[var(--color-primary)] font-bold text-xl">
                 {"</>"}
@@ -81,64 +249,37 @@ export function Footer() {
                 Al Ghifari
               </span>
             </a>
-            <p className="text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] mb-6">
+            <p className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] mb-6">
               Mahasiswa Teknik Informatika yang passionate di web development. Terbuka untuk project freelance dan kolaborasi.
             </p>
             {/* Social Links */}
             <div className="flex gap-3">
               {socialLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-[var(--radius-md)] bg-[var(--color-canvas-soft)] flex items-center justify-center text-[var(--color-ink-mute)] hover:bg-[var(--color-primary)] hover:text-[var(--color-on-primary)] transition-all duration-200"
-                  aria-label={link.name}
-                >
-                  {link.icon}
-                </a>
+                <SocialButton key={index} link={link} index={index} />
               ))}
             </div>
           </div>
 
           {/* Link Columns */}
           {footerLinks.map((column, index) => (
-            <div key={index}>
-              <h4 className="text-button-cap font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-ink)] uppercase tracking-wider mb-4">
-                {column.title}
-              </h4>
-              <ul className="space-y-3">
-                {column.links.map((link, linkIndex) => (
-                  <li key={linkIndex}>
-                    <a
-                      href={link.href}
-                      target={link.external ? "_blank" : "_self"}
-                      rel={link.external ? "noopener noreferrer" : ""}
-                      className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] hover:text-[var(--color-primary)] transition-colors duration-200"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <FooterColumn key={index} column={column} index={index} />
           ))}
         </div>
       </div>
 
-      {/* Bottom Bar
+      {/* Bottom Bar */}
       <div className="border-t border-[var(--color-hairline)]">
         <div className="max-w-[1100px] mx-auto px-[var(--spacing-lg)] md:px-[var(--spacing-xl)] py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-faint)]">
-              &copy; {currentYear} Al Ghifari. All rights reserved.
+            <p className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink-faint)]">
+              © {new Date().getFullYear()} Al Ghifari. All rights reserved.
             </p>
-            <p className="text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-faint)]">
+            <p className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink-faint)]">
               Dibuat dengan <svg className="w-4 h-4 inline text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> dan Next.js
             </p>
           </div>
         </div>
-      </div> */}
+      </div>
     </footer>
   );
 }
