@@ -28,19 +28,20 @@ const variantStyles: Record<SectionVariant, string> = {
 
 export const Section = forwardRef<HTMLElement, SectionProps>(
   ({ children, variant = "light", className = "", id }, ref) => {
+    const hasPy = className.includes("py-");
     return (
       <section
         ref={ref}
         id={id}
         className={`
-          w-full
-          py-[var(--spacing-huge)] md:py-24
+          w-full min-h-full flex flex-col justify-center
+          ${hasPy ? "" : "py-8 md:py-12"}
           px-[var(--spacing-lg)] md:px-[var(--spacing-xl)]
           ${variantStyles[variant]}
           ${className}
         `}
       >
-        <div className="max-w-[1100px] mx-auto">{children}</div>
+        <div className="max-w-[1100px] mx-auto w-full">{children}</div>
       </section>
     );
   }

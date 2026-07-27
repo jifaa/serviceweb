@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { motion } from "motion/react";
 import { Section } from "./ui/Section";
 
 interface Step {
@@ -73,81 +73,51 @@ const steps: Step[] = [
   },
 ];
 
-export function Workflow() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const elements = sectionRef.current?.querySelectorAll(".animate-on-scroll");
-    elements?.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
+function Workflow() {
   return (
-    <Section id="workflow" variant="soft" ref={sectionRef}>
-      {/* Header */}
-      <div className="text-center mb-16 animate-on-scroll">
-        <span className="inline-block text-micro font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-primary)] uppercase tracking-wider mb-2 px-3 py-1 rounded-full bg-[var(--color-surface-violet-soft)] border border-[var(--color-hairline)] shadow-xs">
-          Proses Kerja
-        </span>
+    <Section id="workflow" variant="soft">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="text-center mb-16"
+      >
         <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)] mt-2">
           Bagaimana Proses Pengerjaannya?
         </h2>
         <p className="text-body-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] max-w-2xl mx-auto mt-4">
           Alur kerja terstruktur dan transparan untuk memastikan setiap project berjalan lancar, tepat waktu, dan berkualitas tinggi.
         </p>
-      </div>
+      </motion.div>
 
-      {/* Timeline Container */}
-      <div className="relative max-w-5xl mx-auto">
-        {/* Central Vertical Line (Responsive: Left-aligned on mobile, Center-aligned on Desktop) */}
-        <div className="absolute left-6 lg:left-1/2 top-6 bottom-6 w-0.5 bg-gradient-to-b from-[var(--color-surface-violet-soft)] via-[var(--color-hairline)] to-[var(--color-surface-violet-soft)] -translate-x-1/2" />
+      {/* Vertical Timeline */}
+      <div className="relative max-w-3xl mx-auto">
+        {/* Center line */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-6 bottom-6 w-0.5 bg-gradient-to-b from-[var(--color-surface-violet-soft)] via-[var(--color-hairline)] to-[var(--color-surface-violet-soft)]" />
 
-        {/* Timeline Steps */}
-        <div className="space-y-8 lg:space-y-12">
+        <div className="space-y-8 lg:space-y-10">
           {steps.map((step, index) => {
-            const isEven = index % 2 === 0;
-
+            const isLeft = index % 2 === 0;
             return (
-              <div
+              <motion.div
                 key={index}
-                className="relative animate-on-scroll group"
-                style={{ animationDelay: `${index * 120}ms` }}
+                initial={{ opacity: 0, x: isLeft ? -24 : 24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className="relative"
               >
-                {/* Mobile Icon Badge (Anchored on left-6 vertical line) */}
-                <div className="lg:hidden absolute left-6 -translate-x-1/2 top-6 z-10 w-12 h-12 rounded-full bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] flex items-center justify-center border-4 border-[var(--color-canvas)] shadow-md group-hover:scale-105 transition-transform duration-300">
+                {/* Icon badge */}
+                <div className="absolute left-1/2 -translate-x-1/2 top-6 z-10 w-12 h-12 rounded-full bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] flex items-center justify-center border-4 border-[var(--color-canvas-soft)] shadow-md group-hover:scale-105 transition-transform duration-300">
                   {step.icon}
                 </div>
 
-                {/* Desktop Center Icon Badge (Anchored on 50% vertical line) */}
-                <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-10 w-14 h-14 rounded-full bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] items-center justify-center border-4 border-[var(--color-canvas)] shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                  {step.icon}
+                {/* Card */}
+                <div className={`${isLeft ? "pr-[calc(50%+2rem)]" : "pl-[calc(50%+2rem)]"}`}>
+                  <StepCard step={step} />
                 </div>
-
-                {/* Grid Layout (Mobile: pl-14 to clear icon, Desktop: Alternating 2 columns) */}
-                <div className="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
-                  {/* Left Column */}
-                  <div className={`pl-14 lg:pl-0 ${isEven ? "lg:col-start-1" : "hidden lg:block lg:col-start-1"}`}>
-                    {isEven && <StepCard step={step} alignment="left" />}
-                  </div>
-
-                  {/* Right Column */}
-                  <div className={`pl-14 lg:pl-0 ${!isEven ? "lg:col-start-2" : "hidden lg:block lg:col-start-2"}`}>
-                    {!isEven && <StepCard step={step} alignment="right" />}
-                  </div>
-                </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
@@ -156,18 +126,13 @@ export function Workflow() {
   );
 }
 
-function StepCard({ step }: { step: Step; alignment: "left" | "right" }) {
+function StepCard({ step }: { step: Step }) {
   return (
-    <div className="bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-2xl p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-[var(--color-surface-teal-mid)]/40 transition-all duration-300 relative overflow-hidden group/card">
-      {/* Subtle top accent bar on hover */}
+    <div className="bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-2xl p-6 shadow-sm hover:shadow-xl hover:border-[var(--color-surface-teal-mid)]/40 transition-all duration-300 relative overflow-hidden group/card">
+      {/* Top accent bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--color-surface-violet-soft)] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300" />
 
-      {/* Step Badge */}
-      <div className="flex items-center justify-between mb-3">
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] border border-[var(--color-hairline)] shadow-xs">
-          Langkah {step.number}
-        </span>
-      </div>
+
 
       {/* Title */}
       <h3 className="text-display-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-ink)] group-hover/card:text-[var(--color-surface-teal-mid)] transition-colors">
@@ -181,3 +146,5 @@ function StepCard({ step }: { step: Step; alignment: "left" | "right" }) {
     </div>
   );
 }
+
+export { Workflow };

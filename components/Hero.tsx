@@ -1,12 +1,31 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { Button } from "./ui/Button";
 import RotatingText from "./RotatingText";
 import LightRays from "./LightRays";
 
 export function Hero() {
+  const ref = useRef<HTMLElement>(null);
+  const prefersReduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  const filter = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(10px)"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 2]);
+
+  // Disable on prefers-reduced-motion
+  const filterVal = prefersReduced ? "blur(0px)" : filter;
+  const opacityVal = prefersReduced ? 1 : opacity;
+  const scaleVal = prefersReduced ? 1 : scale;
+
   return (
     <section
+      ref={ref}
       id="home"
       className="relative min-h-screen flex items-center bg-[var(--color-primary)] overflow-hidden"
     >
@@ -35,7 +54,10 @@ export function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[1100px] mx-auto px-4 md:px-8 pt-24 pb-16">
+      <motion.div
+        style={{ filter: filterVal, opacity: opacityVal, scale: scaleVal }}
+        className="relative z-10 max-w-[1100px] mx-auto px-4 md:px-8 pt-24 pb-16"
+      >
         <div className="flex justify-center items-center">
           {/* Text Content - Centered */}
           <div className="space-y-8 animate-fade-in-up text-center flex flex-col items-center ">
@@ -85,7 +107,7 @@ export function Hero() {
               <Button
                 variant="secondary-outline"
                 size="lg"
-                className="!border-[var(--color-hairline-dark)] !text-[var(--color-on-primary)] hover:!bg-[var(--color-on-primary)]/10"
+                className="!border-[var(--color-hairline-dark)] !text-[var(--color-on-black)] hover:!bg-[var(--color-on-primary)]/10 hover:!text-[var(--color-on-primary)]"
                 onClick={() => {
                   document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
                 }}
@@ -96,37 +118,9 @@ export function Hero() {
                 </svg>
               </Button>
             </div>
-
-            {/* Stats / Trust indicators */}
-            <div className="flex flex-wrap gap-8 sm:gap-12 pt-4 justify-center text-center">
-              <div>
-                <p className="text-display-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 text-[var(--color-on-primary)]">
-                  10+
-                </p>
-                <p className="text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-on-dark-faint)]">
-                  Project Selesai
-                </p>
-              </div>
-              <div>
-                <p className="text-display-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 text-[var(--color-on-primary)]">
-                  8+
-                </p>
-                <p className="text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-on-dark-faint)]">
-                  Teknologi Dikuasai
-                </p>
-              </div>
-              <div>
-                <p className="text-display-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 text-[var(--color-on-primary)]">
-                  5.0
-                </p>
-                <p className="text-caption font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-on-dark-faint)]">
-                  Rating Klien
-                </p>
-              </div>
-            </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

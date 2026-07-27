@@ -55,7 +55,7 @@ export function Navbar() {
 
           {/* Mobile Menu Button - Positioned Right on Mobile */}
           <button
-            className="md:hidden absolute right-0 p-2 rounded-[var(--radius-sm)] text-white hover:text-gray-300"
+            className="cursor-target md:hidden absolute right-0 p-2 rounded-[var(--radius-sm)] text-white hover:text-gray-300"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}

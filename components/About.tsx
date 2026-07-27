@@ -79,7 +79,7 @@ export function About() {
               Sebagai mahasiswa, saya terus belajar teknologi terbaru dan
               berusaha memberikan hasil terbaik untuk setiap project yang saya
               kerjakan. Saya percaya bahwa kualitas kerja lebih penting dari
-              sekadar pengalaman年数.
+              sekadar pengalaman.
             </p>
           </div>
 

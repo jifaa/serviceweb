@@ -176,12 +176,20 @@ body {
   letter-spacing: 0;
 }
 
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}
+
+
 /* Animation Utilities */
 @keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -189,8 +197,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes scaleIn {
@@ -198,6 +211,7 @@ body {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -209,6 +223,7 @@ body {
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -232,12 +247,29 @@ body {
 }
 
 /* Stagger animation delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-600 { animation-delay: 600ms; }
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-600 {
+  animation-delay: 600ms;
+}
 
 /* Initially hidden for animation */
 .animate-on-scroll {
@@ -257,22 +289,20 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
-/* Custom scrollbar */
+/* Hide scrollbar for Chrome, Safari, Opera, Edge, and Firefox */
+html,
+body {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-canvas-soft);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-ink-faint);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ink-mute);
+  display: none;
+  /* Chrome, Safari, Opera */
+  width: 0;
+  height: 0;
 }
 
 @theme inline {
@@ -356,10 +386,342 @@ textarea:focus-visible {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
   html {
     @apply font-sans;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   ANIME.JS UTILITY CLASSES
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* Initial states for anime.js animations */
+.anime-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.anime-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* anime.js character/word animations */
+.anime-char,
+.anime-word,
+.anime-text-unit {
+  display: inline-block;
+  opacity: 0;
+}
+
+/* anime.js animation states */
+.anime-paused {
+  animation-play-state: paused !important;
+}
+
+.anime-playing {
+  animation-play-state: running !important;
+}
+
+/* anime.js cursor trail */
+.anime-trail-dot {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: screen;
+}
+
+/* anime.js path animation container */
+.anime-path-container {
+  position: relative;
+}
+
+.anime-path-container svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* anime.js morphing shapes */
+.anime-morph {
+  transform-origin: center center;
+}
+
+/* anime.js floating effect */
+.anime-float {
+  animation: animeFloat 3s ease-in-out infinite;
+}
+
+@keyframes animeFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* anime.js pulse effect */
+.anime-pulse {
+  animation: animePulse 2s ease-in-out infinite;
+}
+
+@keyframes animePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* anime.js shimmer effect */
+.anime-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.anime-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 100%
+  );
+  animation: animeShimmer 2s ease-in-out infinite;
+}
+
+@keyframes animeShimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* anime.js wave effect for lists */
+.anime-wave {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.anime-wave .anime-wave-item {
+  animation: animeWave 1s ease-in-out infinite;
+}
+
+.anime-wave .anime-wave-item:nth-child(1) { animation-delay: 0s; }
+.anime-wave .anime-wave-item:nth-child(2) { animation-delay: 0.1s; }
+.anime-wave .anime-wave-item:nth-child(3) { animation-delay: 0.2s; }
+.anime-wave .anime-wave-item:nth-child(4) { animation-delay: 0.3s; }
+.anime-wave .anime-wave-item:nth-child(5) { animation-delay: 0.4s; }
+.anime-wave .anime-wave-item:nth-child(6) { animation-delay: 0.5s; }
+.anime-wave .anime-wave-item:nth-child(7) { animation-delay: 0.6s; }
+.anime-wave .anime-wave-item:nth-child(8) { animation-delay: 0.7s; }
+.anime-wave .anime-wave-item:nth-child(9) { animation-delay: 0.8s; }
+.anime-wave .anime-wave-item:nth-child(10) { animation-delay: 0.9s; }
+
+@keyframes animeWave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* anime.js rotate continuous */
+.anime-rotate {
+  animation: animeRotate 3s linear infinite;
+}
+
+@keyframes animeRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* anime.js bounce effect */
+.anime-bounce {
+  animation: animeBounce 1s ease infinite;
+}
+
+@keyframes animeBounce {
+  0%, 100% {
+    transform: translateY(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(-15px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* anime.js typing cursor effect */
+.anime-typing-cursor::after {
+  content: '|';
+  animation: animeCursor 1s step-end infinite;
+}
+
+@keyframes animeCursor {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Scroll-reveal utility (for anime.js scroll animations) */
+.anime-scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.anime-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* anime.js parallax layers */
+.anime-parallax-layer {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* anime.js glitch effect */
+.anime-glitch {
+  position: relative;
+}
+
+.anime-glitch::before,
+.anime-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.anime-glitch::before {
+  left: 2px;
+  text-shadow: -1px 0 red;
+  clip: rect(24px, 550px, 90px, 0);
+  animation: animeGlitchAnim1 2s infinite linear alternate-reverse;
+}
+
+.anime-glitch::after {
+  left: -2px;
+  text-shadow: -1px 0 blue;
+  clip: rect(85px, 550px, 140px, 0);
+  animation: animeGlitchAnim2 3s infinite linear alternate-reverse;
+}
+
+@keyframes animeGlitchAnim1 {
+  0% { clip: rect(14px, 9999px, 121px, 0); }
+  5% { clip: rect(98px, 9999px, 23px, 0); }
+  10% { clip: rect(56px, 9999px, 88px, 0); }
+  15% { clip: rect(25px, 9999px, 134px, 0); }
+  20% { clip: rect(12px, 9999px, 45px, 0); }
+  25% { clip: rect(67px, 9999px, 89px, 0); }
+  30% { clip: rect(34px, 9999px, 156px, 0); }
+  35% { clip: rect(89px, 9999px, 12px, 0); }
+  40% { clip: rect(45px, 9999px, 123px, 0); }
+  45% { clip: rect(78px, 9999px, 56px, 0); }
+  50% { clip: rect(23px, 9999px, 145px, 0); }
+  55% { clip: rect(134px, 9999px, 34px, 0); }
+  60% { clip: rect(56px, 9999px, 78px, 0); }
+  65% { clip: rect(12px, 9999px, 167px, 0); }
+  70% { clip: rect(89px, 9999px, 45px, 0); }
+  75% { clip: rect(23px, 9999px, 98px, 0); }
+  80% { clip: rect(67px, 9999px, 134px, 0); }
+  85% { clip: rect(34px, 9999px, 23px, 0); }
+  90% { clip: rect(78px, 9999px, 89px, 0); }
+  95% { clip: rect(45px, 9999px, 156px, 0); }
+  100% { clip: rect(12px, 9999px, 78px, 0); }
+}
+
+@keyframes animeGlitchAnim2 {
+  0% { clip: rect(65px, 9999px, 123px, 0); }
+  5% { clip: rect(23px, 9999px, 89px, 0); }
+  10% { clip: rect(134px, 9999px, 45px, 0); }
+  15% { clip: rect(78px, 9999px, 167px, 0); }
+  20% { clip: rect(34px, 9999px, 12px, 0); }
+  25% { clip: rect(89px, 9999px, 98px, 0); }
+  30% { clip: rect(56px, 9999px, 156px, 0); }
+  35% { clip: rect(12px, 9999px, 34px, 0); }
+  40% { clip: rect(67px, 9999px, 78px, 0); }
+  45% { clip: rect(23px, 9999px, 145px, 0); }
+  50% { clip: rect(98px, 9999px, 56px, 0); }
+  55% { clip: rect(45px, 9999px, 23px, 0); }
+  60% { clip: rect(134px, 9999px, 89px, 0); }
+  65% { clip: rect(78px, 9999px, 167px, 0); }
+  70% { clip: rect(34px, 9999px, 12px, 0); }
+  75% { clip: rect(89px, 9999px, 98px, 0); }
+  80% { clip: rect(56px, 9999px, 156px, 0); }
+  85% { clip: rect(12px, 9999px, 34px, 0); }
+  90% { clip: rect(67px, 9999px, 78px, 0); }
+  95% { clip: rect(23px, 9999px, 145px, 0); }
+  100% { clip: rect(98px, 9999px, 56px, 0); }
+}
+
+/* Loading spinner animation */
+.anime-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(var(--color-primary-rgb, 23, 22, 20), 0.1);
+  border-top-color: var(--color-surface-violet-soft, #facc15);
+  border-radius: 50%;
+  animation: animeSpin 1s linear infinite;
+}
+
+@keyframes animeSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Progress bar animation */
+.anime-progress {
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-violet-soft, #facc15) 0%,
+    var(--color-primary, #171614) 100%
+  );
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+.anime-progress.anime-active {
+  animation: animeProgress 2s ease-out forwards;
+}
+
+@keyframes animeProgress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
   }
 }

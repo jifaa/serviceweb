@@ -18,12 +18,12 @@ const faqItems = [
   {
     question: "Bagaimana proses pengerjaannya?",
     answer:
-      "Prosesnya dimulai dengan diskusi untuk memahami kebutuhan Anda, kemudian saya buatkan dokumen perencanaan dan timeline. Setelah disepakati, saya mulai dengan design terlebih dahulu, baru kemudian development. Anda akan mendapatkan update progress secara berkala.",
+      "Prosesnya dimulai dengan diskusi untuk memahami kebutuhan Anda, kemudian saya buatkan dokumen perencanaan. Setelah disepakati, saya mulai dengan design terlebih dahulu, baru kemudian development. Anda akan mendapatkan update progress secara berkala.",
   },
   {
     question: "Apakah bisa revisi?",
     answer:
-      "Ya, setiap project sudah termasuk revisi sesuai dengan scope yang disepakati di awal. Biasanya saya berikan 2-3 revisi untuk design dan fitur utama. Revisi di luar scope akan didiskusikan terpisah.",
+      "Ya, setiap project sudah termasuk revisi sesuai dengan scope yang disepakati di awal. Revisi di luar scope akan didiskusikan terpisah.",
   },
   {
     question: "Apakah tersedia layanan maintenance setelah project selesai?",
@@ -38,12 +38,12 @@ const faqItems = [
   {
     question: "Apakah bisa kerja sama jarak jauh?",
     answer:
-      "Tentu! Saya biasa bekerja dengan klien dari berbagai kota melalui chat, video call, dan tools kolaborasi online. Asalkan ada komunikasi yang baik, kerja sama jarak jauh bukan masalah.",
+      "Tentu! Saya biasa bekerja dengan klien dari berbagai kota melalui chat. Asalkan ada komunikasi yang baik, kerja sama jarak jauh bukan masalah.",
   },
   {
     question: "Bagaimana sistem pembayarannya?",
     answer:
-      "Pembayaran biasanya dilakukan dengan sistem DP minimal 30% di awal dan pelunasan setelah project selesai. Untuk project besar, bisa dipecah menjadi beberapa tahapan dengan pembayaran per tahapan.",
+      "Pembayaran biasanya dilakukan dengan sistem DP minimal 30% di awal dan pelunasan setelah project selesai.",
   },
 ];
 
@@ -70,18 +70,15 @@ export function FAQ() {
 
   return (
     <Section id="faq" variant="light" ref={sectionRef}>
-      <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
+      <div className="grid lg:grid-cols-3 gap-12 lg:gap-16 items-start">
         {/* Left - Header */}
-        <div className="lg:col-span-1 animate-on-scroll">
+        <div className="lg:col-span-1 animate-on-scroll lg:sticky lg:top-55 self-start">
           <span className="inline-block text-micro font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-primary)] uppercase tracking-wider mb-2">
             FAQ
           </span>
           <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-4">
             Pertanyaan yang Sering Diajukan
           </h2>
-          <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)]">
-            Berikut beberapa jawaban untuk pertanyaan yang sering diajukan. Jika ada pertanyaan lain, jangan ragu untuk menghubungi saya.
-          </p>
         </div>
 
         {/* Right - Accordion */}
@@ -89,6 +86,9 @@ export function FAQ() {
           <Accordion items={faqItems} />
         </div>
       </div>
+      <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] text-center mt-12 animate-on-scroll">
+        Jika ada pertanyaan lain, jangan ragu untuk hubungi saya.
+      </p>
     </Section>
   );
 }
