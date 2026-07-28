@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion, useScroll, useTransform, useReducedMotion, useMotionValueEvent } from "motion/react";
+import { motion, useScroll, useTransform, useSpring, useReducedMotion, useMotionValueEvent } from "motion/react";
 import { Button } from "./ui/Button";
 import RotatingText from "./RotatingText";
 import LightRays from "./LightRays";
@@ -23,14 +23,21 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
 
-  // Subscribe to scroll progress for 3D scene
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+  // Apply spring physics for silky-smooth zoom and blur transitions
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 90,
+    damping: 25,
+    restDelta: 0.001,
+  });
+
+  // Subscribe to smooth scroll progress for 3D scene
+  useMotionValueEvent(smoothProgress, "change", (latest) => {
     setScrollProgress(latest);
   });
 
-  const filter = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(10px)"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0.3]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 2]);
+  const filter = useTransform(smoothProgress, [0, 0.7], ["blur(0px)", "blur(14px)"]);
+  const opacity = useTransform(smoothProgress, [0, 0.6], [1, 0]);
+  const scale = useTransform(smoothProgress, [0, 0.8], [1, 1.28]);
 
   // Disable on prefers-reduced-motion
   const filterVal = prefersReduced ? "blur(0px)" : filter;
