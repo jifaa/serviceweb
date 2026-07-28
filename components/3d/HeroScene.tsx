@@ -437,7 +437,7 @@ export default function HeroScene({ scrollProgress = 0 }: { scrollProgress?: num
   }
 
   // Capability guards
-  if (isMobile() || prefersReducedMotion() || !supportsWebGL()) {
+  if (prefersReducedMotion() || !supportsWebGL()) {
     return null;
   }
 

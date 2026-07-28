@@ -81,15 +81,15 @@ export function Hero() {
 
 
             {/* Headline */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-['Arial_Black',sans-serif] text-[var(--color-on-primary)] text-center leading-tight tracking-tight flex flex-col items-center gap-2 md:gap-3">
+            <h1 className="text-xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-['Arial_Black',sans-serif] text-[var(--color-on-primary)] text-center leading-tight tracking-tight flex flex-col items-center gap-1.5 sm:gap-3 max-w-full overflow-hidden">
               {/* Baris 1 */}
-              <span className="block whitespace-nowrap">Membantu Mewujudkan</span>
+              <span className="block max-w-full text-ellipsis overflow-hidden sm:whitespace-nowrap">Membantu Mewujudkan</span>
 
               {/* Baris 2 */}
-              <span className="inline-flex flex-nowrap whitespace-nowrap items-center justify-center gap-3">
+              <span className="inline-flex max-w-full items-center justify-center gap-2 sm:gap-3 overflow-hidden">
                 <RotatingText
                   texts={["Website & Aplikasi", "Landing Page", "Sistem Informasi", "Portofolio Digital"]}
-                  mainClassName="px-5 py-2.5 sm:px-7 sm:py-3.5 bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] justify-center rounded-2xl inline-flex shadow-xl text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black"
+                  mainClassName="px-3 py-1.5 sm:px-7 sm:py-3.5 bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] justify-center rounded-xl sm:rounded-2xl inline-flex shadow-xl text-base sm:text-4xl md:text-5xl lg:text-6xl font-black"
                   staggerFrom={"first"}
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
@@ -102,11 +102,11 @@ export function Hero() {
               </span>
 
               {/* Baris 3 */}
-              <span className="block whitespace-nowrap"> Sesuai Kebutuhan Anda</span>
+              <span className="block max-w-full text-ellipsis overflow-hidden sm:whitespace-nowrap">Sesuai Kebutuhan Anda</span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg md:text-2xl font-[family-name:var(--font-inter)] text-[var(--color-on-dark-mute)] max-w-3xl mx-auto text-center leading-relaxed">
+            <p className="text-base sm:text-xl md:text-2xl font-[family-name:var(--font-inter)] text-[var(--color-on-dark-mute)] max-w-3xl mx-auto text-center leading-relaxed">
               Siap membantu Anda dalam membuat website dan aplikasi berkualitas sesuai kebutuhan dengan harga ramah dan komunikasi terbuka.
             </p>
 
