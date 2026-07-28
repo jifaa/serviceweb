@@ -73,7 +73,7 @@ export function Hero() {
       {/* Content */}
       <motion.div
         style={{ filter: filterVal, opacity: opacityVal, scale: scaleVal }}
-        className="relative z-10 max-w-[1100px] mx-auto px-4 md:px-8 pt-24 pb-16"
+        className="relative z-10 max-w-[1250px] mx-auto px-4 md:px-8 pt-28 pb-20"
       >
         <div className="flex justify-center items-center">
           {/* Text Content - Centered */}
@@ -81,13 +81,15 @@ export function Hero() {
 
 
             {/* Headline */}
-            <h1 className="text-display-xl font-['Arial_Black',sans-serif] text-[var(--color-on-primary)] text-center leading-tight">
-              {/* Baris 1: selalu satu baris */}
-              <span className="inline-flex flex-nowrap whitespace-nowrap items-center justify-center gap-2 flex-wrap-0">
-                <span>Membantu Mewujudkan</span>
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-['Arial_Black',sans-serif] text-[var(--color-on-primary)] text-center leading-tight tracking-tight flex flex-col items-center gap-2 md:gap-3">
+              {/* Baris 1 */}
+              <span className="block whitespace-nowrap">Membantu Mewujudkan</span>
+
+              {/* Baris 2 */}
+              <span className="inline-flex flex-nowrap whitespace-nowrap items-center justify-center gap-3">
                 <RotatingText
                   texts={["Website & Aplikasi", "Landing Page", "Sistem Informasi", "Portofolio Digital"]}
-                  mainClassName="px-6 py-3 bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] justify-center rounded-xl inline-flex shadow-lg"
+                  mainClassName="px-5 py-2.5 sm:px-7 sm:py-3.5 bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] justify-center rounded-2xl inline-flex shadow-xl text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black"
                   staggerFrom={"first"}
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
@@ -98,13 +100,14 @@ export function Hero() {
                   rotationInterval={3000}
                 />
               </span>
-              <br />
-              <span>Sesuai Kebutuhan Anda</span>
+
+              {/* Baris 3 */}
+              <span className="block whitespace-nowrap"> Sesuai Kebutuhan Anda</span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-body-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-on-dark-mute)] max-w-xl mx-auto text-center">
-              Siap membantu anda dalam membuat website dan aplikasi sederhana sesuai kebutuhan anda dengan harga ramah dan komunikasi terbuka.
+            <p className="text-lg md:text-2xl font-[family-name:var(--font-inter)] text-[var(--color-on-dark-mute)] max-w-3xl mx-auto text-center leading-relaxed">
+              Siap membantu Anda dalam membuat website dan aplikasi berkualitas sesuai kebutuhan dengan harga ramah dan komunikasi terbuka.
             </p>
 
             {/* CTA Buttons */}

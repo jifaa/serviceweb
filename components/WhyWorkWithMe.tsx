@@ -118,26 +118,28 @@ function ReasonCard({ reason, index }: { reason: typeof reasons[0]; index: numbe
   };
 
   return (
-    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className="h-full" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Card
         ref={cardRef}
         variant="feature-row"
         tilt3d={true}
-        className="group reason-card hover:shadow-md transition-shadow duration-300"
+        tiltOptions={{ max: 8, scale: 1.03, glare: true, maxGlare: 0.25 }}
+        className="h-full group reason-card hover:shadow-md transition-shadow duration-300 relative overflow-hidden"
       >
-        <div className="flex gap-4">
+        <div className="flex gap-4 items-start h-full" style={{ transformStyle: "preserve-3d" }}>
           <div
             ref={iconRef}
-            className="flex-shrink-0 w-12 h-12 rounded-[var(--radius-md)] bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-primary)]"
+            style={{ transform: "translateZ(25px)" }}
+            className="flex-shrink-0 w-12 h-12 rounded-[var(--radius-md)] bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-primary)] shadow-lg"
           >
             {reason.icon}
           </div>
 
-          <div>
+          <div style={{ transform: "translateZ(12px)" }} className="flex-1">
             <h3 className="text-heading-lg font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-1">
               {reason.title}
             </h3>
-            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
+            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] leading-relaxed">
               {reason.description}
             </p>
           </div>

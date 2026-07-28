@@ -1,9 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import dynamic from "next/dynamic";
+import { motion } from "motion/react";
 import { Section } from "./ui/Section";
 import { Card } from "./ui/Card";
 import { Button } from "./ui/Button";
+
+const BackgroundScene = dynamic(() => import("./3d/BackgroundScene"), {
+  ssr: false,
+  loading: () => null,
+});
 
 const projects = [
   {
@@ -91,107 +98,102 @@ const projects = [
 export function Portfolio() {
   const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const elements = sectionRef.current?.querySelectorAll(".animate-on-scroll");
-    elements?.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <Section id="portfolio" variant="light" ref={sectionRef}>
+    <Section id="portfolio" variant="light" ref={sectionRef} className="relative overflow-hidden">
+      {/* Ambient 3D background */}
+      <BackgroundScene />
+
       {/* Header */}
-      <div className="text-center mb-12 animate-on-scroll">
-        <span className="inline-block text-micro font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 text-[var(--color-primary)] uppercase tracking-wider mb-2">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="text-center mb-12"
+      >
+        <span className="inline-block text-micro font-[family-name:var(--font-inter)] font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-2">
           Portfolio
         </span>
         <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
           Project yang Pernah Dikerjakan
         </h2>
-        <p className="text-body-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] max-w-2xl mx-auto mt-4">
-          Berikut beberapa contoh project yang sudah saya selesaikan
-        </p>
-      </div>
+      </motion.div>
 
       {/* Projects Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project, index) => (
-          <Card
+          <motion.div
             key={project.id}
-            variant="feature-light"
-            tilt3d={true}
-            tiltOptions={{
-              max: 6,
-              scale: 1.02,
-              glare: true,
-              maxGlare: 0.2
-            }}
-            className="group overflow-hidden hover:shadow-xl transition-all duration-300 animate-on-scroll"
-            style={{ animationDelay: `${index * 100}ms` }}
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.4, delay: index * 0.08 }}
           >
-            {/* Image Placeholder */}
-            <div className="relative aspect-video -mx-6 -mt-6 mb-6 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-surface-teal-deep)] overflow-hidden" style={{ transform: "translateZ(-12px)", transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}>
-              {/* Placeholder pattern */}
-              <div className="absolute inset-0 opacity-20">
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                  }}
-                />
-              </div>
+            <Card
+              variant="feature-light"
+              tilt3d={true}
+              tiltOptions={{
+                max: 6,
+                scale: 1.02,
+                glare: false,
+              }}
+              className="group overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col justify-between"
+            >
+              <div>
+                {/* Image Placeholder Header */}
+                <div className="relative aspect-video -mx-6 -mt-6 mb-6 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-surface-teal-deep)] overflow-hidden">
+                  {/* Pattern backdrop */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                      }}
+                    />
+                  </div>
 
-              {/* Featured Badge */}
-              {project.featured && (
-                <div className="absolute top-3 left-3">
-                  <span className="px-2 py-1 text-micro font-[family-name:var(--font-inter)] font-variation-settings:'wght' 600 bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] rounded-[var(--radius-sm)]">
-                    Featured
-                  </span>
+                  {/* Featured Badge */}
+                  {project.featured && (
+                    <div className="absolute top-3 left-3 z-10">
+                      <span className="px-2 py-1 text-micro font-[family-name:var(--font-inter)] font-semibold bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] rounded-[var(--radius-sm)] shadow-sm">
+                        Featured
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Project Initial */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-4xl font-bold text-[var(--color-on-primary)]/40">
+                      {project.title.charAt(0)}
+                    </span>
+                  </div>
                 </div>
-              )}
 
-              {/* Project Initial */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-4xl font-bold text-[var(--color-on-primary)]/30">
-                  {project.title.charAt(0)}
-                </span>
-              </div>
-            </div>
+                {/* Content */}
+                <div>
+                  <h3 className="text-heading-lg font-[family-name:var(--font-inter)] font-semibold text-[var(--color-ink)] mb-2 group-hover:text-[var(--color-primary)] transition-colors duration-200">
+                    {project.title}
+                  </h3>
+                  <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] mb-4 leading-relaxed">
+                    {project.description}
+                  </p>
 
-            {/* Content */}
-            <div style={{ transform: "translateZ(8px)", transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}>
-              <h3 className="text-heading-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 text-[var(--color-ink)] mb-2 group-hover:text-[var(--color-primary)] transition-colors duration-200">
-                {project.title}
-              </h3>
-              <p className="text-body-md font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] mb-4">
-                {project.description}
-              </p>
-
-              {/* Tech Stack */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.techStack.map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2 py-1 text-micro font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 bg-[var(--color-canvas-soft)] text-[var(--color-ink-mute)] rounded-[var(--radius-xs)]"
-                  >
-                    {tech}
-                  </span>
-                ))}
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.techStack.map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 text-micro font-[family-name:var(--font-inter)] font-medium bg-[var(--color-canvas-soft)] text-[var(--color-ink-mute)] rounded-[var(--radius-xs)] border border-[var(--color-hairline)]"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              {/* Links */}
-              <div className="flex gap-3 pt-4 border-t border-[var(--color-hairline)]">
+              {/* Links Footer */}
+              <div className="flex gap-3 pt-4 border-t border-[var(--color-hairline)] mt-4">
                 <Button
                   variant="primary-dark"
                   size="md"
@@ -213,8 +215,8 @@ export function Portfolio() {
                   </svg>
                 </Button>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </motion.div>
         ))}
       </div>
     </Section>

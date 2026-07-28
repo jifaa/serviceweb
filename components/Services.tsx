@@ -11,37 +11,37 @@ const services: Array<{
   title: string;
   description: string;
 }> = [
-  {
-    iconType: "landing-page",
-    title: "Landing Page",
-    description: "Halaman landing page yang menarik dan konversi tinggi untuk bisnis atau produk Anda.",
-  },
-  {
-    iconType: "umkm",
-    title: "Website UMKM",
-    description: "Website modern untuk toko online, warung, atau bisnis lokal agar tampil lebih profesional.",
-  },
-  {
-    iconType: "dashboard",
-    title: "Dashboard Admin",
-    description: "Sistem manajemen data interaktif dengan tata letak dashboard yang intuitif dan cepat.",
-  },
-  {
-    iconType: "webapp",
-    title: "Web Application",
-    description: "Aplikasi berbasis web kustom dengan fitur canggih yang dirancang sesuai alur kerja Anda.",
-  },
-  {
-    iconType: "custom",
-    title: "Custom Website",
-    description: "Website eksklusif dengan desain unik dan integrasi API/database sepenuhnya fleksibel.",
-  },
-  {
-    iconType: "uiux",
-    title: "UI/UX Implementation",
-    description: "Penerjemahan piksel presisi dari desain Figma menjadi komponen UI modern dan responsif.",
-  },
-];
+    {
+      iconType: "landing-page",
+      title: "Landing Page",
+      description: "Halaman landing page yang menarik dan konversi tinggi untuk bisnis atau produk Anda.",
+    },
+    {
+      iconType: "umkm",
+      title: "Website UMKM",
+      description: "Website modern untuk toko online, warung, atau bisnis lokal agar tampil lebih profesional.",
+    },
+    {
+      iconType: "dashboard",
+      title: "Dashboard Admin",
+      description: "Sistem manajemen data interaktif dengan tata letak dashboard yang intuitif dan cepat.",
+    },
+    {
+      iconType: "webapp",
+      title: "Web Application",
+      description: "Aplikasi berbasis web kustom dengan fitur canggih yang dirancang sesuai alur kerja Anda.",
+    },
+    {
+      iconType: "custom",
+      title: "Custom Website",
+      description: "Website eksklusif dengan desain unik dan integrasi API/database sepenuhnya fleksibel.",
+    },
+    {
+      iconType: "uiux",
+      title: "UI/UX Implementation",
+      description: "Penerjemahan piksel presisi dari desain Figma menjadi komponen UI modern dan responsif.",
+    },
+  ];
 
 function ServiceCard({ service }: { service: (typeof services)[0] }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -169,7 +169,7 @@ export function Services() {
   return (
     <Section id="services" variant="soft" ref={sectionRef}>
       {/* Header */}
-      <div ref={headerRef} className="text-center mb-12">
+      <div ref={headerRef} className="text-center">
         <span className="inline-block text-micro font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-2">
           Layanan Spesialis
         </span>
