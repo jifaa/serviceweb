@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { animate, set } from "animejs";
 
 const footerLinks = [
   {
@@ -70,44 +71,33 @@ function FooterColumn({ column, index }: { column: typeof footerLinks[0]; index:
   const columnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!columnRef.current) return;
+    const col = columnRef.current;
+    if (!col) return;
 
-    const initAnimation = async () => {
-      const { animate, set } = await import("animejs");
+    set(col, { opacity: 0, translateY: 20 });
 
-      const col = columnRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(col, {
+              opacity: [0, 1],
+              translateY: [20, 0],
+              duration: 500,
+              delay: index * 100,
+              easing: "easeOutQuart",
+            });
 
-      if (col) set(col, { opacity: 0, translateY: 20 });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate } = await import("animejs");
+    observer.observe(col);
 
-              if (col) {
-                animate(col, {
-                  opacity: [0, 1],
-                  translateY: [20, 0],
-                  duration: 500,
-                  delay: index * 100,
-                  easing: "easeOutQuart",
-                });
-              }
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      if (col) observer.observe(col);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
+    return () => observer.disconnect();
   }, [index]);
 
   return (
@@ -137,44 +127,33 @@ function SocialButton({ link, index }: { link: typeof socialLinks[0]; index: num
   const buttonRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    if (!buttonRef.current) return;
+    const button = buttonRef.current;
+    if (!button) return;
 
-    const initAnimation = async () => {
-      const { animate, set } = await import("animejs");
+    set(button, { opacity: 0, scale: 0.8 });
 
-      const button = buttonRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(button, {
+              opacity: [0, 1],
+              scale: [0.8, 1],
+              duration: 400,
+              delay: 200 + index * 80,
+              easing: "easeOutBack",
+            });
 
-      if (button) set(button, { opacity: 0, scale: 0.8 });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate } = await import("animejs");
+    observer.observe(button);
 
-              if (button) {
-                animate(button, {
-                  opacity: [0, 1],
-                  scale: [0.8, 1],
-                  duration: 400,
-                  delay: 200 + index * 80,
-                  easing: "easeOutBack",
-                });
-              }
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      if (button) observer.observe(button);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
+    return () => observer.disconnect();
   }, [index]);
 
   return (
@@ -196,43 +175,32 @@ export function Footer() {
   const brandRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!footerRef.current || !brandRef.current) return;
+    const brand = brandRef.current;
+    if (!brand) return;
 
-    const initAnimation = async () => {
-      const { animate, set } = await import("animejs");
+    set(brand, { opacity: 0, translateY: 20 });
 
-      const brand = brandRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(brand, {
+              opacity: [0, 1],
+              translateY: [20, 0],
+              duration: 600,
+              easing: "easeOutQuart",
+            });
 
-      if (brand) set(brand, { opacity: 0, translateY: 20 });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate } = await import("animejs");
+    if (footerRef.current) observer.observe(footerRef.current);
 
-              if (brand) {
-                animate(brand, {
-                  opacity: [0, 1],
-                  translateY: [20, 0],
-                  duration: 600,
-                  easing: "easeOutQuart",
-                });
-              }
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(footerRef.current!);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
+    return () => observer.disconnect();
   }, []);
 
   return (

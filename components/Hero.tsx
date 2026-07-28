@@ -1,17 +1,31 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { motion, useScroll, useTransform, useReducedMotion, useMotionValueEvent } from "motion/react";
 import { Button } from "./ui/Button";
 import RotatingText from "./RotatingText";
 import LightRays from "./LightRays";
 
+// Dynamic import for 3D scene (no SSR, WebGL only)
+const Hero3DScene = dynamic(() => import("./Hero3DScene"), {
+  ssr: false,
+  loading: () => null,
+});
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const prefersReduced = useReducedMotion();
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
+  });
+
+  // Subscribe to scroll progress for 3D scene
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setScrollProgress(latest);
   });
 
   const filter = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(10px)"]);
@@ -51,6 +65,9 @@ export function Hero() {
           distortion={0.02}
           className="absolute inset-0"
         />
+
+        {/* 3D WebGL Scene - floating geometric shapes */}
+        <Hero3DScene scrollYProgress={scrollProgress} />
       </div>
 
       {/* Content */}

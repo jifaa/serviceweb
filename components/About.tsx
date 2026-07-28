@@ -5,7 +5,6 @@ import { Section } from "./ui/Section";
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -19,84 +18,82 @@ export function About() {
     return () => mediaQuery.removeEventListener("change", handler);
   }, []);
 
-  // Import anime.js dynamically to avoid SSR issues
   useEffect(() => {
-    if (!sectionRef.current || prefersReducedMotion) return;
+    if (!sectionRef.current) return;
 
     const initAnimations = async () => {
-      const { animate, set, createTimeline, stagger } = await import("animejs");
+      try {
+        const { animate, set, stagger } = await import("animejs");
 
-      const imageEl = imageRef.current;
-      const contentEl = contentRef.current;
-      const paragraphs = contentEl?.querySelectorAll("p");
-      const keyPoints = contentEl?.querySelectorAll(".key-point");
+        if (prefersReducedMotion) {
+          if (contentRef.current) {
+            contentRef.current.style.opacity = "1";
+            contentRef.current.style.transform = "none";
+          }
+          return;
+        }
 
-      // Set initial states
-      if (imageEl) set(imageEl, { opacity: 0, translateX: -50, scale: 0.9 });
-      if (contentEl) set(contentEl, { opacity: 0, translateX: 50 });
-      if (paragraphs) set(paragraphs, { opacity: 0, translateY: 20 });
-      if (keyPoints) set(keyPoints, { opacity: 0, translateX: 30 });
+        const contentEl = contentRef.current;
+        const paragraphs = contentEl?.querySelectorAll("p");
+        const keyPoints = contentEl?.querySelectorAll(".key-point");
 
-      // Create timeline
-      const timeline = createTimeline();
+        // Set initial state before observer triggers
+        if (contentEl) set(contentEl, { opacity: 0, translateY: 30 });
+        if (paragraphs) set(paragraphs, { opacity: 0, translateY: 20 });
+        if (keyPoints) set(keyPoints, { opacity: 0, scale: 0.95 });
 
-      // Image animation: blurIn from left
-      if (imageEl) {
-        timeline.add(imageEl, {
-          opacity: [0, 1],
-          translateX: [-50, 0],
-          scale: [0.9, 1],
-          duration: 800,
-        });
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                if (contentEl) {
+                  animate(contentEl, {
+                    opacity: [0, 1],
+                    translateY: [30, 0],
+                    duration: 700,
+                    easing: "easeOutCubic",
+                  });
+                }
+
+                if (paragraphs && paragraphs.length > 0) {
+                  animate(paragraphs, {
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 500,
+                    delay: stagger(100),
+                    easing: "easeOutCubic",
+                  });
+                }
+
+                if (keyPoints && keyPoints.length > 0) {
+                  animate(keyPoints, {
+                    opacity: [0, 1],
+                    scale: [0.95, 1],
+                    duration: 450,
+                    delay: stagger(80, { start: 200 }),
+                    easing: "easeOutCubic",
+                  });
+                }
+
+                observer.disconnect();
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        if (sectionRef.current) {
+          observer.observe(sectionRef.current);
+        }
+
+        return () => observer.disconnect();
+      } catch (error) {
+        console.warn("Animation error in About section:", error);
+        if (contentRef.current) {
+          contentRef.current.style.opacity = "1";
+          contentRef.current.style.transform = "none";
+        }
       }
-
-      // Content slide in from right
-      if (contentEl) {
-        timeline.add(contentEl, {
-          opacity: [0, 1],
-          translateX: [50, 0],
-          duration: 600,
-        }, "-=600");
-      }
-
-      // Paragraphs stagger
-      if (paragraphs && paragraphs.length > 0) {
-        timeline.add(paragraphs, {
-          opacity: [0, 1],
-          translateY: [20, 0],
-          duration: 500,
-          delay: stagger(100),
-        }, "-=400");
-      }
-
-      // Key points stagger with rotate
-      if (keyPoints && keyPoints.length > 0) {
-        timeline.add(keyPoints, {
-          opacity: [0, 1],
-          translateX: [30, 0],
-          duration: 400,
-          delay: stagger(80),
-        }, "-=300");
-      }
-
-      // Observe with IntersectionObserver for scroll-triggered animation
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              timeline.play();
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      if (sectionRef.current) {
-        observer.observe(sectionRef.current);
-      }
-
-      return () => observer.disconnect();
     };
 
     initAnimations();
@@ -104,37 +101,10 @@ export function About() {
 
   return (
     <Section id="about" variant="light" ref={sectionRef}>
-      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* Left - Image/Avatar Placeholder */}
-        <div ref={imageRef} className="order-2 lg:order-1">
-          <div className="relative max-w-md mx-auto">
-            {/* Avatar Frame */}
-            <div className="aspect-square rounded-[var(--radius-xl)] bg-[var(--color-canvas-soft)] border border-[var(--color-hairline)] overflow-hidden">
-              {/* Placeholder Avatar */}
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-surface-teal-deep)]">
-                <div className="text-center text-[var(--color-on-primary)]">
-                  <div className="w-32 h-32 mx-auto rounded-full bg-[var(--color-surface-violet-soft)]/30 flex items-center justify-center mb-4">
-                    <span className="text-5xl font-bold text-[var(--color-surface-violet-soft)]">AG</span>
-                  </div>
-                  <p className="text-body-lg font-[family-name:var(--font-inter)]">
-                    Al Ghifari
-                  </p>
-                  <p className="text-caption text-[var(--color-on-dark-mute)] font-[family-name:var(--font-inter)]">
-                    Freelance Web Developer
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Decorative Elements */}
-            <div className="absolute -top-4 -right-4 w-24 h-24 bg-[var(--color-surface-violet-soft)]/20 rounded-full blur-xl" />
-            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-[var(--color-surface-teal-mid)]/20 rounded-full blur-xl" />
-          </div>
-        </div>
-
-        {/* Right - Content */}
-        <div ref={contentRef} className="order-1 lg:order-2 space-y-6">
-          <div>
+      <div className="max-w-4xl mx-auto">
+        {/* Content */}
+        <div ref={contentRef} className="space-y-6">
+          <div className="text-center md:text-left">
             <span className="inline-block text-micro font-[family-name:var(--font-inter)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
               Tentang Saya
             </span>
@@ -162,7 +132,7 @@ export function About() {
           </div>
 
           {/* Key Points */}
-          <div className="grid grid-cols-2 gap-4 pt-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
             {[
               {
                 icon: (
@@ -214,3 +184,5 @@ export function About() {
     </Section>
   );
 }
+
+

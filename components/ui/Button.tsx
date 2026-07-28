@@ -9,6 +9,8 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   isLoading?: boolean;
+  /** Enable 3D press effect on click (default: true) */
+  press3d?: boolean;
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
@@ -45,6 +47,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = "md",
       disabled,
       isLoading,
+      press3d = true,
       children,
       ...props
     },
@@ -60,6 +63,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           rounded-[var(--radius-md)]
           transition-all duration-200 ease-out
           disabled:opacity-50 disabled:cursor-not-allowed
+          ${press3d ? "btn-3d-press" : ""}
           ${variantStyles[variant]}
           ${sizeStyles[size]}
           ${className}

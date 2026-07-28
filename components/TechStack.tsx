@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef, MutableRefObject } from "react";
+import { animate, set } from "animejs";
 import { Section } from "./ui/Section";
+import { useTilt3D } from "@/lib/use3DTilt";
 
 const techStack = [
   {
@@ -60,67 +62,69 @@ const techStack = [
     color: "#F05032",
   },
   {
+    name: "Figma",
+    category: "Design",
+    color: "#F24E1E",
+  },
+  {
     name: "Vercel",
-    category: "Hosting",
+    category: "Deployment",
     color: "#000000",
   },
 ];
 
-// Random stagger helper
-function getRandomDelay(baseDelay: number, variance: number, index: number): number {
-  const seed = index * 17 + baseDelay; // deterministic pseudo-random
-  return baseDelay + (seed % variance);
+function getRandomDelay(min: number, max: number, seed: number): number {
+  return min + ((seed * 9301 + 49297) % 233280) % (max - min);
 }
 
 function TechItem({ tech, index }: { tech: typeof techStack[0]; index: number }) {
   const itemRef = useRef<HTMLDivElement>(null);
 
+  // Use tilt with external ref to avoid ESLint ref mutation errors
+  const tilt = useTilt3D<HTMLDivElement>({
+    max: 6,
+    scale: 1.05,
+    perspective: 800,
+    speed: 0.12,
+    externalRef: itemRef as MutableRefObject<HTMLDivElement | null>,
+  });
+
   useEffect(() => {
-    if (!itemRef.current) return;
+    const item = itemRef.current;
+    if (!item) return;
 
-    const initAnimation = async () => {
-      const { animate, set } = await import("animejs");
+    const delay = getRandomDelay(50, 200, index);
+    set(item, { opacity: 0, scale: 0.8, translateY: 20 });
 
-      const item = itemRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(item, {
+              opacity: [0, 1],
+              scale: [0.8, 1],
+              translateY: [20, 0],
+              duration: 500,
+              delay,
+              easing: "easeOutCubic",
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      // Random initial state
-      const delay = getRandomDelay(50, 100, index);
-      if (item) set(item, { opacity: 0, scale: 0.5, translateY: 20 });
-
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate } = await import("animejs");
-
-              animate(item, {
-                opacity: [0, 1],
-                scale: [0.5, 1.05, 0.95, 1],
-                translateY: [20, 0],
-                duration: 600,
-                delay,
-                easing: "easeOutElastic(1, .6)",
-              });
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(item);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
+    observer.observe(item);
+    return () => observer.disconnect();
   }, [index]);
 
   return (
     <div
-      ref={itemRef}
+      ref={tilt.ref}
       className="group"
+      style={tilt.tiltStyle}
+      {...tilt.eventHandlers}
     >
       <div className="flex flex-col items-center p-4 bg-[var(--color-canvas)] rounded-[var(--radius-lg)] border border-[var(--color-hairline)] hover:border-[var(--color-primary)] hover:shadow-lg transition-all duration-300">
         {/* Icon Placeholder */}
@@ -155,75 +159,30 @@ export function TechStack() {
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!headerRef.current) return;
+    const header = headerRef.current;
+    if (!header) return;
 
-    const initAnimation = async () => {
-      const { animate, set } = await import("animejs");
+    set(header, { opacity: 0, translateY: 30 });
 
-      const header = headerRef.current;
-      const span = header.querySelector("span");
-      const h2 = header.querySelector("h2");
-      const p = header.querySelector("p");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(header, {
+              opacity: [0, 1],
+              translateY: [30, 0],
+              duration: 600,
+              easing: "easeOutExpo",
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      set(header, { opacity: 0, translateY: 30 });
-      if (span) set(span, { opacity: 0 });
-      if (h2) set(h2, { opacity: 0, translateY: 20 });
-      if (p) set(p, { opacity: 0, translateY: 20 });
-
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate } = await import("animejs");
-
-              animate(header, {
-                opacity: [0, 1],
-                translateY: [30, 0],
-                duration: 600,
-                easing: "easeOutExpo",
-              });
-
-              if (span) {
-                animate(span, {
-                  opacity: [0, 1],
-                  duration: 400,
-                  delay: 200,
-                });
-              }
-
-              if (h2) {
-                animate(h2, {
-                  opacity: [0, 1],
-                  translateY: [20, 0],
-                  duration: 500,
-                  delay: 300,
-                  easing: "easeOutQuart",
-                });
-              }
-
-              if (p) {
-                animate(p, {
-                  opacity: [0, 1],
-                  translateY: [20, 0],
-                  duration: 500,
-                  delay: 400,
-                  easing: "easeOutQuart",
-                });
-              }
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(header);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
+    observer.observe(header);
+    return () => observer.disconnect();
   }, []);
 
   return (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { animate, set, stagger } from "animejs";
 import { Section } from "./ui/Section";
 import { Card } from "./ui/Card";
 
@@ -31,7 +32,7 @@ const reasons = [
       </svg>
     ),
     title: "Responsive Design",
-    description: "Website yang looks bagus di semua device — desktop, tablet, dan mobile.",
+    description: "Website yang terlihat bagus di semua device — desktop, tablet, dan mobile.",
   },
   {
     icon: (
@@ -67,114 +68,82 @@ function ReasonCard({ reason, index }: { reason: typeof reasons[0]; index: numbe
   const iconRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!cardRef.current) return;
+    const card = cardRef.current;
+    if (!card) return;
 
-    const initAnimation = async () => {
-      const { animate, set, stagger } = await import("animejs");
+    set(card, { opacity: 0, translateY: 30 });
 
-      const card = cardRef.current;
-
-      // Set initial state - slide from right
-      set(card, { opacity: 0, translateX: 50, translateY: 20 });
-
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate, stagger } = await import("animejs");
-
-              animate(card, {
-                opacity: [0, 1],
-                translateX: [50, 0],
-                translateY: [20, 0],
-                duration: 500,
-                delay: stagger(80),
-                easing: "easeOutQuart",
-              });
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(card);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
-  }, []);
-
-  // Icon rotate animation on hover
-  useEffect(() => {
-    if (!iconRef.current) return;
-
-    const initHover = async () => {
-      const { animate } = await import("animejs");
-
-      const icon = iconRef.current;
-      let animation: ReturnType<typeof animate> | null = null;
-
-      const handleMouseEnter = () => {
-        animation = animate(icon, {
-          rotate: [-10, 10, 0],
-          scale: [1, 1.1, 1],
-          duration: 400,
-          easing: "easeOutQuart",
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(card, {
+              opacity: [0, 1],
+              translateY: [30, 0],
+              duration: 500,
+              delay: index * 90,
+              easing: "easeOutCubic",
+            });
+            observer.disconnect();
+          }
         });
-      };
+      },
+      { threshold: 0.1 }
+    );
 
-      const handleMouseLeave = () => {
-        if (animation) animation.pause();
-        animate(icon, {
-          rotate: 0,
-          scale: 1,
-          duration: 200,
-          easing: "easeOutQuart",
-        });
-      };
+    observer.observe(card);
+    return () => observer.disconnect();
+  }, [index]);
 
-      icon.addEventListener("mouseenter", handleMouseEnter);
-      icon.addEventListener("mouseleave", handleMouseLeave);
+  const handleMouseEnter = () => {
+    if (iconRef.current) {
+      animate(iconRef.current, {
+        rotate: 12,
+        scale: 1.15,
+        duration: 300,
+        easing: "easeOutCubic",
+      });
+    }
+  };
 
-      return () => {
-        icon.removeEventListener("mouseenter", handleMouseEnter);
-        icon.removeEventListener("mouseleave", handleMouseLeave);
-        if (animation) animation.pause();
-      };
-    };
-
-    initHover();
-  }, []);
+  const handleMouseLeave = () => {
+    if (iconRef.current) {
+      animate(iconRef.current, {
+        rotate: 0,
+        scale: 1,
+        duration: 250,
+        easing: "easeOutCubic",
+      });
+    }
+  };
 
   return (
-    <Card
-      ref={cardRef}
-      variant="feature-row"
-      className="group reason-card hover:shadow-md transition-shadow duration-300"
-    >
-      <div className="flex gap-4">
-        {/* Icon */}
-        <div
-          ref={iconRef}
-          className="flex-shrink-0 w-12 h-12 rounded-[var(--radius-md)] bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-primary)]"
-        >
-          {reason.icon}
-        </div>
+    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <Card
+        ref={cardRef}
+        variant="feature-row"
+        tilt3d={true}
+        className="group reason-card hover:shadow-md transition-shadow duration-300"
+      >
+        <div className="flex gap-4">
+          <div
+            ref={iconRef}
+            className="flex-shrink-0 w-12 h-12 rounded-[var(--radius-md)] bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-primary)]"
+          >
+            {reason.icon}
+          </div>
 
-        {/* Content */}
-        <div>
-          <h3 className="text-heading-lg font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-1">
-            {reason.title}
-          </h3>
-          <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
-            {reason.description}
-          </p>
+          <div>
+            <h3 className="text-heading-lg font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-1">
+              {reason.title}
+            </h3>
+            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
+              {reason.description}
+            </p>
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 }
 
@@ -183,75 +152,30 @@ export function WhyWorkWithMe() {
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!headerRef.current) return;
+    const header = headerRef.current;
+    if (!header) return;
 
-    const initAnimation = async () => {
-      const { animate, set } = await import("animejs");
+    set(header, { opacity: 0, translateY: 30 });
 
-      const header = headerRef.current;
-      const span = header.querySelector("span");
-      const h2 = header.querySelector("h2");
-      const p = header.querySelector("p");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(header, {
+              opacity: [0, 1],
+              translateY: [30, 0],
+              duration: 600,
+              easing: "easeOutExpo",
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      set(header, { opacity: 0, translateY: 30 });
-      if (span) set(span, { opacity: 0 });
-      if (h2) set(h2, { opacity: 0, translateY: 20 });
-      if (p) set(p, { opacity: 0, translateY: 20 });
-
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate } = await import("animejs");
-
-              animate(header, {
-                opacity: [0, 1],
-                translateY: [30, 0],
-                duration: 600,
-                easing: "easeOutExpo",
-              });
-
-              if (span) {
-                animate(span, {
-                  opacity: [0, 1],
-                  duration: 400,
-                  delay: 200,
-                });
-              }
-
-              if (h2) {
-                animate(h2, {
-                  opacity: [0, 1],
-                  translateY: [20, 0],
-                  duration: 500,
-                  delay: 300,
-                  easing: "easeOutQuart",
-                });
-              }
-
-              if (p) {
-                animate(p, {
-                  opacity: [0, 1],
-                  translateY: [20, 0],
-                  duration: 500,
-                  delay: 400,
-                  easing: "easeOutQuart",
-                });
-              }
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(header);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
+    observer.observe(header);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -278,3 +202,4 @@ export function WhyWorkWithMe() {
     </Section>
   );
 }
+

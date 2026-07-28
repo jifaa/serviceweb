@@ -716,3 +716,84 @@ body {
     transform: scaleX(1);
   }
 }
+
+/* ============================================
+   3D Effects & Perspective Utilities
+   ============================================ */
+
+/* Perspective utilities for 3D tilt containers */
+.perspective-container {
+  perspective: 1000px;
+}
+
+.perspective-far {
+  perspective: 1500px;
+}
+
+.perspective-near {
+  perspective: 500px;
+}
+
+/* 3D Transform utilities */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.backface-visible {
+  backface-visibility: visible;
+}
+
+/* 3D Flip animations */
+.rotate-x-180 {
+  transform: rotateX(180deg);
+}
+
+/* 3D Tilt container base styles - apply to grid/parent containers */
+.tilt-container {
+  perspective: 1000px;
+}
+
+/* Button 3D Press Effect */
+.btn-3d-press {
+  transform-style: preserve-3d;
+  position: relative;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition:
+    transform 0.1s ease-out,
+    box-shadow 0.1s ease-out;
+}
+
+.btn-3d-press:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.15),
+    0 8px 16px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.btn-3d-press:active {
+  transform: translateY(1px) scale(0.97) rotateX(1deg);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* 3D Card hover enhancement */
+.card-3d-hover {
+  transition:
+    transform 0.15s ease-out,
+    box-shadow 0.15s ease-out;
+}
+
+.card-3d-hover:hover {
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.1),
+    0 10px 20px rgba(0, 0, 0, 0.05);
+}

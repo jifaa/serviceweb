@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import { animate, set } from "animejs";
 import { Section } from "./ui/Section";
 import { Card } from "./ui/Card";
 import { Button } from "./ui/Button";
@@ -58,43 +59,33 @@ function ContactItem({ link, index }: { link: typeof contactInfo[0]; index: numb
   const itemRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    if (!itemRef.current) return;
+    const item = itemRef.current;
+    if (!item) return;
 
-    const initAnimation = async () => {
-      const { animate, set } = await import("animejs");
+    set(item, { opacity: 0, translateX: -20 });
 
-      const item = itemRef.current;
-      if (!item) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(item, {
+              opacity: [0, 1],
+              translateX: [-20, 0],
+              duration: 400,
+              delay: index * 100,
+              easing: "easeOutQuart",
+            });
 
-      if (item) set(item, { opacity: 0, translateX: -20 });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate } = await import("animejs");
+    observer.observe(item);
 
-              animate(item, {
-                opacity: [0, 1],
-                translateX: [-20, 0],
-                duration: 400,
-                delay: index * 100,
-                easing: "easeOutQuart",
-              });
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(item);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
+    return () => observer.disconnect();
   }, [index]);
 
   return (
@@ -128,28 +119,18 @@ function SubmitButton({ isSubmitting }: { isSubmitting: boolean }) {
   const prevSubmitting = useRef(isSubmitting);
 
   useEffect(() => {
-    if (!buttonRef.current) return;
+    const button = buttonRef.current;
+    if (!button) return;
 
-    const initAnimation = async () => {
-      const { animate } = await import("animejs");
+    if (isSubmitting && !prevSubmitting.current) {
+      animate(button, {
+        scale: [1, 0.95, 1],
+        duration: 200,
+        easing: "easeOutQuart",
+      });
+    }
 
-      const button = buttonRef.current;
-
-      if (isSubmitting && !prevSubmitting.current) {
-        // Animate when loading starts
-        if (button) {
-          animate(button, {
-            scale: [1, 0.95, 1],
-            duration: 200,
-            easing: "easeOutQuart",
-          });
-        }
-      }
-
-      prevSubmitting.current = isSubmitting;
-    };
-
-    initAnimation();
+    prevSubmitting.current = isSubmitting;
   }, [isSubmitting]);
 
   return (
@@ -190,103 +171,76 @@ export function Contact() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   useEffect(() => {
-    if (!headerRef.current || !infoCardRef.current || !formCardRef.current) return;
+    const header = headerRef.current;
+    const infoCard = infoCardRef.current;
+    const formCard = formCardRef.current;
+    if (!header || !infoCard || !formCard) return;
 
-    const initAnimation = async () => {
-      const { animate, set } = await import("animejs");
+    set(header, { opacity: 0, translateY: 30 });
+    set(infoCard, { opacity: 0, translateX: -30 });
+    set(formCard, { opacity: 0, translateX: 30 });
 
-      const header = headerRef.current;
-      const infoCard = infoCardRef.current;
-      const formCard = formCardRef.current;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animate(header, {
+              opacity: [0, 1],
+              translateY: [30, 0],
+              duration: 600,
+              easing: "easeOutExpo",
+            });
+            animate(infoCard, {
+              opacity: [0, 1],
+              translateX: [-30, 0],
+              filter: ["blur(10px)", "blur(0px)"],
+              duration: 600,
+              delay: 200,
+              easing: "easeOutQuart",
+            });
+            animate(formCard, {
+              opacity: [0, 1],
+              translateX: [30, 0],
+              duration: 600,
+              delay: 300,
+              easing: "easeOutQuart",
+            });
 
-      // Set initial states
-      if (header) set(header, { opacity: 0, translateY: 30 });
-      if (infoCard) set(infoCard, { opacity: 0, translateX: -30 });
-      if (formCard) set(formCard, { opacity: 0, translateX: 30 });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
 
-      const observer = new IntersectionObserver(
-        async (entries) => {
-          entries.forEach(async (entry) => {
-            if (entry.isIntersecting) {
-              const { animate } = await import("animejs");
+    if (sectionRef.current) observer.observe(sectionRef.current);
 
-              // Header animation
-              if (header) {
-                animate(header, {
-                  opacity: [0, 1],
-                  translateY: [30, 0],
-                  duration: 600,
-                  easing: "easeOutExpo",
-                });
-              }
-
-              // Info card animation (blurIn from left)
-              if (infoCard) {
-                animate(infoCard, {
-                  opacity: [0, 1],
-                  translateX: [-30, 0],
-                  filter: ["blur(10px)", "blur(0px)"],
-                  duration: 600,
-                  delay: 200,
-                  easing: "easeOutQuart",
-                });
-              }
-
-              // Form card animation (slideUp from right)
-              if (formCard) {
-                animate(formCard, {
-                  opacity: [0, 1],
-                  translateX: [30, 0],
-                  duration: 600,
-                  delay: 300,
-                  easing: "easeOutQuart",
-                });
-              }
-
-              observer.disconnect();
-            }
-          });
-        },
-        { threshold: 0.1 }
-      );
-
-      observer.observe(sectionRef.current!);
-
-      return () => observer.disconnect();
-    };
-
-    initAnimation();
+    return () => observer.disconnect();
   }, []);
 
-  // Success animation
   useEffect(() => {
     if (submitStatus === "success" && successRef.current) {
-      const animateSuccess = async () => {
-        const { animate, set } = await import("animejs");
-        const success = successRef.current!;
-        const svg = success.querySelector("svg");
+      const success = successRef.current;
+      const svg = success.querySelector("svg");
 
-        set(success, { opacity: 0, scale: 0.8, translateY: 10 });
+      set(success, { opacity: 0, scale: 0.8, translateY: 10 });
 
-        animate(success, {
-          opacity: [0, 1],
-          scale: [0.8, 1],
-          translateY: [10, 0],
-          duration: 400,
-          easing: "easeOutBack",
+      animate(success, {
+        opacity: [0, 1],
+        scale: [0.8, 1],
+        translateY: [10, 0],
+        duration: 400,
+        easing: "easeOutBack",
+      });
+
+      if (svg) {
+        animate(svg, {
+          rotate: [0, 360],
+          duration: 500,
+          delay: 200,
+          easing: "easeOutQuart",
         });
-
-        if (svg) {
-          animate(svg, {
-            rotate: [0, 360],
-            duration: 500,
-            delay: 200,
-            easing: "easeOutQuart",
-          });
-        }
-      };
-
-      animateSuccess();
+      }
     }
   }, [submitStatus]);
 
@@ -367,7 +321,7 @@ export function Contact() {
       <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
         {/* Left - Contact Info */}
         <div ref={infoCardRef} className="space-y-6">
-          <Card variant="feature-light" className="bg-[var(--color-primary)] border-none h-full">
+          <Card variant="feature-light" className="bg-[var(--color-primary)] border-none h-full" tilt3d={true}>
             <div className="space-y-8">
               <div className="space-y-2">
                 <h3 className="text-display-md font-[family-name:var(--font-inter)] text-[var(--color-on-primary)]">
@@ -395,7 +349,7 @@ export function Contact() {
 
         {/* Right - Contact Form */}
         <div ref={formCardRef}>
-          <Card variant="feature-light" className="h-full">
+          <Card variant="feature-light" className="h-full" tilt3d={true}>
             <div className="space-y-6">
               <div className="space-y-2">
                 <h3 className="text-display-md font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
