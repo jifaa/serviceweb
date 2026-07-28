@@ -88,15 +88,15 @@ export function Hero() {
 
 
             {/* Headline */}
-            <h1 className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-['Arial_Black',sans-serif] text-[var(--color-on-primary)] text-center leading-tight tracking-tight flex flex-col items-center gap-2 sm:gap-3 max-w-full">
+            <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-['Arial_Black',sans-serif] text-[var(--color-on-primary)] text-center leading-tight tracking-tight flex flex-col items-center gap-2 sm:gap-3 max-w-full">
               {/* Baris 1 */}
-              <span className="block max-w-full font-black tracking-tight">Membantu Mewujudkan</span>
+              <span className="block max-w-full font-black tracking-tight leading-tight">Membantu Mewujudkan</span>
 
               {/* Baris 2 */}
               <span className="inline-flex max-w-full items-center justify-center gap-2 sm:gap-3">
                 <RotatingText
                   texts={["Website & Aplikasi", "Landing Page", "Sistem Informasi", "Portofolio Digital"]}
-                  mainClassName="px-4 py-2 sm:px-7 sm:py-3.5 bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] justify-center rounded-xl sm:rounded-2xl inline-flex shadow-xl text-xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight"
+                  mainClassName="px-4 py-2 sm:px-7 sm:py-3.5 bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)] justify-center rounded-xl sm:rounded-2xl inline-flex shadow-xl text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight"
                   staggerFrom={"first"}
                   initial={{ y: "100%" }}
                   animate={{ y: 0 }}
@@ -109,7 +109,7 @@ export function Hero() {
               </span>
 
               {/* Baris 3 */}
-              <span className="block max-w-full font-black tracking-tight">Sesuai Kebutuhan Anda</span>
+              <span className="block max-w-full font-black tracking-tight leading-tight">Sesuai Kebutuhan Anda</span>
             </h1>
 
             {/* Subheadline */}
