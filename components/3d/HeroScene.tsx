@@ -7,7 +7,7 @@
  * - Interactive mouse parallax
  * - Scroll-based animations
  * - Professional lighting
- * - Floating ambient elements
+ * - Floating ambient elements spread across full hero section
  */
 
 import { useRef, useMemo, Suspense, useEffect, useState } from "react";
@@ -16,15 +16,9 @@ import {
   Float,
   Sparkles,
   MeshTransmissionMaterial,
-  MeshDistortMaterial,
   Environment,
-  useTexture,
-  RoundedBox,
-  Torus,
-  Icosahedron,
-  Octahedron,
-  Dodecahedron,
-  Sphere,
+  Points,
+  PointMaterial,
 } from "@react-three/drei";
 import * as THREE from "three";
 import { Lighting } from "./Lighting";
@@ -84,9 +78,9 @@ function GlassSculpture({ scrollProgress = 0 }: { scrollProgress?: number }) {
 
   return (
     <Float speed={1.2} rotationIntensity={0.2} floatIntensity={0.4}>
-      <group ref={groupRef} position={[0, 0, -2]}>
+      <group ref={groupRef} position={[0, 0, -3]}>
         {/* Main glass torus knot */}
-        <mesh ref={meshRef} scale={1.2}>
+        <mesh ref={meshRef} scale={2.1}>
           <torusKnotGeometry args={[0.8, 0.25, 128, 32, 2, 3]} />
           <MeshTransmissionMaterial
             backside
@@ -104,7 +98,7 @@ function GlassSculpture({ scrollProgress = 0 }: { scrollProgress?: number }) {
         </mesh>
 
         {/* Wireframe overlay for edge definition */}
-        <mesh scale={1.21}>
+        <mesh scale={2.1}>
           <torusKnotGeometry args={[0.8, 0.25, 128, 32, 2, 3]} />
           <meshBasicMaterial
             color={AMBER}
@@ -119,7 +113,7 @@ function GlassSculpture({ scrollProgress = 0 }: { scrollProgress?: number }) {
 }
 
 /**
- * Floating glass icosahedron cluster
+ * Floating glass icosahedron - SPREAD ACROSS HERO
  */
 function GlassCluster({ position = [0, 0, 0], scale = 1 }: {
   position?: [number, number, number];
@@ -155,7 +149,7 @@ function GlassCluster({ position = [0, 0, 0], scale = 1 }: {
 }
 
 /**
- * Metallic ring accent
+ * Metallic ring accent - SPREAD ACROSS HERO
  */
 function MetallicRing({ position = [0, 0, 0], scale = 1, rotationSpeed = 0.001 }: {
   position?: [number, number, number];
@@ -187,7 +181,7 @@ function MetallicRing({ position = [0, 0, 0], scale = 1, rotationSpeed = 0.001 }
 }
 
 /**
- * Glowing orb accents
+ * Glowing orb accents - SPREAD ACROSS HERO
  */
 function GlowingOrb({ position = [0, 0, 0], size = 0.1, color = AMBER }: {
   position?: [number, number, number];
@@ -220,68 +214,85 @@ function GlowingOrb({ position = [0, 0, 0], size = 0.1, color = AMBER }: {
 }
 
 /**
- * Abstract geometric shapes
+ * Small floating geometric - SPREAD ACROSS HERO
  */
-function GeometricShapes() {
+function FloatingGeometric({ position = [0, 0, 0], scale = 0.3, color = CHARCOAL, geometry = "octahedron" }: {
+  position?: [number, number, number];
+  scale?: number;
+  color?: string;
+  geometry?: "octahedron" | "dodecahedron" | "icosahedron";
+}) {
+  const meshRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    if (!meshRef.current) return;
+    const t = clock.elapsedTime;
+    meshRef.current.rotation.x = t * 0.3;
+    meshRef.current.rotation.y = t * 0.4;
+  });
+
   return (
-    <group>
-      {/* Small floating octahedrons */}
-      <Float speed={2.2} rotationIntensity={0.4} floatIntensity={0.4}>
-        <mesh position={[-3, 1.5, -4]} scale={0.3}>
-          <octahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial
-            color={CHARCOAL}
-            metalness={0.8}
-            roughness={0.2}
-            emissive={AMBER}
-            emissiveIntensity={0.1}
-          />
-        </mesh>
-      </Float>
-
-      <Float speed={1.8} rotationIntensity={0.3} floatIntensity={0.3}>
-        <mesh position={[3.5, -1, -3]} scale={0.25}>
-          <octahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial
-            color={CHARCOAL}
-            metalness={0.8}
-            roughness={0.2}
-            emissive={VIOLET}
-            emissiveIntensity={0.1}
-          />
-        </mesh>
-      </Float>
-
-      {/* Small dodecahedrons */}
-      <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.35}>
-        <mesh position={[-2.5, -2, -5]} scale={0.35}>
-          <dodecahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial
-            color={AMBER_DARK}
-            wireframe
-            transparent
-            opacity={0.4}
-          />
-        </mesh>
-      </Float>
-
-      <Float speed={2} rotationIntensity={0.25} floatIntensity={0.4}>
-        <mesh position={[2, 2.5, -4]} scale={0.2}>
-          <dodecahedronGeometry args={[1, 0]} />
-          <meshStandardMaterial
-            color={AMBER}
-            wireframe
-            transparent
-            opacity={0.3}
-          />
-        </mesh>
-      </Float>
-    </group>
+    <Float speed={1.5 + Math.random()} rotationIntensity={0.3} floatIntensity={0.4}>
+      <mesh ref={meshRef} position={position} scale={scale}>
+        {geometry === "octahedron" && <octahedronGeometry args={[1, 0]} />}
+        {geometry === "dodecahedron" && <dodecahedronGeometry args={[1, 0]} />}
+        {geometry === "icosahedron" && <icosahedronGeometry args={[1, 0]} />}
+        <meshStandardMaterial
+          color={color}
+          metalness={0.8}
+          roughness={0.2}
+          emissive={color === CHARCOAL ? AMBER : color}
+          emissiveIntensity={0.1}
+          wireframe={color !== CHARCOAL}
+          transparent={color !== CHARCOAL}
+          opacity={color !== CHARCOAL ? 0.4 : 1}
+        />
+      </mesh>
+    </Float>
   );
 }
 
 /**
- * Main scene with mouse parallax
+ * Particle field for ambient atmosphere - SPREAD ACROSS FULL CANVAS
+ */
+function ParticleField({ count = 300, spread = 25, color = AMBER }: {
+  count?: number;
+  spread?: number;
+  color?: string;
+}) {
+  const ref = useRef<THREE.Points>(null);
+
+  const positions = useMemo(() => {
+    const arr = new Float32Array(count * 3);
+    for (let i = 0; i < count; i++) {
+      arr[i * 3] = (Math.random() - 0.5) * spread;
+      arr[i * 3 + 1] = (Math.random() - 0.5) * spread;
+      arr[i * 3 + 2] = (Math.random() - 0.5) * spread * 0.5 - 2;
+    }
+    return arr;
+  }, [count, spread]);
+
+  useFrame(({ clock }) => {
+    if (!ref.current) return;
+    ref.current.rotation.y = clock.elapsedTime * 0.02;
+  });
+
+  return (
+    <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
+      <PointMaterial
+        transparent
+        color={color}
+        size={0.025}
+        sizeAttenuation
+        depthWrite={false}
+        opacity={0.5}
+      />
+    </Points>
+  );
+}
+
+/**
+ * Main scene with objects SPREAD ACROSS FULL HERO SECTION
  */
 function Scene({ scrollProgress = 0 }: { scrollProgress?: number }) {
   const groupRef = useRef<THREE.Group>(null);
@@ -291,43 +302,113 @@ function Scene({ scrollProgress = 0 }: { scrollProgress?: number }) {
     if (!groupRef.current) return;
 
     // Smooth mouse parallax
-    const targetX = mouse.x * 0.8;
-    const targetY = mouse.y * 0.6;
+    const targetX = mouse.x * 1.2;
+    const targetY = mouse.y * 0.8;
 
-    groupRef.current.position.x += (targetX - groupRef.current.position.x) * 0.02;
-    groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.02;
+    groupRef.current.position.x += (targetX - groupRef.current.position.x) * 0.015;
+    groupRef.current.position.y += (targetY - groupRef.current.position.y) * 0.015;
   });
 
   return (
     <group ref={groupRef}>
-      {/* Main glass sculpture */}
+      {/* ========== MAIN GLASS SCULPTURE - CENTER ========== */}
       <GlassSculpture scrollProgress={scrollProgress} />
 
-      {/* Glass cluster */}
-      <GlassCluster position={[-2, 0.5, -1]} scale={0.8} />
-      <GlassCluster position={[2.5, -0.5, -2]} scale={0.5} />
+      {/* ========== GLASS CLUSTERS - SPREAD ACROSS FULL HERO ========== */}
+      {/* Left side */}
+      <GlassCluster position={[-6, 2, -4]} scale={0.6} />
+      <GlassCluster position={[-5, -1.5, -3]} scale={0.4} />
+      {/* Center */}
+      <GlassCluster position={[0, 3, -5]} scale={0.5} />
+      <GlassCluster position={[1, -2.5, -4]} scale={0.35} />
+      {/* Right side */}
+      <GlassCluster position={[5, 1.5, -3]} scale={0.55} />
+      <GlassCluster position={[6, -1, -5]} scale={0.4} />
+      {/* Far corners */}
+      <GlassCluster position={[-8, -2, -6]} scale={0.3} />
+      <GlassCluster position={[8, 2.5, -5]} scale={0.35} />
 
-      {/* Metallic rings */}
-      <MetallicRing position={[-1.5, -1.5, -3]} scale={0.7} rotationSpeed={0.002} />
-      <MetallicRing position={[1, 2, -2.5]} scale={0.5} rotationSpeed={-0.0015} />
+      {/* ========== METALLIC RINGS - SPREAD ACROSS FULL HERO ========== */}
+      {/* Top area */}
+      <MetallicRing position={[-3, 4, -4]} scale={0.8} rotationSpeed={0.002} />
+      <MetallicRing position={[4, 3.5, -5]} scale={0.6} rotationSpeed={-0.0015} />
+      {/* Middle area */}
+      <MetallicRing position={[-7, 0, -3]} scale={0.5} rotationSpeed={0.0018} />
+      <MetallicRing position={[7, 0.5, -4]} scale={0.45} rotationSpeed={-0.002} />
+      {/* Bottom area */}
+      <MetallicRing position={[-2, -3.5, -4]} scale={0.55} rotationSpeed={0.0012} />
+      <MetallicRing position={[3, -4, -5]} scale={0.4} rotationSpeed={-0.0018} />
+      {/* Far edges */}
+      <MetallicRing position={[-9, 2, -6]} scale={0.35} rotationSpeed={0.0025} />
+      <MetallicRing position={[9, -2, -6]} scale={0.4} rotationSpeed={-0.001} />
 
-      {/* Glowing orbs */}
-      <GlowingOrb position={[3, 1, -4]} size={0.15} color={AMBER} />
-      <GlowingOrb position={[-2.5, -1.5, -3]} size={0.12} color={VIOLET} />
-      <GlowingOrb position={[1.5, -2, -4.5]} size={0.08} color={AMBER_DARK} />
-      <GlowingOrb position={[-1, 2.5, -3.5]} size={0.1} color={AMBER} />
+      {/* ========== GLOWING ORBS - SPREAD ACROSS FULL HERO ========== */}
+      {/* Top left to bottom right diagonal */}
+      <GlowingOrb position={[-5, 3, -4]} size={0.12} color={AMBER} />
+      <GlowingOrb position={[-2, 2, -3.5]} size={0.08} color={VIOLET} />
+      <GlowingOrb position={[0, 1, -4]} size={0.1} color={AMBER} />
+      <GlowingOrb position={[2, -1, -3.5]} size={0.08} color={VIOLET} />
+      <GlowingOrb position={[5, -2, -4]} size={0.12} color={AMBER} />
 
-      {/* Geometric accents */}
-      <GeometricShapes />
+      {/* Corners */}
+      <GlowingOrb position={[-7, 3.5, -5]} size={0.1} color={VIOLET} />
+      <GlowingOrb position={[-8, -1, -6]} size={0.07} color={AMBER_DARK} />
+      <GlowingOrb position={[7, 2.5, -5]} size={0.09} color={AMBER} />
+      <GlowingOrb position={[8, -1.5, -6]} size={0.08} color={VIOLET} />
 
-      {/* Sparkles */}
+      {/* Additional scattered */}
+      <GlowingOrb position={[-4, -2.5, -4]} size={0.06} color={AMBER} />
+      <GlowingOrb position={[3, 2.5, -5]} size={0.07} color={VIOLET} />
+      <GlowingOrb position={[-1, 3.5, -6]} size={0.05} color={AMBER_DARK} />
+      <GlowingOrb position={[1, -3, -5]} size={0.06} color={AMBER} />
+      <GlowingOrb position={[-6, 0.5, -5]} size={0.05} color={VIOLET} />
+      <GlowingOrb position={[6, -0.5, -5]} size={0.06} color={AMBER} />
+
+      {/* ========== FLOATING GEOMETRICS - SPREAD ACROSS FULL HERO ========== */}
+      {/* Top row */}
+      <FloatingGeometric position={[-5, 4.5, -5]} scale={0.25} color={CHARCOAL} geometry="octahedron" />
+      <FloatingGeometric position={[-2, 5, -6]} scale={0.2} color={AMBER} geometry="dodecahedron" />
+      <FloatingGeometric position={[1, 4.8, -5.5]} scale={0.22} color={VIOLET} geometry="icosahedron" />
+      <FloatingGeometric position={[4, 5, -6]} scale={0.18} color={CHARCOAL} geometry="octahedron" />
+
+      {/* Middle row */}
+      <FloatingGeometric position={[-7, 1, -4]} scale={0.28} color={CHARCOAL} geometry="octahedron" />
+      <FloatingGeometric position={[-3.5, 0.5, -5]} scale={0.2} color={AMBER} geometry="dodecahedron" />
+      <FloatingGeometric position={[2, -0.5, -4]} scale={0.24} color={CHARCOAL} geometry="octahedron" />
+      <FloatingGeometric position={[6, 1.5, -5]} scale={0.22} color={VIOLET} geometry="icosahedron" />
+
+      {/* Bottom row */}
+      <FloatingGeometric position={[-4, -3, -5]} scale={0.2} color={AMBER} geometry="dodecahedron" />
+      <FloatingGeometric position={[-1, -4, -4.5]} scale={0.26} color={CHARCOAL} geometry="octahedron" />
+      <FloatingGeometric position={[2, -3.5, -5]} scale={0.18} color={VIOLET} geometry="icosahedron" />
+      <FloatingGeometric position={[5, -3, -6]} scale={0.24} color={CHARCOAL} geometry="octahedron" />
+
+      {/* Far corners */}
+      <FloatingGeometric position={[-9, 3, -7]} scale={0.15} color={AMBER} geometry="dodecahedron" />
+      <FloatingGeometric position={[-8, -2.5, -7]} scale={0.18} color={VIOLET} geometry="icosahedron" />
+      <FloatingGeometric position={[8, 3, -7]} scale={0.16} color={CHARCOAL} geometry="octahedron" />
+      <FloatingGeometric position={[9, -3, -7]} scale={0.2} color={AMBER} geometry="dodecahedron" />
+
+      {/* ========== PARTICLE FIELDS - FULL CANVAS COVERAGE ========== */}
+      <ParticleField count={200} spread={30} color={AMBER} />
+      <ParticleField count={150} spread={28} color={VIOLET} />
+
+      {/* ========== SPARKLES - FULL HERO COVERAGE ========== */}
       <Sparkles
-        count={60}
-        scale={12}
-        size={2}
+        count={80}
+        scale={25}
+        size={2.5}
         speed={0.3}
         color={AMBER}
         opacity={0.4}
+      />
+      <Sparkles
+        count={50}
+        scale={22}
+        size={2}
+        speed={0.2}
+        color={VIOLET}
+        opacity={0.3}
       />
     </group>
   );
@@ -372,7 +453,7 @@ export default function HeroScene({ scrollProgress = 0 }: { scrollProgress?: num
     >
       <Canvas
         dpr={[1, 1.5]}
-        camera={{ position: [0, 0, 8], fov: 50 }}
+        camera={{ position: [0, 0, 10], fov: 55 }}
         style={{ background: "transparent" }}
         gl={{
           antialias: true,
