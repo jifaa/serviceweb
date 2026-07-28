@@ -5,6 +5,4 @@
 
 export { default as HeroScene } from "./HeroScene";
 export { default as BackgroundScene } from "./BackgroundScene";
-export { default as TechScene } from "./TechScene";
-export * from "./Lighting";
-export * from "./Materials";
+export { Lighting } from "./Lighting";

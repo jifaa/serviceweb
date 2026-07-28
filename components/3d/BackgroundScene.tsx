@@ -21,26 +21,7 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import { Lighting } from "./Lighting";
-
-// Guard functions
-const isMobile = () =>
-  typeof window !== "undefined" && window.innerWidth < 768;
-
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-const supportsWebGL = () => {
-  try {
-    const canvas = document.createElement("canvas");
-    return !!(
-      window.WebGLRenderingContext &&
-      (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
-    );
-  } catch {
-    return false;
-  }
-};
+import { isMobile, prefersReducedMotion, supportsWebGL } from "@/lib/device-utils";
 
 const AMBER = "#facc15";
 const AMBER_DARK = "#a16207";
