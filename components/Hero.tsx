@@ -7,8 +7,8 @@ import { Button } from "./ui/Button";
 import RotatingText from "./RotatingText";
 import LightRays from "./LightRays";
 
-// Dynamic import for 3D scene (no SSR, WebGL only)
-const Hero3DScene = dynamic(() => import("./Hero3DScene"), {
+// Dynamic import for premium 3D scene (no SSR, WebGL only)
+const HeroScene = dynamic(() => import("./3d/HeroScene"), {
   ssr: false,
   loading: () => null,
 });
@@ -66,8 +66,8 @@ export function Hero() {
           className="absolute inset-0"
         />
 
-        {/* 3D WebGL Scene - floating geometric shapes */}
-        <Hero3DScene scrollYProgress={scrollProgress} />
+        {/* 3D WebGL Scene - premium geometric sculpture */}
+        <HeroScene scrollProgress={scrollProgress} />
       </div>
 
       {/* Content */}

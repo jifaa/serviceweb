@@ -12,7 +12,6 @@ interface AccordionItemProps {
 
 function AccordionItem({ question, answer, index }: AccordionItemProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,42 +42,6 @@ function AccordionItem({ question, answer, index }: AccordionItemProps) {
     return () => observer.disconnect();
   }, [index]);
 
-  useEffect(() => {
-    const content = contentRef.current;
-    if (!content) return;
-
-    if (isOpen) {
-      set(content, { display: "block", height: 0, opacity: 0 });
-      const fullHeight = content.scrollHeight;
-
-      animate(content, {
-        height: [0, fullHeight],
-        opacity: [0, 1],
-        duration: 350,
-        easing: "easeOutCubic",
-        complete: () => {
-          if (contentRef.current) {
-            contentRef.current.style.height = "auto";
-          }
-        },
-      });
-    } else {
-      const currentHeight = content.scrollHeight;
-
-      animate(content, {
-        height: [currentHeight, 0],
-        opacity: [1, 0],
-        duration: 250,
-        easing: "easeInCubic",
-        complete: () => {
-          if (contentRef.current) {
-            contentRef.current.style.display = "none";
-          }
-        },
-      });
-    }
-  }, [isOpen]);
-
   return (
     <div
       ref={itemRef}
@@ -92,35 +55,35 @@ function AccordionItem({ question, answer, index }: AccordionItemProps) {
         <span className="text-heading-md font-[family-name:var(--font-inter)] text-[var(--color-ink)] group-hover:text-[var(--color-primary)] transition-colors duration-200">
           {question}
         </span>
-        {/* 3D Flip Chevron Container */}
-        <div
-          className="flex-shrink-0 w-8 h-8 perspective-container"
-          style={{ perspective: "300px" }}
-        >
-          <div
-            className={`w-full h-full rounded-full bg-[var(--color-canvas-soft)] flex items-center justify-center text-[var(--color-ink-mute)] transition-transform duration-300 ${
-              isOpen ? "rotate-x-180 bg-[var(--color-primary)]/10 text-[var(--color-primary)]" : ""
+        {/* Chevron Container */}
+        <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-[var(--color-canvas-soft)] flex items-center justify-center text-[var(--color-ink-mute)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpen ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]' : ''}`}>
+          <svg
+            className={`w-5 h-5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              isOpen ? "rotate-180 text-[var(--color-primary)]" : ""
             }`}
-            style={{
-              transformStyle: "preserve-3d",
-              transform: isOpen ? "rotateX(180deg)" : "rotateX(0deg)",
-            }}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </div>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
       </button>
 
+      {/* Grid Accordion Container for zero-flicker smooth collapse */}
       <div
-        ref={contentRef}
-        className="overflow-hidden"
-        style={{ display: "none", height: 0, opacity: 0 }}
+        className={`grid transition-all duration-350 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
       >
-        <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] pt-2 pb-4 leading-relaxed">
-          {answer}
-        </p>
+        <div className="overflow-hidden">
+          <div className="pt-2 pb-4">
+            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] leading-relaxed">
+              {answer}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

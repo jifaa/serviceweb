@@ -1,9 +1,19 @@
 "use client";
 
 import React, { useEffect, useRef, MutableRefObject } from "react";
+import dynamic from "next/dynamic";
 import { animate, set } from "animejs";
 import { Section } from "./ui/Section";
 import { useTilt3D } from "@/lib/use3DTilt";
+
+// Dynamic import for 3D background
+const BackgroundScene = dynamic(() => import("./3d/BackgroundScene"), {
+  ssr: false,
+  loading: () => null,
+});
+
+// Technology brand colors - intentionally used for accurate tech recognition
+// These are official brand colors for each technology
 
 const techStack = [
   {
@@ -187,8 +197,11 @@ export function TechStack() {
 
   return (
     <Section id="tech-stack" variant="soft" ref={sectionRef}>
+      {/* 3D Animated Background */}
+      <BackgroundScene className="absolute inset-0 pointer-events-none opacity-50" />
+
       {/* Header */}
-      <div ref={headerRef} className="text-center mb-12">
+      <div ref={headerRef} className="relative z-10 text-center mb-12">
         <span className="inline-block text-micro font-[family-name:var(--font-inter)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
           Tech Stack
         </span>
@@ -201,7 +214,7 @@ export function TechStack() {
       </div>
 
       {/* Tech Grid */}
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
+      <div className="relative z-10 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4">
         {techStack.map((tech, index) => (
           <TechItem key={tech.name} tech={tech} index={index} />
         ))}

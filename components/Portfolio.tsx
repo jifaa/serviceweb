@@ -131,11 +131,17 @@ export function Portfolio() {
             key={project.id}
             variant="feature-light"
             tilt3d={true}
+            tiltOptions={{
+              max: 6,
+              scale: 1.02,
+              glare: true,
+              maxGlare: 0.2
+            }}
             className="group overflow-hidden hover:shadow-xl transition-all duration-300 animate-on-scroll"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             {/* Image Placeholder */}
-            <div className="relative aspect-video -mx-6 -mt-6 mb-6 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-surface-teal-deep)] overflow-hidden">
+            <div className="relative aspect-video -mx-6 -mt-6 mb-6 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-surface-teal-deep)] overflow-hidden" style={{ transform: "translateZ(-12px)", transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}>
               {/* Placeholder pattern */}
               <div className="absolute inset-0 opacity-20">
                 <div
@@ -164,7 +170,7 @@ export function Portfolio() {
             </div>
 
             {/* Content */}
-            <div>
+            <div style={{ transform: "translateZ(8px)", transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}>
               <h3 className="text-heading-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 540 text-[var(--color-ink)] mb-2 group-hover:text-[var(--color-primary)] transition-colors duration-200">
                 {project.title}
               </h3>

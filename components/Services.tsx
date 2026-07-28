@@ -1,62 +1,43 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { animate, set, stagger } from "animejs";
+import { animate, set } from "animejs";
 import { Section } from "./ui/Section";
 import { Card } from "./ui/Card";
+import { Service3DIcon, ServiceIconType } from "./Service3DIcon";
 
-const services = [
+const services: Array<{
+  iconType: ServiceIconType;
+  title: string;
+  description: string;
+}> = [
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-      </svg>
-    ),
+    iconType: "landing-page",
     title: "Landing Page",
     description: "Halaman landing page yang menarik dan konversi tinggi untuk bisnis atau produk Anda.",
   },
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-      </svg>
-    ),
+    iconType: "umkm",
     title: "Website UMKM",
     description: "Website modern untuk toko online, warung, atau bisnis lokal agar tampil lebih profesional.",
   },
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-      </svg>
-    ),
+    iconType: "dashboard",
     title: "Dashboard Admin",
     description: "Sistem manajemen data interaktif dengan tata letak dashboard yang intuitif dan cepat.",
   },
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-      </svg>
-    ),
+    iconType: "webapp",
     title: "Web Application",
     description: "Aplikasi berbasis web kustom dengan fitur canggih yang dirancang sesuai alur kerja Anda.",
   },
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-      </svg>
-    ),
+    iconType: "custom",
     title: "Custom Website",
     description: "Website eksklusif dengan desain unik dan integrasi API/database sepenuhnya fleksibel.",
   },
   {
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-      </svg>
-    ),
+    iconType: "uiux",
     title: "UI/UX Implementation",
     description: "Penerjemahan piksel presisi dari desain Figma menjadi komponen UI modern dan responsif.",
   },
@@ -111,12 +92,12 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
         className="h-full group hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-[var(--color-hairline)]"
       >
         <div className="flex flex-col h-full p-2">
-          {/* Icon Container */}
+          {/* Icon Container with 3D Icon */}
           <div
             ref={iconRef}
             className="w-13 h-13 rounded-xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center mb-5 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors duration-300"
           >
-            {service.icon}
+            <Service3DIcon type={service.iconType} />
           </div>
 
           {/* Title */}
@@ -168,7 +149,7 @@ export function Services() {
                 opacity: [0, 1],
                 translateY: [45, 0],
                 scale: [0.94, 1],
-                delay: stagger(110),
+                delay: 110,
                 duration: 650,
                 easing: "easeOutCubic",
               });
@@ -209,4 +190,3 @@ export function Services() {
     </Section>
   );
 }
-
