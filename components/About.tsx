@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useEffect, useState } from "react";
 import { Section } from "./ui/Section";
 
@@ -36,9 +37,11 @@ export function About() {
         const contentEl = contentRef.current;
         const paragraphs = contentEl?.querySelectorAll("p");
         const keyPoints = contentEl?.querySelectorAll(".key-point");
+        const imageEl = contentEl?.querySelector(".about-image");
 
         // Set initial state before observer triggers
         if (contentEl) set(contentEl, { opacity: 0, translateY: 30 });
+        if (imageEl) set(imageEl, { opacity: 0, scale: 0.92, translateY: 10 });
         if (paragraphs) set(paragraphs, { opacity: 0, translateY: 20 });
         if (keyPoints) set(keyPoints, { opacity: 0, scale: 0.95 });
 
@@ -55,12 +58,23 @@ export function About() {
                   });
                 }
 
+                if (imageEl) {
+                  animate(imageEl, {
+                    opacity: [0, 1],
+                    scale: [0.92, 1],
+                    translateY: [20, 0],
+                    duration: 800,
+                    delay: 150,
+                    easing: "easeOutCubic",
+                  });
+                }
+
                 if (paragraphs && paragraphs.length > 0) {
                   animate(paragraphs, {
                     opacity: [0, 1],
                     translateY: [20, 0],
                     duration: 500,
-                    delay: stagger(100),
+                    delay: stagger(100, { start: 250 }),
                     easing: "easeOutCubic",
                   });
                 }
@@ -70,7 +84,7 @@ export function About() {
                     opacity: [0, 1],
                     scale: [0.95, 1],
                     duration: 450,
-                    delay: stagger(80, { start: 200 }),
+                    delay: stagger(80, { start: 400 }),
                     easing: "easeOutCubic",
                   });
                 }
@@ -100,15 +114,28 @@ export function About() {
   }, [prefersReducedMotion]);
 
   return (
-    <Section id="about" variant="light" ref={sectionRef}>
-      <div className="max-w-4xl mx-auto">
-        {/* Content */}
-        <div ref={contentRef} className="space-y-6">
-          <div className="text-center md:text-left">
+    <Section id="about" variant="light" ref={sectionRef} className="relative overflow-hidden py-16 md:py-24">
+      {/* Background 3D Illustration - Shifted Further Right & Down (Cropped) */}
+      <div className="about-bg-image absolute right-[-35%] sm:right-[-28%] md:right-[-22%] lg:right-[-16%] xl:right-[-12%] top-[50%] -translate-y-1/2 w-[480px] sm:w-[620px] md:w-[740px] lg:w-[860px] xl:w-[960px] pointer-events-none z-0 opacity-40 sm:opacity-60 lg:opacity-90 select-none mix-blend-multiply transition-transform duration-700">
+        <Image
+          src="/about-illustration.png"
+          alt="Al Ghifari - Software Engineer Illustration"
+          width={1024}
+          height={460}
+          unoptimized
+          className="w-full h-auto object-contain"
+          priority
+        />
+      </div>
+
+      {/* Text Content Layer - Left Half */}
+      <div className="relative z-10 w-full">
+        <div ref={contentRef} className="max-w-xl lg:max-w-2xl space-y-6 text-left">
+          <div className="text-left">
             <span className="inline-block text-micro font-[family-name:var(--font-inter)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
               Tentang Saya
             </span>
-            <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
+            <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)] leading-tight">
               Mahasiswa Teknik Informatika yang Passion di Software Engineering
             </h2>
           </div>
@@ -132,7 +159,7 @@ export function About() {
           </div>
 
           {/* Key Points */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+          <div className="grid grid-cols-2 gap-4 pt-4">
             {[
               {
                 icon: (
@@ -170,10 +197,10 @@ export function About() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="key-point flex items-center gap-3 p-3 rounded-[var(--radius-md)] bg-[var(--color-canvas-soft)]"
+                className="key-point flex items-center gap-3 p-3 rounded-[var(--radius-md)] bg-[var(--color-canvas-soft)]/90 backdrop-blur-sm border border-slate-100/80 shadow-sm"
               >
                 <span className="text-[var(--color-primary)]">{item.icon}</span>
-                <span className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
+                <span className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink)] font-medium">
                   {item.text}
                 </span>
               </div>
