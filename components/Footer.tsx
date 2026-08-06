@@ -235,20 +235,6 @@ export function Footer() {
           ))}
         </div>
       </div>
-
-      {/* Bottom Bar */}
-      <div className="border-t border-[var(--neu-bg)]">
-        <div className="max-w-[1100px] mx-auto px-[var(--spacing-lg)] md:px-[var(--spacing-xl)] py-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
-              © {new Date().getFullYear()} Al Ghifari. All rights reserved.
-            </p>
-            <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
-              Dibuat dengan Next.js
-            </p>
-          </div>
-        </div>
-      </div>
     </footer>
   );
 }
