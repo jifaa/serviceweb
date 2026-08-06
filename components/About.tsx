@@ -136,25 +136,22 @@ export function About() {
               Tentang Saya
             </span>
             <h2 className="text-display-xl text-[var(--neu-foreground)] leading-tight">
-              Mahasiswa Teknik Informatika yang Passion di Software Engineering
+              Seorang Mahasiswa Teknik Informatika
             </h2>
           </div>
 
           <div className="space-y-5">
             <p className="text-body-lg text-[var(--neu-foreground)]">
-              Hai! Saya Al Ghifari, seorang mahasiswa Teknik Informatika yang
-              sedang dalam proses membangun karir di dunia pengembangan software.
+              Hai! Kenalin saya Al Ghifari, seorang mahasiswa Teknik Informatika yang hobi menjelajadi dunia pemrograman dan AI.
             </p>
             <p className="text-body-md text-[var(--neu-foreground)] opacity-80">
-              Saya sangat menikmati proses mengubah ide menjadi produk digital
-              yang nyata. Fokus utama saya adalah web development — mulai dari
-              landing page sederhana hingga aplikasi web yang lebih kompleks.
+              Saya sangat menyukai mengubah sebuah ide menjadi produk digital. Fokus utama saya adalah web development dan AI Engineer, mulai dari
+              landing page sederhana hingga aplikasi web yang dapat diintegrasikan dengan AI.
             </p>
             <p className="text-body-md text-[var(--neu-foreground)] opacity-80">
-              Sebagai mahasiswa, saya terus belajar teknologi terbaru dan
+              Sebagai mahasiswa, saya akan terus belajar teknologi terbaru dan
               berusaha memberikan hasil terbaik untuk setiap project yang saya
-              kerjakan. Saya percaya bahwa kualitas kerja lebih penting dari
-              sekadar pengalaman.
+              kerjakan.
             </p>
           </div>
 

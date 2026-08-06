@@ -14,9 +14,9 @@ interface Step {
 const steps: Step[] = [
   {
     number: "01",
-    title: "Diskusi & Konsultasi",
+    title: "Diskusi",
     description:
-      "Saya akan mendengarkan ide, tujuan bisnis, dan kebutuhan Anda secara mendalam. Kita akan mendiskusikan scope, timeline, dan estimasi biaya secara transparan.",
+      "Diskusi untuk menetukan ide, tujuan bisnis, kebutuhan secara mendalam, scope, timeline, dan estimasi biaya secara transparan.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -25,9 +25,9 @@ const steps: Step[] = [
   },
   {
     number: "02",
-    title: "Perencanaan & Strategi",
+    title: "Perencanaan",
     description:
-      "Menyusun roadmap pengerjaan, arsitektur sistem, pemilihan teknologi terbaik, dan timeline pelaksanaan project yang terukur.",
+      "Menyusun rencana konten dan isi website/aplikasi.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
@@ -38,7 +38,7 @@ const steps: Step[] = [
     number: "03",
     title: "Desain UI/UX",
     description:
-      "Merancang wireframe dan visual interface yang modern, intuitif, serta responsif sesuai identitas brand dan kenyamanan pengguna.",
+      "Merancang gaya tampilan UI untuk website/aplikasi sesuai kebutuhan.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
@@ -49,7 +49,7 @@ const steps: Step[] = [
     number: "04",
     title: "Pengembangan & Coding",
     description:
-      "Tahap implementasi kode dengan standar kualitas tinggi, cepat, SEO-friendly, dan responsive. Progress dilaporkan secara berkala.",
+      "Tahap implementasi kode dengan standar kualitas tinggi, cepat, SEO-friendly, dan responsive. Setiap progress akan dikabari secara berkala.",
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -90,9 +90,6 @@ function Workflow() {
         transition={{ duration: 0.5 }}
         className="text-center mb-16"
       >
-        <span className="inline-block text-micro font-semibold text-[var(--neu-accent)] uppercase tracking-wider mb-3">
-          Alur Kerja
-        </span>
         <h2 className="text-display-xl text-[var(--neu-foreground)] mt-1">
           Bagaimana Proses Pengerjaannya?
         </h2>
@@ -124,11 +121,10 @@ function Workflow() {
                 </div>
 
                 {/* Card placement wrapper */}
-                <div className={`w-full pl-14 md:pl-0 ${
-                  isLeft
-                    ? "md:pr-[calc(50%+2.5rem)] md:text-right"
-                    : "md:pl-[calc(50%+2.5rem)] md:ml-auto md:text-left"
-                }`}>
+                <div className={`w-full pl-14 md:pl-0 ${isLeft
+                  ? "md:pr-[calc(50%+2.5rem)] md:text-right"
+                  : "md:pl-[calc(50%+2.5rem)] md:ml-auto md:text-left"
+                  }`}>
                   <StepCard step={step} isLeft={isLeft} />
                 </div>
               </motion.div>

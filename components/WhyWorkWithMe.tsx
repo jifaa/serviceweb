@@ -32,7 +32,7 @@ const reasons = [
       </svg>
     ),
     title: "Responsive Design",
-    description: "Website yang terlihat bagus di semua device — desktop, tablet, dan mobile.",
+    description: "Website yang terlihat bagus di semua device (desktop, tablet, dan mobile).",
   },
   {
     icon: (
@@ -183,9 +183,6 @@ export function WhyWorkWithMe() {
     <Section id="why-work-with-me" variant="light" ref={sectionRef}>
       {/* Header */}
       <div ref={headerRef} className="text-center mb-16">
-        <span className="inline-block text-micro text-[var(--neu-accent)] uppercase tracking-wider mb-3">
-          Keunggulan
-        </span>
         <h2 className="text-display-xl text-[var(--neu-foreground)]">
           Kenapa Kerja Sama dengan Saya?
         </h2>

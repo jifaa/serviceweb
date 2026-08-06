@@ -37,9 +37,9 @@ const services: Array<{
       description: "Website eksklusif dengan desain unik dan integrasi API/database sepenuhnya fleksibel.",
     },
     {
-      iconType: "uiux",
-      title: "UI/UX Implementation",
-      description: "Penerjemahan piksel presisi dari desain Figma menjadi komponen UI modern dan responsif.",
+      iconType: "mobile",
+      title: "Mobile Application",
+      description: "Mengembangkan aplikasi mobile untuk android dan ios dengan desain modern dan user-friendly.",
     },
   ];
 
@@ -170,9 +170,6 @@ export function Services() {
     <Section id="services" variant="dark" ref={sectionRef}>
       {/* Header */}
       <div ref={headerRef} className="text-center mb-16">
-        <span className="inline-block text-micro font-semibold text-[var(--neu-accent)] uppercase tracking-wider mb-3">
-          Layanan Spesialis
-        </span>
         <h2 className="text-display-xl font-bold text-[var(--neu-foreground)] mb-4">
           Apa yang Bisa Saya Bantu?
         </h2>

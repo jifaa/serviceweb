@@ -314,14 +314,14 @@ export function Contact() {
           Mari Diskusi
         </h2>
         <p className="text-body-lg text-[var(--neu-foreground)] opacity-80 max-w-xl mx-auto">
-          Punya ide project atau pertanyaan? Hubungi saya — saya senang membantu mewujudkan ide Anda.
+          Punya ide project atau pertanyaan? Hubungi saya ,saya senang membantu mewujudkan ide Anda.
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
         {/* Left - Contact Info */}
-        <div ref={infoCardRef} className="space-y-6">
-          <Card variant="neu" className="h-full p-8" tilt3d={true}>
+        <div ref={infoCardRef} className="w-full">
+          <Card variant="neu" className="p-10 sm:p-12" tilt3d={true}>
             <div className="space-y-8">
               <div className="space-y-2">
                 <h3 className="text-display-md text-[var(--neu-foreground)]">
@@ -338,7 +338,8 @@ export function Contact() {
                 ))}
               </div>
 
-              <div className="pt-6 neu-divider">
+              <div>
+                <hr className="neu-divider mb-6" />
                 <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
                   Respon biasanya dalam 1x24 jam. Untuk project urgent, WhatsApp adalah pilihan tercepat.
                 </p>
@@ -349,15 +350,12 @@ export function Contact() {
 
         {/* Right - Contact Form */}
         <div ref={formCardRef}>
-          <Card variant="neu" className="h-full p-8" tilt3d={true}>
+          <Card variant="neu" className="p-8" tilt3d={true}>
             <div className="space-y-6">
               <div className="space-y-2">
                 <h3 className="text-display-md text-[var(--neu-foreground)]">
                   Kirim Pesan
                 </h3>
-                <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
-                  Isi formulir di bawah dan saya akan segera menghubungi Anda
-                </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">

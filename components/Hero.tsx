@@ -98,7 +98,7 @@ export function Hero() {
 
               {/* Subheadline */}
               <p className="text-base sm:text-lg md:text-xl text-[var(--neu-foreground)] max-w-xl text-center lg:text-left leading-relaxed opacity-80">
-                Siap membantu Anda dalam membuat website dan aplikasi berkualitas sesuai kebutuhan dengan harga ramah dan komunikasi terbuka.
+                Siap membantu Anda dalam membuat website dan aplikasi sesuai kebutuhan dengan harga ramah dan komunikasi terbuka.
               </p>
 
               {/* CTA Buttons */}
@@ -106,6 +106,7 @@ export function Hero() {
                 <Button
                   variant="neu-accent"
                   size="lg"
+                  className="!text-[var(--neu-foreground)]"
                   onClick={() => {
                     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
                   }}
