@@ -114,9 +114,9 @@ export function About() {
   }, [prefersReducedMotion]);
 
   return (
-    <Section id="about" variant="light" ref={sectionRef} className="relative overflow-hidden py-16 md:py-24">
-      {/* Background 3D Illustration - Shifted Further Right & Down (Cropped) */}
-      <div className="about-bg-image absolute right-[-35%] sm:right-[-28%] md:right-[-22%] lg:right-[-16%] xl:right-[-12%] top-[50%] -translate-y-1/2 w-[480px] sm:w-[620px] md:w-[740px] lg:w-[860px] xl:w-[960px] pointer-events-none z-0 opacity-40 sm:opacity-60 lg:opacity-90 select-none mix-blend-multiply transition-transform duration-700">
+    <Section id="about" variant="light" ref={sectionRef} className="relative overflow-hidden">
+      {/* Background Illustration - Neumorphic friendly */}
+      <div className="about-bg-image absolute right-[-35%] sm:right-[-28%] md:right-[-22%] lg:right-[-16%] xl:right-[-12%] top-[50%] -translate-y-1/2 w-[480px] sm:w-[620px] md:w-[740px] lg:w-[860px] xl:w-[960px] pointer-events-none z-0 opacity-30 select-none mix-blend-multiply transition-transform duration-700">
         <Image
           src="/about-illustration.png"
           alt="Al Ghifari - Software Engineer Illustration"
@@ -128,29 +128,29 @@ export function About() {
         />
       </div>
 
-      {/* Text Content Layer - Left Half */}
-      <div className="relative z-10 w-full">
-        <div ref={contentRef} className="max-w-xl lg:max-w-2xl space-y-6 text-left">
+      {/* Text Content Layer */}
+      <div ref={contentRef} className="relative z-10 w-full">
+        <div className="max-w-xl lg:max-w-2xl space-y-8 text-left">
           <div className="text-left">
-            <span className="inline-block text-micro font-[family-name:var(--font-inter)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
+            <span className="inline-block text-micro text-[var(--neu-accent)] uppercase tracking-wider mb-3">
               Tentang Saya
             </span>
-            <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)] leading-tight">
+            <h2 className="text-display-xl text-[var(--neu-foreground)] leading-tight">
               Mahasiswa Teknik Informatika yang Passion di Software Engineering
             </h2>
           </div>
 
-          <div className="space-y-4">
-            <p className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
+          <div className="space-y-5">
+            <p className="text-body-lg text-[var(--neu-foreground)]">
               Hai! Saya Al Ghifari, seorang mahasiswa Teknik Informatika yang
               sedang dalam proses membangun karir di dunia pengembangan software.
             </p>
-            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
+            <p className="text-body-md text-[var(--neu-foreground)] opacity-80">
               Saya sangat menikmati proses mengubah ide menjadi produk digital
               yang nyata. Fokus utama saya adalah web development — mulai dari
               landing page sederhana hingga aplikasi web yang lebih kompleks.
             </p>
-            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
+            <p className="text-body-md text-[var(--neu-foreground)] opacity-80">
               Sebagai mahasiswa, saya terus belajar teknologi terbaru dan
               berusaha memberikan hasil terbaik untuk setiap project yang saya
               kerjakan. Saya percaya bahwa kualitas kerja lebih penting dari
@@ -158,8 +158,8 @@ export function About() {
             </p>
           </div>
 
-          {/* Key Points */}
-          <div className="grid grid-cols-2 gap-4 pt-4">
+          {/* Key Points - Neumorphic Cards */}
+          <div className="grid grid-cols-2 gap-4 pt-6">
             {[
               {
                 icon: (
@@ -197,10 +197,10 @@ export function About() {
             ].map((item, index) => (
               <div
                 key={index}
-                className="key-point flex items-center gap-3 p-3 rounded-[var(--radius-md)] bg-[var(--color-canvas-soft)]/90 backdrop-blur-sm border border-slate-100/80 shadow-sm"
+                className="key-point neu-sm flex items-center gap-3 p-4"
               >
-                <span className="text-[var(--color-primary)]">{item.icon}</span>
-                <span className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink)] font-medium">
+                <span className="text-[var(--neu-accent)]">{item.icon}</span>
+                <span className="text-body-md text-[var(--neu-foreground)] font-medium">
                   {item.text}
                 </span>
               </div>

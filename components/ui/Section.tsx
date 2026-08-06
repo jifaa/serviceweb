@@ -13,16 +13,16 @@ interface SectionProps {
 
 const variantStyles: Record<SectionVariant, string> = {
   dark: `
-    bg-[var(--color-primary)]
-    text-[var(--color-on-primary)]
+    bg-[var(--neu-bg-dark)]
+    text-[var(--neu-foreground)]
   `,
   light: `
-    bg-[var(--color-canvas)]
-    text-[var(--color-ink)]
+    bg-[var(--neu-bg)]
+    text-[var(--neu-foreground)]
   `,
   soft: `
-    bg-[var(--color-canvas-soft)]
-    text-[var(--color-ink)]
+    bg-[var(--neu-bg-dark)]
+    text-[var(--neu-foreground)]
   `,
 };
 
@@ -35,7 +35,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
         id={id}
         className={`
           w-full min-h-full flex flex-col justify-center
-          ${hasPy ? "" : "py-8 md:py-12"}
+          ${hasPy ? "" : "py-16 md:py-24"}
           px-[var(--spacing-lg)] md:px-[var(--spacing-xl)]
           ${variantStyles[variant]}
           ${className}

@@ -89,59 +89,60 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav ref={navRef} className="fixed top-0 left-0 right-0 z-50 bg-black text-white shadow-md border-b border-white/10">
-      <div className="max-w-[1100px] mx-auto px-[var(--spacing-lg)] md:px-[var(--spacing-xl)]">
-        <div className="flex items-center justify-center relative h-16 md:h-20">
-          {/* Desktop Navigation - Centered with GooeyNav */}
-          <div className="hidden md:flex items-center justify-center">
-            <GooeyNav
-              items={navLinks}
-              activeIndex={activeSection}
-              onIndexChange={setActiveSection}
-            />
-          </div>
-
-          {/* Mobile Menu Button - Positioned Right on Mobile */}
-          <button
-            className="cursor-target md:hidden absolute right-0 p-2 rounded-[var(--radius-sm)] text-white hover:text-gray-300"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={isMobileMenuOpen}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              {isMobileMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
+    <nav
+      ref={navRef}
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[900px] neu rounded-[var(--radius-xl)] px-6 py-3"
+    >
+      <div className="flex items-center justify-center relative">
+        {/* Desktop Navigation - Centered with GooeyNav */}
+        <div className="hidden md:flex items-center justify-center">
+          <GooeyNav
+            items={navLinks}
+            activeIndex={activeSection}
+            onIndexChange={setActiveSection}
+          />
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div ref={mobileMenuRef} className="md:hidden pb-4">
-            <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-body-md font-[family-name:var(--font-inter)] text-gray-300 hover:text-white transition-colors"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Mobile Menu Button - Positioned Right on Mobile */}
+        <button
+          className="cursor-target md:hidden absolute right-0 p-2 rounded-[var(--radius-sm)] text-[var(--neu-foreground)] hover:text-[var(--neu-accent)] transition-colors"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={isMobileMenuOpen}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            {isMobileMenuOpen ? (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div ref={mobileMenuRef} className="md:hidden pb-4 mt-4">
+          <div className="flex flex-col gap-4 pt-4 neu-divider">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-[var(--neu-foreground)] hover:text-[var(--neu-accent)] transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }

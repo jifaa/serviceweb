@@ -102,17 +102,17 @@ function FooterColumn({ column, index }: { column: typeof footerLinks[0]; index:
 
   return (
     <div ref={columnRef}>
-      <h4 className="text-button-cap font-[family-name:var(--font-inter)] text-[var(--color-ink)] uppercase tracking-wider mb-4">
+      <h4 className="text-body-md text-[var(--neu-foreground)] font-semibold uppercase tracking-wider mb-5">
         {column.title}
       </h4>
-      <ul className="space-y-3">
+      <ul className="space-y-4">
         {column.links.map((link, linkIndex) => (
           <li key={linkIndex}>
             <a
               href={link.href}
               target={link.external ? "_blank" : "_self"}
               rel={link.external ? "noopener noreferrer" : ""}
-              className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] hover:text-[var(--color-primary)] transition-colors duration-200"
+              className="text-body-md text-[var(--neu-foreground)] opacity-70 hover:text-[var(--neu-accent)] transition-colors duration-200"
             >
               {link.label}
             </a>
@@ -162,7 +162,7 @@ function SocialButton({ link, index }: { link: typeof socialLinks[0]; index: num
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="w-10 h-10 rounded-[var(--radius-md)] bg-[var(--color-canvas-soft)] flex items-center justify-center text-[var(--color-ink-mute)] hover:bg-[var(--color-primary)] hover:text-[var(--color-on-primary)] transition-all duration-200"
+      className="neu-sm w-10 h-10 flex items-center justify-center text-[var(--neu-foreground-muted)] hover:text-[var(--neu-accent)] transition-all duration-200"
       aria-label={link.name}
     >
       {link.icon}
@@ -204,24 +204,24 @@ export function Footer() {
   }, []);
 
   return (
-    <footer ref={footerRef} className="bg-[var(--color-canvas)] border-t border-[var(--color-hairline)]">
+    <footer ref={footerRef} className="bg-[var(--neu-bg-dark)] border-t border-[var(--neu-bg)]">
       <div className="max-w-[1100px] mx-auto px-[var(--spacing-lg)] md:px-[var(--spacing-xl)] py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div ref={brandRef} className="lg:col-span-1">
-            <a href="#home" className="flex items-center gap-2 mb-4">
-              <span className="text-[var(--color-primary)] font-bold text-xl">
+            <a href="#home" className="flex items-center gap-3 mb-6">
+              <span className="neu-sm px-3 py-2 text-[var(--neu-accent)] font-bold text-xl rounded-[var(--radius-md)]">
                 {"</>"}
               </span>
-              <span className="font-[family-name:var(--font-inter)] font-variation-settings:'wght' 700 text-[var(--color-ink)]">
+              <span className="font-semibold text-[var(--neu-foreground)] text-lg">
                 Al Ghifari
               </span>
             </a>
-            <p className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] mb-6">
+            <p className="text-body-md text-[var(--neu-foreground)] opacity-70 mb-6 leading-relaxed">
               Mahasiswa Teknik Informatika yang passionate di web development. Terbuka untuk project freelance dan kolaborasi.
             </p>
             {/* Social Links */}
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               {socialLinks.map((link, index) => (
                 <SocialButton key={index} link={link} index={index} />
               ))}
@@ -236,14 +236,14 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-[var(--color-hairline)]">
+      <div className="border-t border-[var(--neu-bg)]">
         <div className="max-w-[1100px] mx-auto px-[var(--spacing-lg)] md:px-[var(--spacing-xl)] py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink-faint)]">
+            <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
               © {new Date().getFullYear()} Al Ghifari. All rights reserved.
             </p>
-            <p className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink-faint)]">
-              Dibuat dengan <svg className="w-4 h-4 inline text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> dan Next.js
+            <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
+              Dibuat dengan <svg className="w-4 h-4 inline text-[var(--neu-accent)]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> dan Next.js
             </p>
           </div>
         </div>

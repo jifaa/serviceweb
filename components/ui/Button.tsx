@@ -2,7 +2,7 @@
 
 import { ButtonHTMLAttributes, forwardRef } from "react";
 
-type ButtonVariant = "primary-dark" | "primary-dark-pressed" | "on-dark-pill" | "secondary-outline" | "on-teal";
+type ButtonVariant = "neu" | "neu-accent" | "neu-inset" | "neu-outline";
 type ButtonSize = "md" | "lg";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -14,36 +14,37 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  "primary-dark": `
-    bg-[var(--color-primary)] text-[var(--color-on-primary)]
-    hover:bg-[var(--color-primary-deep)]
+  "neu": `
+    neu neu-press
+    bg-[var(--neu-bg)] text-[var(--neu-foreground)]
+    hover:text-[var(--neu-accent)]
   `,
-  "primary-dark-pressed": `
-    bg-[var(--color-primary-deep)] text-[var(--color-on-primary)]
+  "neu-accent": `
+    neu neu-press
+    bg-[var(--neu-accent)] text-white
   `,
-  "on-dark-pill": `
-    bg-[var(--color-surface-violet-soft)] text-[var(--color-primary)]
+  "neu-inset": `
+    neu-inset
+    bg-[var(--neu-bg)] text-[var(--neu-foreground)]
   `,
-  "secondary-outline": `
-    bg-[var(--color-canvas)] text-[var(--color-ink)] border border-[var(--color-hairline-dark)]
-    hover:bg-[var(--color-canvas-soft)]
-  `,
-  "on-teal": `
-    bg-[var(--color-canvas)] text-[var(--color-surface-teal-deep)]
-    hover:bg-[var(--color-canvas-soft)]
+  "neu-outline": `
+    bg-transparent
+    text-[var(--neu-foreground)]
+    border-2 border-[var(--neu-foreground-muted)]
+    hover:border-[var(--neu-accent)] hover:text-[var(--neu-accent)]
   `,
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
-  md: "px-5 py-3",
-  lg: "px-6 py-4 text-lg",
+  md: "px-6 py-3 text-sm",
+  lg: "px-8 py-4 text-base",
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       className = "",
-      variant = "primary-dark",
+      variant = "neu",
       size = "md",
       disabled,
       isLoading,
@@ -59,11 +60,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || isLoading}
         className={`
           cursor-target inline-flex items-center justify-center gap-2
-          font-[var(--font-inter)] text-button-md
-          rounded-[var(--radius-md)]
+          font-medium rounded-[var(--radius-lg)]
           transition-all duration-200 ease-out
           disabled:opacity-50 disabled:cursor-not-allowed
-          ${press3d ? "btn-3d-press" : ""}
+          ${press3d && variant !== "neu-inset" ? "neu-press" : ""}
           ${variantStyles[variant]}
           ${sizeStyles[size]}
           ${className}

@@ -87,26 +87,26 @@ function ServiceCard({ service }: { service: (typeof services)[0] }) {
       className="service-card-item opacity-0 transform translate-y-10"
     >
       <Card
-        variant="feature-light"
+        variant="neu"
         tilt3d={true}
-        className="h-full group hover:shadow-xl transition-shadow duration-300 cursor-pointer border border-[var(--color-hairline)]"
+        className="h-full group cursor-pointer p-6"
       >
-        <div className="flex flex-col h-full p-2">
-          {/* Icon Container with 3D Icon */}
+        <div className="flex flex-col h-full">
+          {/* Icon Container with Neumorphic Icon */}
           <div
             ref={iconRef}
-            className="w-13 h-13 rounded-xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center mb-5 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors duration-300"
+            className="neu-sm w-14 h-14 flex items-center justify-center mb-6 text-[var(--neu-accent)]"
           >
             <Service3DIcon type={service.iconType} />
           </div>
 
           {/* Title */}
-          <h3 className="text-heading-md font-bold text-[var(--color-ink)] mb-2.5">
+          <h3 className="text-heading-md font-bold text-[var(--neu-foreground)] mb-3">
             {service.title}
           </h3>
 
           {/* Description */}
-          <p className="text-body-md text-[var(--color-ink-mute)] flex-grow leading-relaxed">
+          <p className="text-body-md text-[var(--neu-foreground)] opacity-70 flex-grow leading-relaxed">
             {service.description}
           </p>
         </div>
@@ -167,22 +167,22 @@ export function Services() {
   }, []);
 
   return (
-    <Section id="services" variant="soft" ref={sectionRef}>
+    <Section id="services" variant="dark" ref={sectionRef}>
       {/* Header */}
-      <div ref={headerRef} className="text-center">
-        <span className="inline-block text-micro font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-2">
+      <div ref={headerRef} className="text-center mb-16">
+        <span className="inline-block text-micro font-semibold text-[var(--neu-accent)] uppercase tracking-wider mb-3">
           Layanan Spesialis
         </span>
-        <h2 className="text-display-xl font-bold text-[var(--color-ink)] mb-4">
+        <h2 className="text-display-xl font-bold text-[var(--neu-foreground)] mb-4">
           Apa yang Bisa Saya Bantu?
         </h2>
-        <p className="text-body-lg text-[var(--color-ink-mute)] max-w-2xl mx-auto">
+        <p className="text-body-lg text-[var(--neu-foreground)] opacity-80 max-w-2xl mx-auto">
           Solusi pengembangan web modern dengan performa tinggi dan desain responsif untuk memajukan bisnis Anda.
         </p>
       </div>
 
       {/* Services Grid */}
-      <div ref={gridRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div ref={gridRef} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service, index) => (
           <ServiceCard key={index} service={service} />
         ))}

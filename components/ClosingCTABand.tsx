@@ -89,22 +89,22 @@ export function ClosingCTABand() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-[var(--color-surface-teal-deep)] py-24 px-[var(--spacing-lg)] md:px-[var(--spacing-xl)]">
+    <section ref={sectionRef} className="relative py-24 px-[var(--spacing-lg)] md:px-[var(--spacing-xl)] bg-[var(--neu-bg)]">
       <div className="max-w-[1100px] mx-auto text-center">
         {/* Headline */}
-        <h2 ref={headlineRef} className="text-display-lg font-[family-name:var(--font-inter)] text-[var(--color-on-primary)] mb-6">
+        <h2 ref={headlineRef} className="text-display-lg text-[var(--neu-foreground)] mb-6">
           Siap Mewujudkan Website Impian Anda?
         </h2>
 
         {/* Subtext */}
-        <p ref={subtextRef} className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-on-dark-mute)] max-w-xl mx-auto mb-8">
+        <p ref={subtextRef} className="text-body-lg text-[var(--neu-foreground)] opacity-80 max-w-xl mx-auto mb-10">
           Mari diskusikan project Anda. Saya akan dengan senang hati membantu mengubah ide menjadi kenyataan.
         </p>
 
         {/* CTA */}
         <div ref={buttonsRef} className="flex flex-wrap justify-center gap-4">
           <Button
-            variant="on-teal"
+            variant="neu-accent"
             size="lg"
             onClick={() => {
               document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
@@ -116,9 +116,8 @@ export function ClosingCTABand() {
             Mulai Diskusi
           </Button>
           <Button
-            variant="secondary-outline"
+            variant="neu"
             size="lg"
-            className="!border-[var(--color-on-dark-faint)] !text-[var(--color-on-primary)] hover:!bg-[var(--color-on-primary)]/10"
             onClick={() => {
               document.getElementById("portfolio")?.scrollIntoView({ behavior: "smooth" });
             }}
@@ -127,9 +126,9 @@ export function ClosingCTABand() {
           </Button>
         </div>
 
-        {/* Decorative Elements */}
-        <div className="absolute -top-20 -right-20 w-40 h-40 bg-[var(--color-surface-teal-mid)] rounded-full opacity-30 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-[var(--color-surface-teal-mid)] rounded-full opacity-20 blur-3xl" />
+        {/* Decorative Elements - Neumorphic gradient accents */}
+        <div className="absolute -top-20 -right-20 w-40 h-40 bg-[var(--neu-accent)] rounded-full opacity-10 blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-[var(--neu-shadow-dark)] rounded-full opacity-30 blur-3xl" />
       </div>
     </section>
   );

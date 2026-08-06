@@ -1,7 +1,7 @@
 import { ReactNode, CSSProperties, forwardRef, HTMLAttributes, useMemo } from "react";
 import { useTilt3D, TiltOptions } from "@/lib/use3DTilt";
 
-type CardVariant = "feature-light" | "feature-row" | "pricing" | "pricing-featured";
+type CardVariant = "neu" | "neu-inset";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
@@ -15,33 +15,18 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantStyles: Record<CardVariant, string> = {
-  "feature-light": `
-    bg-[var(--color-canvas)]
-    border border-[var(--color-hairline)]
-    rounded-[var(--radius-lg)]
-    p-[var(--spacing-xxl)]
-  `,
-  "feature-row": `
-    bg-[var(--color-canvas-soft)]
-    rounded-[var(--radius-md)]
+  "neu": `
+    neu
     p-[var(--spacing-xl)]
   `,
-  "pricing": `
-    bg-[var(--color-canvas)]
-    border border-[var(--color-hairline)]
-    rounded-[var(--radius-lg)]
-    p-[var(--spacing-xxl)]
-  `,
-  "pricing-featured": `
-    bg-[var(--color-primary)]
-    text-[var(--color-on-primary)]
-    rounded-[var(--radius-lg)]
-    p-[var(--spacing-xxl)]
+  "neu-inset": `
+    neu-inset
+    p-[var(--spacing-xl)]
   `,
 };
 
 export const Card = forwardRef<HTMLDivElement, CardProps>(
-  ({ children, variant = "feature-light", className = "", style, tilt3d = false, tiltOptions, ...props }, ref) => {
+  ({ children, variant = "neu", className = "", style, tilt3d = false, tiltOptions, ...props }, ref) => {
     // Use tilt effect if enabled
     const tilt = useTilt3D<HTMLDivElement>({
       max: 8,

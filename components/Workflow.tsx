@@ -69,7 +69,7 @@ const steps: Step[] = [
   },
   {
     number: "06",
-    title: "Peluncuran & Support",
+    title: "Peluncur an & Support",
     description:
       "Deployment ke server production, konfigurasi domain & SSL, serta sesi pendampingan awal dan dukungan pasca peluncuran.",
     icon: (
@@ -82,7 +82,7 @@ const steps: Step[] = [
 
 function Workflow() {
   return (
-    <Section id="workflow" variant="soft" className="relative overflow-hidden">
+    <Section id="workflow" variant="dark" className="relative overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -90,21 +90,21 @@ function Workflow() {
         transition={{ duration: 0.5 }}
         className="text-center mb-16"
       >
-        <span className="inline-block text-micro font-semibold text-[var(--color-primary)] uppercase tracking-wider mb-2">
+        <span className="inline-block text-micro font-semibold text-[var(--neu-accent)] uppercase tracking-wider mb-3">
           Alur Kerja
         </span>
-        <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)] mt-1">
+        <h2 className="text-display-xl text-[var(--neu-foreground)] mt-1">
           Bagaimana Proses Pengerjaannya?
         </h2>
-        <p className="text-body-lg font-[family-name:var(--font-inter)] font-variation-settings:'wght' 460 text-[var(--color-ink-mute)] max-w-2xl mx-auto mt-4">
+        <p className="text-body-lg text-[var(--neu-foreground)] opacity-80 max-w-2xl mx-auto mt-4">
           Alur kerja terstruktur dan transparan untuk memastikan setiap project berjalan lancar, tepat waktu, dan berkualitas tinggi.
         </p>
       </motion.div>
 
       {/* Timeline Container */}
       <div className="relative max-w-4xl mx-auto px-4 md:px-0">
-        {/* Timeline Line: Left on mobile, Center on desktop */}
-        <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 bottom-8 w-0.5 bg-gradient-to-b from-[var(--color-primary)]/40 via-[var(--color-hairline)] to-[var(--color-primary)]/40" />
+        {/* Timeline Line - Neumorphic style */}
+        <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 bottom-8 w-1 neu-inset-sm rounded-full" />
 
         <div className="space-y-8 md:space-y-12">
           {steps.map((step, index) => {
@@ -118,15 +118,15 @@ function Workflow() {
                 transition={{ duration: 0.5, delay: index * 0.08 }}
                 className="relative flex flex-col md:flex-row items-start"
               >
-                {/* Timeline Icon Badge */}
-                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-4 z-10 w-11 h-11 rounded-full bg-[var(--color-canvas)] text-[var(--color-primary)] flex items-center justify-center border-2 border-[var(--color-primary)] shadow-lg transition-transform duration-300 hover:scale-110">
+                {/* Timeline Icon Badge - Neumorphic */}
+                <div className="absolute left-6 md:left-1/2 -translate-x-1/2 top-4 z-10 w-11 h-11 neu flex items-center justify-center text-[var(--neu-accent)] transition-transform duration-300 hover:scale-110">
                   {step.icon}
                 </div>
 
                 {/* Card placement wrapper */}
                 <div className={`w-full pl-14 md:pl-0 ${
-                  isLeft 
-                    ? "md:pr-[calc(50%+2.5rem)] md:text-right" 
+                  isLeft
+                    ? "md:pr-[calc(50%+2.5rem)] md:text-right"
                     : "md:pl-[calc(50%+2.5rem)] md:ml-auto md:text-left"
                 }`}>
                   <StepCard step={step} isLeft={isLeft} />
@@ -143,20 +143,20 @@ function Workflow() {
 function StepCard({ step, isLeft }: { step: Step; isLeft: boolean }) {
   return (
     <Card
-      variant="feature-light"
+      variant="neu"
       tilt3d={true}
-      tiltOptions={{ max: 6, scale: 1.02, glare: true, maxGlare: 0.2 }}
-      className="!p-6 border border-[var(--color-hairline)] hover:border-[var(--color-primary)]/40 transition-all duration-300 relative overflow-hidden group/card shadow-sm hover:shadow-xl rounded-2xl"
+      tiltOptions={{ max: 6, scale: 1.02, glare: false }}
+      className="!p-6 relative overflow-hidden group/card"
     >
       <div style={{ transformStyle: "preserve-3d" }}>
         {/* Step Number + Title Row */}
-        <div className={`flex items-center gap-3 mb-2 ${isLeft ? "md:flex-row-reverse" : "flex-row"}`}>
-          <span className="inline-block px-2.5 py-0.5 text-xs font-bold font-mono rounded-md bg-[var(--color-primary)]/10 text-[var(--color-primary)]">
+        <div className={`flex items-center gap-3 mb-3 ${isLeft ? "md:flex-row-reverse" : "flex-row"}`}>
+          <span className="inline-block px-3 py-1 text-xs font-bold font-mono rounded-[var(--radius-md)] neu-inset text-[var(--neu-accent)]">
             {step.number}
           </span>
           <h3
             style={{ transform: "translateZ(15px)" }}
-            className="text-display-md font-[family-name:var(--font-inter)] font-semibold text-[var(--color-ink)] group-hover/card:text-[var(--color-primary)] transition-colors"
+            className="text-display-md font-semibold text-[var(--neu-foreground)] group-hover/card:text-[var(--neu-accent)] transition-colors"
           >
             {step.title}
           </h3>
@@ -165,7 +165,7 @@ function StepCard({ step, isLeft }: { step: Step; isLeft: boolean }) {
         {/* Description */}
         <p
           style={{ transform: "translateZ(8px)" }}
-          className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] leading-relaxed"
+          className="text-body-md text-[var(--neu-foreground)] opacity-70 leading-relaxed"
         >
           {step.description}
         </p>

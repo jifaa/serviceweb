@@ -121,25 +121,24 @@ function ReasonCard({ reason, index }: { reason: typeof reasons[0]; index: numbe
     <div className="h-full" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Card
         ref={cardRef}
-        variant="feature-row"
+        variant="neu"
         tilt3d={true}
-        tiltOptions={{ max: 8, scale: 1.03, glare: true, maxGlare: 0.25 }}
-        className="h-full group reason-card hover:shadow-md transition-shadow duration-300 relative overflow-hidden"
+        tiltOptions={{ max: 8, scale: 1.03, glare: false }}
+        className="h-full group reason-card relative overflow-hidden p-6"
       >
-        <div className="flex gap-4 items-start h-full" style={{ transformStyle: "preserve-3d" }}>
+        <div className="flex gap-5 items-start h-full">
           <div
             ref={iconRef}
-            style={{ transform: "translateZ(25px)" }}
-            className="flex-shrink-0 w-12 h-12 rounded-[var(--radius-md)] bg-[var(--color-primary)] flex items-center justify-center text-[var(--color-on-primary)] shadow-lg"
+            className="neu-sm flex-shrink-0 w-14 h-14 rounded-[var(--radius-lg)] flex items-center justify-center text-[var(--neu-accent)]"
           >
             {reason.icon}
           </div>
 
-          <div style={{ transform: "translateZ(12px)" }} className="flex-1">
-            <h3 className="text-heading-lg font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-1">
+          <div className="flex-1">
+            <h3 className="text-heading-lg text-[var(--neu-foreground)] mb-2">
               {reason.title}
             </h3>
-            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] leading-relaxed">
+            <p className="text-body-md text-[var(--neu-foreground)] opacity-70 leading-relaxed">
               {reason.description}
             </p>
           </div>
@@ -183,20 +182,20 @@ export function WhyWorkWithMe() {
   return (
     <Section id="why-work-with-me" variant="light" ref={sectionRef}>
       {/* Header */}
-      <div ref={headerRef} className="text-center mb-12">
-        <span className="inline-block text-micro font-[family-name:var(--font-inter)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
+      <div ref={headerRef} className="text-center mb-16">
+        <span className="inline-block text-micro text-[var(--neu-accent)] uppercase tracking-wider mb-3">
           Keunggulan
         </span>
-        <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
+        <h2 className="text-display-xl text-[var(--neu-foreground)]">
           Kenapa Kerja Sama dengan Saya?
         </h2>
-        <p className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] max-w-2xl mx-auto mt-4">
+        <p className="text-body-lg text-[var(--neu-foreground)] opacity-80 max-w-2xl mx-auto mt-4">
           Saya berkomitmen memberikan pengalaman kerja sama yang nyaman dan hasil yang memuaskan
         </p>
       </div>
 
       {/* Reasons Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {reasons.map((reason, index) => (
           <ReasonCard key={index} reason={reason} index={index} />
         ))}
@@ -204,4 +203,3 @@ export function WhyWorkWithMe() {
     </Section>
   );
 }
-

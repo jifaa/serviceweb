@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent, useCallback } from "react";
 import { animate, set } from "animejs";
 import { Section } from "./ui/Section";
 import { Card } from "./ui/Card";
@@ -16,7 +16,7 @@ const contactInfo = [
     ),
     value: "akhmad.abid.345@gmail.com",
     href: "mailto:akhmad.abid.345@gmail.com",
-    color: "#EA4335",
+    color: "#5b7cfa",
   },
   {
     name: "WhatsApp",
@@ -27,7 +27,7 @@ const contactInfo = [
     ),
     value: "+62 812-3456-7890",
     href: "https://wa.me/6289527718391",
-    color: "#25D366",
+    color: "#5b7cfa",
   },
   {
     name: "Instagram",
@@ -38,7 +38,7 @@ const contactInfo = [
     ),
     value: "@thisjifaa._",
     href: "https://www.instagram.com/thisjifaa._/",
-    color: "#E4405F",
+    color: "#5b7cfa",
   },
 ];
 
@@ -94,19 +94,18 @@ function ContactItem({ link, index }: { link: typeof contactInfo[0]; index: numb
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex items-center gap-4 group p-3 -m-3 rounded-[var(--radius-md)] hover:bg-[var(--color-on-primary)]/5 transition-all duration-200"
+      className="flex items-center gap-4 group py-3 px-4 neu-sm hover:text-[var(--neu-accent)] transition-all duration-200"
     >
       <div
-        className="w-14 h-14 rounded-[var(--radius-lg)] flex items-center justify-center transition-transform duration-200 group-hover:scale-110 flex-shrink-0"
-        style={{ backgroundColor: `${link.color}20`, color: link.color }}
+        className="neu w-14 h-14 rounded-[var(--radius-lg)] flex items-center justify-center transition-transform duration-200 group-hover:scale-110 flex-shrink-0 text-[var(--neu-accent)]"
       >
         {link.icon}
       </div>
       <div className="min-w-0">
-        <p className="text-micro font-[family-name:var(--font-inter)] text-[var(--color-on-dark-faint)] uppercase tracking-wider">
+        <p className="text-micro text-[var(--neu-foreground-muted)] uppercase tracking-wider">
           {link.name}
         </p>
-        <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-on-primary)] truncate">
+        <p className="text-body-md text-[var(--neu-foreground)] truncate">
           {link.value}
         </p>
       </div>
@@ -137,17 +136,17 @@ function SubmitButton({ isSubmitting }: { isSubmitting: boolean }) {
     <Button
       ref={buttonRef as any}
       type="submit"
-      variant="primary-dark"
+      variant="neu-accent"
       size="lg"
       isLoading={isSubmitting}
-      className="w-full submit-button"
+      className="w-full submit-button text-black"
     >
       {!isSubmitting && (
         <>
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
           </svg>
-          Kirim via WhatsApp
+          <span className="text-black font-semibold">Kirim via WhatsApp</span>
         </>
       )}
     </Button>
@@ -169,6 +168,7 @@ export function Contact() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const header = headerRef.current;
@@ -307,27 +307,27 @@ export function Contact() {
   };
 
   return (
-    <Section id="contact" variant="light" ref={sectionRef}>
+    <Section id="contact" variant="dark" ref={sectionRef}>
       {/* Header */}
       <div ref={headerRef} className="text-center mb-16">
-        <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-4">
+        <h2 className="text-display-xl text-[var(--neu-foreground)] mb-4">
           Mari Diskusi
         </h2>
-        <p className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] max-w-xl mx-auto">
+        <p className="text-body-lg text-[var(--neu-foreground)] opacity-80 max-w-xl mx-auto">
           Punya ide project atau pertanyaan? Hubungi saya — saya senang membantu mewujudkan ide Anda.
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
         {/* Left - Contact Info */}
         <div ref={infoCardRef} className="space-y-6">
-          <Card variant="feature-light" className="bg-[var(--color-primary)] border-none h-full" tilt3d={true}>
+          <Card variant="neu" className="h-full p-8" tilt3d={true}>
             <div className="space-y-8">
               <div className="space-y-2">
-                <h3 className="text-display-md font-[family-name:var(--font-inter)] text-[var(--color-on-primary)]">
+                <h3 className="text-display-md text-[var(--neu-foreground)]">
                   Informasi Kontak
                 </h3>
-                <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-on-dark-faint)]">
+                <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
                   Pilih cara terbaik untuk menghubungi saya
                 </p>
               </div>
@@ -338,8 +338,8 @@ export function Contact() {
                 ))}
               </div>
 
-              <div className="pt-4 border-t border-[var(--color-on-dark-faint)]/20">
-                <p className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-on-dark-faint)]">
+              <div className="pt-6 neu-divider">
+                <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
                   Respon biasanya dalam 1x24 jam. Untuk project urgent, WhatsApp adalah pilihan tercepat.
                 </p>
               </div>
@@ -349,22 +349,22 @@ export function Contact() {
 
         {/* Right - Contact Form */}
         <div ref={formCardRef}>
-          <Card variant="feature-light" className="h-full" tilt3d={true}>
+          <Card variant="neu" className="h-full p-8" tilt3d={true}>
             <div className="space-y-6">
               <div className="space-y-2">
-                <h3 className="text-display-md font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
+                <h3 className="text-display-md text-[var(--neu-foreground)]">
                   Kirim Pesan
                 </h3>
-                <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
+                <p className="text-body-md text-[var(--neu-foreground)] opacity-70">
                   Isi formulir di bawah dan saya akan segera menghubungi Anda
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name Field */}
-                <div className="space-y-2">
-                  <label htmlFor="name" className="block text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
-                    Nama <span className="text-red-500">*</span>
+                <div className="space-y-3">
+                  <label htmlFor="name" className="block text-body-md text-[var(--neu-foreground)] font-medium">
+                    Nama <span className="text-[var(--neu-accent)]">*</span>
                   </label>
                   <input
                     type="text"
@@ -374,27 +374,28 @@ export function Contact() {
                     onChange={handleChange}
                     placeholder="Nama lengkap Anda"
                     className={`
-                      w-full px-4 py-3 rounded-[var(--radius-sm)]
-                      bg-[var(--color-canvas)]
-                      text-[var(--color-ink)]
-                      text-body-md font-[family-name:var(--font-inter)]
-                      border transition-all duration-200
-                      placeholder:text-[var(--color-ink-faint)]
-                      focus:outline-none focus:ring-2 focus:ring-[var(--color-surface-violet-soft)] focus:border-transparent
-                      ${errors.name ? "border-red-500" : "border-[var(--color-hairline)] hover:border-[var(--color-hairline-dark)]"}
+                      w-full px-5 py-4 rounded-[var(--radius-lg)]
+                      neu-inset
+                      text-[var(--neu-foreground)]
+                      text-body-md
+                      transition-all duration-200
+                      placeholder:text-[var(--neu-foreground)]
+                      placeholder:opacity-50
+                      focus:outline-none focus:ring-2 focus:ring-[var(--neu-accent)]
+                      ${errors.name ? "ring-2 ring-[var(--neu-accent)]" : ""}
                     `}
                   />
                   {errors.name && (
-                    <p className="text-caption text-red-500 font-[family-name:var(--font-inter)]">
+                    <p className="text-body-md text-[var(--neu-accent)]">
                       {errors.name}
                     </p>
                   )}
                 </div>
 
                 {/* Email Field */}
-                <div className="space-y-2">
-                  <label htmlFor="email" className="block text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
-                    Email <span className="text-red-500">*</span>
+                <div className="space-y-3">
+                  <label htmlFor="email" className="block text-body-md text-[var(--neu-foreground)] font-medium">
+                    Email <span className="text-[var(--neu-accent)]">*</span>
                   </label>
                   <input
                     type="email"
@@ -404,58 +405,189 @@ export function Contact() {
                     onChange={handleChange}
                     placeholder="email@contoh.com"
                     className={`
-                      w-full px-4 py-3 rounded-[var(--radius-sm)]
-                      bg-[var(--color-canvas)]
-                      text-[var(--color-ink)]
-                      text-body-md font-[family-name:var(--font-inter)]
-                      border transition-all duration-200
-                      placeholder:text-[var(--color-ink-faint)]
-                      focus:outline-none focus:ring-2 focus:ring-[var(--color-surface-violet-soft)] focus:border-transparent
-                      ${errors.email ? "border-red-500" : "border-[var(--color-hairline)] hover:border-[var(--color-hairline-dark)]"}
+                      w-full px-5 py-4 rounded-[var(--radius-lg)]
+                      neu-inset
+                      text-[var(--neu-foreground)]
+                      text-body-md
+                      transition-all duration-200
+                      placeholder:text-[var(--neu-foreground)]
+                      placeholder:opacity-50
+                      focus:outline-none focus:ring-2 focus:ring-[var(--neu-accent)]
+                      ${errors.email ? "ring-2 ring-[var(--neu-accent)]" : ""}
                     `}
                   />
                   {errors.email && (
-                    <p className="text-caption text-red-500 font-[family-name:var(--font-inter)]">
+                    <p className="text-body-md text-[var(--neu-accent)]">
                       {errors.email}
                     </p>
                   )}
                 </div>
 
-                {/* Project Type Field */}
-                <div className="space-y-2">
-                  <label htmlFor="project" className="block text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
+                {/* Project Type Field - Single Neumorphic Expandable */}
+                <div className="space-y-3">
+                  <label className="block text-body-md text-[var(--neu-foreground)] font-medium">
                     Jenis Project
                   </label>
-                  <select
-                    id="project"
-                    name="project"
-                    value={formData.project}
-                    onChange={handleChange}
-                    className="
-                      w-full px-4 py-3 rounded-[var(--radius-sm)]
-                      bg-[var(--color-canvas)]
-                      text-[var(--color-ink)]
-                      text-body-md font-[family-name:var(--font-inter)]
-                      border border-[var(--color-hairline)] hover:border-[var(--color-hairline-dark)]
-                      transition-all duration-200 cursor-pointer
-                      focus:outline-none focus:ring-2 focus:ring-[var(--color-surface-violet-soft)] focus:border-transparent
-                    "
+
+                  {/* Single Neumorphic Container - memanjang saat expand */}
+                  <div
+                    className={`
+                      neu-inset
+                      rounded-[var(--radius-lg)]
+                      overflow-hidden
+                      transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+                      ${isDropdownOpen ? 'rounded-b-none' : ''}
+                    `}
                   >
-                    <option value="">Pilih jenis project (opsional)</option>
-                    <option value="landing-page">Landing Page</option>
-                    <option value="company-profile">Company Profile</option>
-                    <option value="website-umkm">Website UMKM</option>
-                    <option value="dashboard">Dashboard Admin</option>
-                    <option value="web-app">Web Application</option>
-                    <option value="custom">Custom Website</option>
-                    <option value="other">Lainnya</option>
-                  </select>
+                    {/* Header - Selected Value */}
+                    <button
+                      type="button"
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="w-full px-5 py-4 flex items-center justify-between text-left"
+                    >
+                      <span className={`text-body-md ${formData.project ? 'text-[var(--neu-foreground)]' : 'text-[var(--neu-foreground)] opacity-50'}`}>
+                        {formData.project
+                          ? formData.project.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+                          : 'Pilih jenis project (opsional)'}
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-[var(--neu-foreground-muted)] transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {/* Options - memanjang dari dalam neu-inset */}
+                    <div
+                      className={`
+                        transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]
+                        ${isDropdownOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}
+                      `}
+                    >
+                      {/* Divider */}
+                      <div className="h-px bg-[var(--neu-bg-dark)] mx-4"></div>
+
+                      {/* Options List */}
+                      <div className="py-2">
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, project: 'landing-page' }));
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full px-5 py-3 text-left text-body-md
+                            transition-colors duration-150
+                            hover:bg-[var(--neu-bg-dark)]
+                            ${formData.project === 'landing-page' ? 'text-[var(--neu-accent)] font-medium' : 'text-[var(--neu-foreground)]'}
+                          `}
+                        >
+                          Landing Page
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, project: 'company-profile' }));
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full px-5 py-3 text-left text-body-md
+                            transition-colors duration-150
+                            hover:bg-[var(--neu-bg-dark)]
+                            ${formData.project === 'company-profile' ? 'text-[var(--neu-accent)] font-medium' : 'text-[var(--neu-foreground)]'}
+                          `}
+                        >
+                          Company Profile
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, project: 'website-umkm' }));
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full px-5 py-3 text-left text-body-md
+                            transition-colors duration-150
+                            hover:bg-[var(--neu-bg-dark)]
+                            ${formData.project === 'website-umkm' ? 'text-[var(--neu-accent)] font-medium' : 'text-[var(--neu-foreground)]'}
+                          `}
+                        >
+                          Website UMKM
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, project: 'dashboard' }));
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full px-5 py-3 text-left text-body-md
+                            transition-colors duration-150
+                            hover:bg-[var(--neu-bg-dark)]
+                            ${formData.project === 'dashboard' ? 'text-[var(--neu-accent)] font-medium' : 'text-[var(--neu-foreground)]'}
+                          `}
+                        >
+                          Dashboard Admin
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, project: 'web-app' }));
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full px-5 py-3 text-left text-body-md
+                            transition-colors duration-150
+                            hover:bg-[var(--neu-bg-dark)]
+                            ${formData.project === 'web-app' ? 'text-[var(--neu-accent)] font-medium' : 'text-[var(--neu-foreground)]'}
+                          `}
+                        >
+                          Web Application
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, project: 'custom' }));
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full px-5 py-3 text-left text-body-md
+                            transition-colors duration-150
+                            hover:bg-[var(--neu-bg-dark)]
+                            ${formData.project === 'custom' ? 'text-[var(--neu-accent)] font-medium' : 'text-[var(--neu-foreground)]'}
+                          `}
+                        >
+                          Custom Website
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData((prev) => ({ ...prev, project: 'other' }));
+                            setIsDropdownOpen(false);
+                          }}
+                          className={`
+                            w-full px-5 py-3 text-left text-body-md
+                            transition-colors duration-150
+                            hover:bg-[var(--neu-bg-dark)]
+                            ${formData.project === 'other' ? 'text-[var(--neu-accent)] font-medium' : 'text-[var(--neu-foreground)]'}
+                          `}
+                        >
+                          Lainnya
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Message Field */}
-                <div className="space-y-2">
-                  <label htmlFor="message" className="block text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
-                    Pesan <span className="text-red-500">*</span>
+                <div className="space-y-3">
+                  <label htmlFor="message" className="block text-body-md text-[var(--neu-foreground)] font-medium">
+                    Pesan <span className="text-[var(--neu-accent)]">*</span>
                   </label>
                   <textarea
                     id="message"
@@ -465,18 +597,19 @@ export function Contact() {
                     placeholder="Ceritakan project atau ide Anda..."
                     rows={4}
                     className={`
-                      w-full px-4 py-3 rounded-[var(--radius-sm)]
-                      bg-[var(--color-canvas)]
-                      text-[var(--color-ink)]
-                      text-body-md font-[family-name:var(--font-inter)]
-                      border transition-all duration-200 resize-none
-                      placeholder:text-[var(--color-ink-faint)]
-                      focus:outline-none focus:ring-2 focus:ring-[var(--color-surface-violet-soft)] focus:border-transparent
-                      ${errors.message ? "border-red-500" : "border-[var(--color-hairline)] hover:border-[var(--color-hairline-dark)]"}
+                      w-full px-5 py-4 rounded-[var(--radius-lg)]
+                      neu-inset
+                      text-[var(--neu-foreground)]
+                      text-body-md
+                      transition-all duration-200 resize-none
+                      placeholder:text-[var(--neu-foreground)]
+                      placeholder:opacity-50
+                      focus:outline-none focus:ring-2 focus:ring-[var(--neu-accent)]
+                      ${errors.message ? "ring-2 ring-[var(--neu-accent)]" : ""}
                     `}
                   />
                   {errors.message && (
-                    <p className="text-caption text-red-500 font-[family-name:var(--font-inter)]">
+                    <p className="text-body-md text-[var(--neu-accent)]">
                       {errors.message}
                     </p>
                   )}
@@ -487,8 +620,8 @@ export function Contact() {
 
                 {/* Success Message */}
                 {submitStatus === "success" && (
-                  <div ref={successRef} className="p-4 rounded-[var(--radius-md)] bg-green-50 border border-green-200">
-                    <p className="text-body-md text-green-700 font-[family-name:var(--font-inter)] text-center flex items-center justify-center gap-2">
+                  <div ref={successRef} className="p-5 rounded-[var(--radius-lg)] neu text-center text-[var(--neu-accent)]">
+                    <p className="text-body-md flex items-center justify-center gap-2">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                       </svg>

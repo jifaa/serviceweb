@@ -175,6 +175,8 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
         {`
           :root {
             --linear-ease: linear(0, 0.068, 0.19 2.7%, 0.804 8.1%, 1.037, 1.199 13.2%, 1.245, 1.27 15.8%, 1.274, 1.272 17.4%, 1.249 19.1%, 0.996 28%, 0.949, 0.928 33.3%, 0.926, 0.933 36.8%, 1.001 45.6%, 1.013, 1.019 50.8%, 1.018 54.4%, 1 63.1%, 0.995 68%, 1.001 85%, 1);
+            --neu-fg: var(--neu-foreground);
+            --neu-accent: var(--neu-accent);
           }
           .effect {
             position: absolute;
@@ -185,11 +187,11 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             z-index: 1;
           }
           .effect.text {
-            color: white;
+            color: var(--neu-foreground);
             transition: color 0.3s ease;
           }
           .effect.text.active {
-            color: black;
+            color: var(--neu-accent);
           }
           .effect.filter {
             filter: blur(7px) contrast(100) blur(0);
@@ -200,13 +202,13 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             position: absolute;
             inset: -10px -50px;
             z-index: -2;
-            background: black;
+            background: var(--neu-bg);
           }
           .effect.filter::after {
             content: "";
             position: absolute;
             inset: 0;
-            background: white;
+            background: var(--neu-foreground);
             transform: scale(0);
             opacity: 0;
             z-index: -1;
@@ -289,7 +291,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             }
           }
           li.active {
-            color: black;
+            color: var(--neu-accent);
             text-shadow: none;
           }
           li.active::after {
@@ -301,7 +303,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             position: absolute;
             inset: 0;
             border-radius: 8px;
-            background: white;
+            background: var(--neu-bg);
             opacity: 0;
             transform: scale(0);
             transition: all 0.3s ease;
@@ -315,14 +317,14 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
             ref={navRef}
             className="flex gap-8 list-none p-0 px-4 m-0 relative z-[3]"
             style={{
-              color: 'white',
-              textShadow: '0 1px 1px hsl(205deg 30% 10% / 0.2)'
+              color: 'var(--neu-foreground)',
+              textShadow: '0 1px 1px hsl(0deg 0% 0% / 0.1)'
             }}
           >
             {items.map((item, index) => (
               <li
                 key={index}
-                className={`rounded-full relative cursor-pointer transition-[background-color_color_box-shadow] duration-300 ease shadow-[0_0_0.5px_1.5px_transparent] text-white ${activeIndex === index ? 'active' : ''
+                className={`rounded-full relative cursor-pointer transition-[background-color_color_box-shadow] duration-300 ease shadow-[0_0_0.5px_1.5px_transparent] ${activeIndex === index ? 'active' : ''
                   }`}
               >
                 <a

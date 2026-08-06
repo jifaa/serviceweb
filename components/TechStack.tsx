@@ -151,12 +151,12 @@ function TechItem({ tech, index }: { tech: typeof techStack[0]; index: number })
         </div>
 
         {/* Name */}
-        <span className="text-caption font-[family-name:var(--font-inter)] text-[var(--color-ink)] text-center">
+        <span className="text-caption font-[family-name:var(--font-body)] text-[var(--color-ink)] text-center">
           {tech.name}
         </span>
 
         {/* Category */}
-        <span className="text-micro font-[family-name:var(--font-inter)] text-[var(--color-ink-faint)] text-center">
+        <span className="text-micro font-[family-name:var(--font-body)] text-[var(--color-ink-mute)] text-center">
           {tech.category}
         </span>
       </div>
@@ -202,13 +202,13 @@ export function TechStack() {
 
       {/* Header */}
       <div ref={headerRef} className="relative z-10 text-center mb-12">
-        <span className="inline-block text-micro font-[family-name:var(--font-inter)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
+        <span className="inline-block text-micro font-[family-name:var(--font-body)] text-[var(--color-primary)] uppercase tracking-wider mb-2">
           Tech Stack
         </span>
-        <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)]">
+        <h2 className="text-display-xl font-[family-name:var(--font-body)] text-[var(--color-ink)]">
           Teknologi yang Saya Gunakan
         </h2>
-        <p className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] max-w-2xl mx-auto mt-4">
+        <p className="text-body-lg font-[family-name:var(--font-body)] text-[var(--color-ink-mute)] max-w-2xl mx-auto mt-4">
           Stack modern yang saya kuasai untuk membangun website dan aplikasi yang berkualitas
         </p>
       </div>
@@ -222,7 +222,7 @@ export function TechStack() {
 
       {/* Additional Note */}
       <div className="text-center mt-8">
-        <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
+        <p className="text-body-md font-[family-name:var(--font-body)] text-[var(--color-ink-mute)]">
           Selalu terbuka untuk belajar teknologi baru sesuai kebutuhan project
         </p>
       </div>

@@ -45,21 +45,21 @@ function AccordionItem({ question, answer, index }: AccordionItemProps) {
   return (
     <div
       ref={itemRef}
-      className="border-b border-[var(--color-hairline)] last:border-b-0 py-4 transition-colors duration-200"
+      className="border-b border-[var(--neu-bg-dark)] last:border-b-0 py-5 transition-colors duration-200"
     >
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between text-left gap-4 py-2 group cursor-pointer focus:outline-none"
         aria-expanded={isOpen}
       >
-        <span className="text-heading-md font-[family-name:var(--font-inter)] text-[var(--color-ink)] group-hover:text-[var(--color-primary)] transition-colors duration-200">
+        <span className="text-heading-md text-[var(--neu-foreground)] group-hover:text-[var(--neu-accent)] transition-colors duration-200 text-left">
           {question}
         </span>
-        {/* Chevron Container */}
-        <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-[var(--color-canvas-soft)] flex items-center justify-center text-[var(--color-ink-mute)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpen ? 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]' : ''}`}>
+        {/* Chevron Container - Neumorphic */}
+        <div className={`flex-shrink-0 w-10 h-10 neu-inset flex items-center justify-center text-[var(--neu-foreground-muted)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpen ? 'text-[var(--neu-accent)]' : ''}`}>
           <svg
             className={`w-5 h-5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              isOpen ? "rotate-180 text-[var(--color-primary)]" : ""
+              isOpen ? "rotate-180 text-[var(--neu-accent)]" : ""
             }`}
             fill="none"
             viewBox="0 0 24 24"
@@ -78,8 +78,8 @@ function AccordionItem({ question, answer, index }: AccordionItemProps) {
         }`}
       >
         <div className="overflow-hidden">
-          <div className="pt-2 pb-4">
-            <p className="text-body-md font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)] leading-relaxed">
+          <div className="pt-4 pb-2">
+            <p className="text-body-md text-[var(--neu-foreground)] opacity-70 leading-relaxed">
               {answer}
             </p>
           </div>
@@ -167,19 +167,25 @@ export function FAQ() {
   }, []);
 
   return (
-    <Section id="faq" variant="soft" ref={sectionRef}>
+    <Section id="faq" variant="light" ref={sectionRef}>
       <div className="grid lg:grid-cols-12 gap-12 items-start">
-        <div ref={headerRef} className="lg:col-span-4 lg:sticky lg:top-28 self-start">
-          <h2 className="text-display-xl font-[family-name:var(--font-inter)] text-[var(--color-ink)] mb-4">
-            Pertanyaan Umum
-          </h2>
-          <p className="text-body-lg font-[family-name:var(--font-inter)] text-[var(--color-ink-mute)]">
-            Beberapa jawaban atas pertanyaan yang sering diajukan calon klien.
-          </p>
+        {/* Sticky Header - only within FAQ section */}
+        <div className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start lg:h-fit z-10">
+          <div ref={headerRef} className="lg:pr-6">
+            <span className="inline-block text-micro text-[var(--neu-accent)] uppercase tracking-wider mb-3">
+              FAQ
+            </span>
+            <h2 className="text-display-xl text-[var(--neu-foreground)] mb-4">
+              Pertanyaan Umum
+            </h2>
+            <p className="text-body-lg text-[var(--neu-foreground)] opacity-80">
+              Beberapa jawaban atas pertanyaan yang sering diajukan calon klien.
+            </p>
+          </div>
         </div>
 
         <div ref={contentRef} className="lg:col-span-8">
-          <div className="bg-[var(--color-canvas)] border border-[var(--color-hairline)] rounded-[var(--radius-lg)] p-6 md:p-8">
+          <div className="neu rounded-[var(--radius-xl)] p-8">
             {faqs.map((faq, index) => (
               <AccordionItem
                 key={index}

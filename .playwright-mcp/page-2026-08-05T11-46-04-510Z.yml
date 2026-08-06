@@ -1,0 +1,427 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e5]:
+      - navigation [ref=e6]:
+        - list [ref=e7]:
+          - listitem [ref=e8]:
+            - link "Home" [ref=e9]:
+              - /url: "#home"
+          - listitem [ref=e10]:
+            - link "About" [ref=e11]:
+              - /url: "#about"
+          - listitem [ref=e12]:
+            - link "Services" [ref=e13]:
+              - /url: "#services"
+          - listitem [ref=e14]:
+            - link "Portfolio" [ref=e15]:
+              - /url: "#portfolio"
+          - listitem [ref=e16]:
+            - link "FAQ" [ref=e17]:
+              - /url: "#faq"
+          - listitem [ref=e18]:
+            - link "Contact" [ref=e19]:
+              - /url: "#contact"
+      - generic: Home
+  - main [ref=e20]:
+    - generic [ref=e27]:
+      - heading "Membantu Mewujudkan Website & Aplikasi Sesuai Kebutuhan Anda" [level=1] [ref=e28]:
+        - generic [ref=e29]: Membantu Mewujudkan
+        - generic [ref=e31]:
+          - generic [ref=e32]: Website & Aplikasi
+          - generic [ref=e677]:
+            - generic [ref=e678]:
+              - generic [ref=e679]: W
+              - generic [ref=e680]: e
+              - generic [ref=e681]: b
+              - generic [ref=e682]: s
+              - generic [ref=e683]: i
+              - generic [ref=e684]: t
+              - generic [ref=e685]: e
+            - generic [ref=e687]: "&"
+            - generic [ref=e690]:
+              - generic [ref=e691]: A
+              - generic [ref=e692]: p
+              - generic [ref=e693]: l
+              - generic [ref=e694]: i
+              - generic [ref=e695]: k
+              - generic [ref=e696]: a
+              - generic [ref=e697]: s
+              - generic [ref=e698]: i
+        - generic [ref=e55]: Sesuai Kebutuhan Anda
+      - paragraph [ref=e56]: Siap membantu Anda dalam membuat website dan aplikasi berkualitas sesuai kebutuhan dengan harga ramah dan komunikasi terbuka.
+      - generic [ref=e57]:
+        - button "Diskusi Gratis" [ref=e58]
+        - button "Lihat Portfolio" [ref=e61]
+    - generic [ref=e71]:
+      - generic:
+        - img "Al Ghifari - Software Engineer Illustration"
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - generic [ref=e75]: Tentang Saya
+          - heading "Mahasiswa Teknik Informatika yang Passion di Software Engineering" [level=2] [ref=e76]
+        - generic [ref=e77]:
+          - paragraph [ref=e78]: Hai! Saya Al Ghifari, seorang mahasiswa Teknik Informatika yang sedang dalam proses membangun karir di dunia pengembangan software.
+          - paragraph [ref=e79]: Saya sangat menikmati proses mengubah ide menjadi produk digital yang nyata. Fokus utama saya adalah web development — mulai dari landing page sederhana hingga aplikasi web yang lebih kompleks.
+          - paragraph [ref=e80]: Sebagai mahasiswa, saya terus belajar teknologi terbaru dan berusaha memberikan hasil terbaik untuk setiap project yang saya kerjakan. Saya percaya bahwa kualitas kerja lebih penting dari sekadar pengalaman.
+        - generic [ref=e81]:
+          - generic [ref=e82]: Fokus pada hasil
+          - generic [ref=e87]: Terus belajar
+          - generic [ref=e92]: Komunikasi terbuka
+          - generic [ref=e97]: Attention to detail
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - generic [ref=e106]: Layanan Spesialis
+        - heading "Apa yang Bisa Saya Bantu?" [level=2] [ref=e107]
+        - paragraph [ref=e108]: Solusi pengembangan web modern dengan performa tinggi dan desain responsif untuk memajukan bisnis Anda.
+      - generic [ref=e109]:
+        - generic [ref=e112]:
+          - heading "Landing Page" [level=3] [ref=e117]
+          - paragraph [ref=e118]: Halaman landing page yang menarik dan konversi tinggi untuk bisnis atau produk Anda.
+        - generic [ref=e121]:
+          - heading "Website UMKM" [level=3] [ref=e126]
+          - paragraph [ref=e127]: Website modern untuk toko online, warung, atau bisnis lokal agar tampil lebih profesional.
+        - generic [ref=e130]:
+          - heading "Dashboard Admin" [level=3] [ref=e135]
+          - paragraph [ref=e136]: Sistem manajemen data interaktif dengan tata letak dashboard yang intuitif dan cepat.
+        - generic [ref=e139]:
+          - heading "Web Application" [level=3] [ref=e144]
+          - paragraph [ref=e145]: Aplikasi berbasis web kustom dengan fitur canggih yang dirancang sesuai alur kerja Anda.
+        - generic [ref=e148]:
+          - heading "Custom Website" [level=3] [ref=e153]
+          - paragraph [ref=e154]: Website eksklusif dengan desain unik dan integrasi API/database sepenuhnya fleksibel.
+        - generic [ref=e157]:
+          - heading "UI/UX Implementation" [level=3] [ref=e162]
+          - paragraph [ref=e163]: Penerjemahan piksel presisi dari desain Figma menjadi komponen UI modern dan responsif.
+    - generic [ref=e165]:
+      - generic [ref=e166]:
+        - generic [ref=e167]: Keunggulan
+        - heading "Kenapa Kerja Sama dengan Saya?" [level=2] [ref=e168]
+        - paragraph [ref=e169]: Saya berkomitmen memberikan pengalaman kerja sama yang nyaman dan hasil yang memuaskan
+      - generic [ref=e170]:
+        - generic [ref=e177]:
+          - heading "Komunikasi yang Jelas" [level=3] [ref=e178]
+          - paragraph [ref=e179]: Selalu terbuka untuk diskusi dan memberikan update progress secara berkala.
+        - generic [ref=e187]:
+          - heading "Pengerjaan yang Transparan" [level=3] [ref=e188]
+          - paragraph [ref=e189]: Anda bisa melihat progress project kapan saja. Tidak ada yang disembunyikan.
+        - generic [ref=e196]:
+          - heading "Responsive Design" [level=3] [ref=e197]
+          - paragraph [ref=e198]: Website yang terlihat bagus di semua device — desktop, tablet, dan mobile.
+        - generic [ref=e205]:
+          - heading "Clean Code" [level=3] [ref=e206]
+          - paragraph [ref=e207]: Kode yang rapi, terstruktur, dan mudah di-maintain di kemudian hari.
+        - generic [ref=e214]:
+          - heading "Modern Technology" [level=3] [ref=e215]
+          - paragraph [ref=e216]: Menggunakan teknologi terbaru seperti Next.js, React, dan TypeScript.
+        - generic [ref=e223]:
+          - heading "Revisi sesuai Kesepakatan" [level=3] [ref=e224]
+          - paragraph [ref=e225]: Mendukung revisi sesuai dengan scope yang sudah disepakati di awal.
+    - generic [ref=e227]:
+      - generic [ref=e228]:
+        - generic [ref=e229]: Alur Kerja
+        - heading "Bagaimana Proses Pengerjaannya?" [level=2] [ref=e230]
+        - paragraph [ref=e231]: Alur kerja terstruktur dan transparan untuk memastikan setiap project berjalan lancar, tepat waktu, dan berkualitas tinggi.
+      - generic [ref=e234]:
+        - generic [ref=e241]:
+          - generic [ref=e242]:
+            - generic [ref=e243]: "01"
+            - heading "Diskusi & Konsultasi" [level=3] [ref=e244]
+          - paragraph [ref=e245]: Saya akan mendengarkan ide, tujuan bisnis, dan kebutuhan Anda secara mendalam. Kita akan mendiskusikan scope, timeline, dan estimasi biaya secara transparan.
+        - generic [ref=e252]:
+          - generic [ref=e253]:
+            - generic [ref=e254]: "02"
+            - heading "Perencanaan & Strategi" [level=3] [ref=e255]
+          - paragraph [ref=e256]: Menyusun roadmap pengerjaan, arsitektur sistem, pemilihan teknologi terbaik, dan timeline pelaksanaan project yang terukur.
+        - generic [ref=e263]:
+          - generic [ref=e264]:
+            - generic [ref=e265]: "03"
+            - heading "Desain UI/UX" [level=3] [ref=e266]
+          - paragraph [ref=e267]: Merancang wireframe dan visual interface yang modern, intuitif, serta responsif sesuai identitas brand dan kenyamanan pengguna.
+        - generic [ref=e274]:
+          - generic [ref=e275]:
+            - generic [ref=e276]: "04"
+            - heading "Pengembangan & Coding" [level=3] [ref=e277]
+          - paragraph [ref=e278]: Tahap implementasi kode dengan standar kualitas tinggi, cepat, SEO-friendly, dan responsive. Progress dilaporkan secara berkala.
+        - generic [ref=e285]:
+          - generic [ref=e286]:
+            - generic [ref=e287]: "05"
+            - heading "Pengujian & QA" [level=3] [ref=e288]
+          - paragraph [ref=e289]: Website atau aplikasi diuji di berbagai perangkat, browser, dan skenario penggunaan untuk menjamin performa optimum bebas bug.
+        - generic [ref=e296]:
+          - generic [ref=e297]:
+            - generic [ref=e298]: "06"
+            - heading "Peluncur an & Support" [level=3] [ref=e299]
+          - paragraph [ref=e300]: Deployment ke server production, konfigurasi domain & SSL, serta sesi pendampingan awal dan dukungan pasca peluncuran.
+    - generic [ref=e302]:
+      - generic [ref=e303]:
+        - generic [ref=e304]: Portfolio
+        - heading "Project yang Pernah Dikerjakan" [level=2] [ref=e305]
+      - generic [ref=e306]:
+        - generic [ref=e308]:
+          - generic [ref=e309]:
+            - generic [ref=e310]:
+              - generic [ref=e313]: Featured
+              - generic [ref=e314]: C
+            - generic [ref=e316]:
+              - heading "CosHub SMD" [level=3] [ref=e317]
+              - paragraph [ref=e318]: Website company profile dan katalog produk CosHub SMD dengan fitur interaktif dan modern design.
+              - generic [ref=e319]:
+                - generic [ref=e320]: Next.js
+                - generic [ref=e321]: Tailwind CSS
+                - generic [ref=e322]: Vercel
+          - generic [ref=e323]:
+            - button "Demo" [ref=e324]
+            - button [ref=e327]
+        - generic [ref=e331]:
+          - generic [ref=e332]:
+            - generic [ref=e333]:
+              - generic [ref=e336]: Featured
+              - generic [ref=e337]: E
+            - generic [ref=e339]:
+              - heading "Easler Japan" [level=3] [ref=e340]
+              - paragraph [ref=e341]: Website company profile untuk Easler Japan dengan desain elegan dan pengalaman pengguna premium.
+              - generic [ref=e342]:
+                - generic [ref=e343]: Next.js
+                - generic [ref=e344]: Tailwind CSS
+                - generic [ref=e345]: Vercel
+          - generic [ref=e346]:
+            - button "Demo" [ref=e347]
+            - button [ref=e350]
+        - generic [ref=e354]:
+          - generic [ref=e355]:
+            - generic [ref=e356]:
+              - generic [ref=e359]: Featured
+              - generic [ref=e360]: W
+            - generic [ref=e362]:
+              - heading "Warung Kopi Nusantara" [level=3] [ref=e363]
+              - paragraph [ref=e364]: Website company profile dan katalog produk untuk kedai kopi tradisional dengan fitur pemesanan online.
+              - generic [ref=e365]:
+                - generic [ref=e366]: Next.js
+                - generic [ref=e367]: Tailwind CSS
+                - generic [ref=e368]: Supabase
+          - generic [ref=e369]:
+            - button "Demo" [ref=e370]
+            - button [ref=e373]
+        - generic [ref=e377]:
+          - generic [ref=e378]:
+            - generic [ref=e379]:
+              - generic [ref=e382]: Featured
+              - generic [ref=e383]: E
+            - generic [ref=e385]:
+              - heading "EduLearn Platform" [level=3] [ref=e386]
+              - paragraph [ref=e387]: Platform e-learning untuk kursus online dengan fitur video player dan tracking progress.
+              - generic [ref=e388]:
+                - generic [ref=e389]: React
+                - generic [ref=e390]: Node.js
+                - generic [ref=e391]: PostgreSQL
+          - generic [ref=e392]:
+            - button "Demo" [ref=e393]
+            - button [ref=e396]
+        - generic [ref=e400]:
+          - generic [ref=e401]:
+            - generic [ref=e402]: B
+            - generic [ref=e407]:
+              - heading "Beauty Salon Dashboard" [level=3] [ref=e408]
+              - paragraph [ref=e409]: Sistem manajemen appointment dan customer database untuk salon kecantikan.
+              - generic [ref=e410]:
+                - generic [ref=e411]: Next.js
+                - generic [ref=e412]: TypeScript
+                - generic [ref=e413]: Firebase
+          - generic [ref=e414]:
+            - button "Demo" [ref=e415]
+            - button [ref=e418]
+        - generic [ref=e422]:
+          - generic [ref=e423]:
+            - generic [ref=e424]: E
+            - generic [ref=e429]:
+              - heading "EventHub Organizer" [level=3] [ref=e430]
+              - paragraph [ref=e431]: Landing page dan registration system untuk event organizer komunitas mahasiswa.
+              - generic [ref=e432]:
+                - generic [ref=e433]: Next.js
+                - generic [ref=e434]: Tailwind CSS
+                - generic [ref=e435]: Supabase
+          - generic [ref=e436]:
+            - button "Demo" [ref=e437]
+            - button [ref=e440]
+        - generic [ref=e444]:
+          - generic [ref=e445]:
+            - generic [ref=e446]: P
+            - generic [ref=e451]:
+              - heading "Personal Blog" [level=3] [ref=e452]
+              - paragraph [ref=e453]: Blog personal dengan CMS terintegrasi untuk menulis artikel dan portofolio.
+              - generic [ref=e454]:
+                - generic [ref=e455]: Next.js
+                - generic [ref=e456]: MDX
+                - generic [ref=e457]: Vercel
+          - generic [ref=e458]:
+            - button "Demo" [ref=e459]
+            - button [ref=e462]
+        - generic [ref=e466]:
+          - generic [ref=e467]:
+            - generic [ref=e468]: I
+            - generic [ref=e473]:
+              - heading "Inventory Manager" [level=3] [ref=e474]
+              - paragraph [ref=e475]: Dashboard manajemen inventori untuk UMKM dengan fitur real-time tracking.
+              - generic [ref=e476]:
+                - generic [ref=e477]: React
+                - generic [ref=e478]: Express
+                - generic [ref=e479]: MongoDB
+          - generic [ref=e480]:
+            - button "Demo" [ref=e481]
+            - button [ref=e484]
+    - generic [ref=e489]:
+      - generic [ref=e490]:
+        - generic [ref=e491]: FAQ
+        - heading "Pertanyaan Umum" [level=2] [ref=e492]
+        - paragraph [ref=e493]: Beberapa jawaban atas pertanyaan yang sering diajukan calon klien.
+      - generic [ref=e495]:
+        - generic [ref=e496]:
+          - button "Berapa lama waktu pengerjaan website?" [ref=e497]
+          - paragraph [ref=e503]: Waktu pengerjaan bervariasi tergantung kompleksitas project. Landing page sederhana biasanya memakan waktu 3-7 hari, sedangkan aplikasi web kompleks membutuhkan waktu 2-4 minggu.
+        - generic [ref=e504]:
+          - button "Apakah website yang dibuat sudah responsive?" [ref=e505]
+          - paragraph [ref=e511]: Ya, semua website dan aplikasi web yang saya buat selalu dioptimalkan untuk tampil sempurna di berbagai perangkat (desktop, tablet, dan smartphone).
+        - generic [ref=e512]:
+          - button "Apakah saya perlu menyediakan desain sendiri?" [ref=e513]
+          - paragraph [ref=e519]: Jika Anda sudah punya desain (misalnya dari Figma), saya bisa mengimplementasikannya. Jika belum, saya juga bisa membantu merancang tata letak dan visual sesuai kebutuhan Anda.
+        - generic [ref=e520]:
+          - button "Bagaimana dengan maintenance setelah website selesai?" [ref=e521]
+          - paragraph [ref=e527]: Saya memberikan garansi perbaikan bug secara gratis dalam rentang waktu tertentu setelah website diluncurkan. Layanan perawatan berkala juga bisa disepakati bersama.
+        - generic [ref=e528]:
+          - button "Teknologi apa saja yang digunakan?" [ref=e529]
+          - paragraph [ref=e535]: Saya utamanya menggunakan ekosistem JavaScript/TypeScript modern seperti Next.js, React, Tailwind CSS, serta pustaka pendukung performa tinggi.
+        - generic [ref=e536]:
+          - button "Bagaimana sistem pembayarannya?" [ref=e537]
+          - paragraph [ref=e543]: Pembayaran biasanya dilakukan dengan sistem DP di awal dan pelunasan setelah project selesai disetujui.
+    - generic [ref=e545]:
+      - generic [ref=e546]:
+        - heading "Mari Diskusi" [level=2] [ref=e547]
+        - paragraph [ref=e548]: Punya ide project atau pertanyaan? Hubungi saya — saya senang membantu mewujudkan ide Anda.
+      - generic [ref=e549]:
+        - generic [ref=e552]:
+          - generic [ref=e553]:
+            - heading "Informasi Kontak" [level=3] [ref=e554]
+            - paragraph [ref=e555]: Pilih cara terbaik untuk menghubungi saya
+          - generic [ref=e556]:
+            - link [ref=e557]:
+              - /url: mailto:akhmad.abid.345@gmail.com
+              - generic [ref=e561]:
+                - paragraph [ref=e562]: Email
+                - paragraph [ref=e563]: akhmad.abid.345@gmail.com
+            - link [ref=e564]:
+              - /url: https://wa.me/6289527718391
+              - generic [ref=e568]:
+                - paragraph [ref=e569]: WhatsApp
+                - paragraph [ref=e570]: +62 812-3456-7890
+            - link [ref=e571]:
+              - /url: https://www.instagram.com/thisjifaa._/
+              - generic [ref=e575]:
+                - paragraph [ref=e576]: Instagram
+                - paragraph [ref=e577]: "@thisjifaa._"
+          - paragraph [ref=e579]: Respon biasanya dalam 1x24 jam. Untuk project urgent, WhatsApp adalah pilihan tercepat.
+        - generic [ref=e582]:
+          - generic [ref=e583]:
+            - heading "Kirim Pesan" [level=3] [ref=e584]
+            - paragraph [ref=e585]: Isi formulir di bawah dan saya akan segera menghubungi Anda
+          - generic [ref=e586]:
+            - generic [ref=e587]:
+              - generic [ref=e588]: Nama *
+              - textbox "Nama *" [ref=e589]:
+                - /placeholder: Nama lengkap Anda
+            - generic [ref=e590]:
+              - generic [ref=e591]: Email *
+              - textbox "Email *" [ref=e592]:
+                - /placeholder: email@contoh.com
+            - generic [ref=e593]:
+              - generic [ref=e594]: Jenis Project
+              - combobox "Jenis Project" [ref=e595]:
+                - option "Pilih jenis project (opsional)" [selected]
+                - option "Landing Page"
+                - option "Company Profile"
+                - option "Website UMKM"
+                - option "Dashboard Admin"
+                - option "Web Application"
+                - option "Custom Website"
+                - option "Lainnya"
+            - generic [ref=e596]:
+              - generic [ref=e597]: Pesan *
+              - textbox "Pesan *" [ref=e598]:
+                - /placeholder: Ceritakan project atau ide Anda...
+            - button "Kirim via WhatsApp" [ref=e599]
+  - contentinfo [ref=e602]:
+    - generic [ref=e604]:
+      - generic [ref=e605]:
+        - link "</> Al Ghifari" [ref=e606]:
+          - /url: "#home"
+          - generic [ref=e607]: </>
+          - generic [ref=e608]: Al Ghifari
+        - paragraph [ref=e609]: Mahasiswa Teknik Informatika yang passionate di web development. Terbuka untuk project freelance dan kolaborasi.
+        - generic [ref=e610]:
+          - link "GitHub" [ref=e611]:
+            - /url: https://github.com/algifari
+          - link "Instagram" [ref=e614]:
+            - /url: https://instagram.com/algifari.dev
+          - link "WhatsApp" [ref=e617]:
+            - /url: https://wa.me/6281234567890
+      - generic [ref=e620]:
+        - heading "Navigasi" [level=4] [ref=e621]
+        - list [ref=e622]:
+          - listitem [ref=e623]:
+            - link "Home" [ref=e624]:
+              - /url: "#home"
+          - listitem [ref=e625]:
+            - link "About" [ref=e626]:
+              - /url: "#about"
+          - listitem [ref=e627]:
+            - link "Services" [ref=e628]:
+              - /url: "#services"
+          - listitem [ref=e629]:
+            - link "Portfolio" [ref=e630]:
+              - /url: "#portfolio"
+          - listitem [ref=e631]:
+            - link "FAQ" [ref=e632]:
+              - /url: "#faq"
+          - listitem [ref=e633]:
+            - link "Contact" [ref=e634]:
+              - /url: "#contact"
+      - generic [ref=e635]:
+        - heading "Layanan" [level=4] [ref=e636]
+        - list [ref=e637]:
+          - listitem [ref=e638]:
+            - link "Landing Page" [ref=e639]:
+              - /url: "#services"
+          - listitem [ref=e640]:
+            - link "Company Profile" [ref=e641]:
+              - /url: "#services"
+          - listitem [ref=e642]:
+            - link "Website UMKM" [ref=e643]:
+              - /url: "#services"
+          - listitem [ref=e644]:
+            - link "Dashboard Admin" [ref=e645]:
+              - /url: "#services"
+          - listitem [ref=e646]:
+            - link "Web Application" [ref=e647]:
+              - /url: "#services"
+          - listitem [ref=e648]:
+            - link "Custom Website" [ref=e649]:
+              - /url: "#services"
+      - generic [ref=e650]:
+        - heading "Sosial Media" [level=4] [ref=e651]
+        - list [ref=e652]:
+          - listitem [ref=e653]:
+            - link "GitHub" [ref=e654]:
+              - /url: https://github.com/algifari
+          - listitem [ref=e655]:
+            - link "LinkedIn" [ref=e656]:
+              - /url: https://linkedin.com/in/algifari
+          - listitem [ref=e657]:
+            - link "Instagram" [ref=e658]:
+              - /url: https://instagram.com/algifari.dev
+          - listitem [ref=e659]:
+            - link "WhatsApp" [ref=e660]:
+              - /url: https://wa.me/6281234567890
+    - generic [ref=e663]:
+      - paragraph [ref=e664]: © 2026 Al Ghifari. All rights reserved.
+      - paragraph [ref=e665]: Dibuat dengan dan Next.js
+  - button "Open Next.js Dev Tools" [ref=e673] [cursor=pointer]
+  - alert [ref=e700]
