@@ -15,19 +15,6 @@ const footerLinks = [
       { label: "Contact", href: "#contact", external: false },
     ],
   },
-  /*
-  {
-    title: "Layanan",
-    links: [
-      { label: "Landing Page", href: "#services", external: false },
-      { label: "Company Profile", href: "#services", external: false },
-      { label: "Website UMKM", href: "#services", external: false },
-      { label: "Dashboard Admin", href: "#services", external: false },
-      { label: "Web Application", href: "#services", external: false },
-      { label: "Custom Website", href: "#services", external: false },
-    ],
-  },
-  */
   {
     title: "Sosial Media",
     links: [
@@ -102,20 +89,25 @@ function FooterColumn({ column, index }: { column: typeof footerLinks[0]; index:
   }, [index]);
 
   return (
-    <div ref={columnRef}>
-      <h4 className="text-body-md text-[var(--neu-foreground)] font-semibold uppercase tracking-wider mb-5">
+    <div ref={columnRef} className="space-y-5">
+      <h4 className="text-micro text-[var(--neu-accent)] font-semibold uppercase tracking-widest">
         {column.title}
       </h4>
-      <ul className="space-y-4">
+      <ul className="space-y-3">
         {column.links.map((link, linkIndex) => (
           <li key={linkIndex}>
             <a
               href={link.href}
               target={link.external ? "_blank" : "_self"}
               rel={link.external ? "noopener noreferrer" : ""}
-              className="text-body-md text-[var(--neu-foreground)] opacity-70 hover:text-[var(--neu-accent)] transition-colors duration-200"
+              className="inline-flex items-center gap-2 text-body-sm text-[var(--neu-foreground)] opacity-60 hover:opacity-100 hover:text-[var(--neu-accent)] transition-all duration-200 group"
             >
               {link.label}
+              {link.external && (
+                <svg className="w-3 h-3 opacity-0 group-hover:opacity-60 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+              )}
             </a>
           </li>
         ))}
@@ -163,7 +155,7 @@ function SocialButton({ link, index }: { link: typeof socialLinks[0]; index: num
       href={link.href}
       target="_blank"
       rel="noopener noreferrer"
-      className="neu-sm w-10 h-10 flex items-center justify-center text-[var(--neu-foreground-muted)] hover:text-[var(--neu-accent)] transition-all duration-200"
+      className="neu w-12 h-12 flex items-center justify-center text-[var(--neu-foreground)] opacity-70 hover:opacity-100 hover:text-[var(--neu-accent)] transition-all duration-300 hover:scale-110"
       aria-label={link.name}
     >
       {link.icon}
@@ -205,35 +197,47 @@ export function Footer() {
   }, []);
 
   return (
-    <footer ref={footerRef} className="bg-[var(--neu-bg-dark)] border-t border-[var(--neu-bg)]">
-      <div className="max-w-[1100px] mx-auto px-[var(--spacing-lg)] md:px-[var(--spacing-xl)] py-16">
-        <div className="grid md:grid-cols-3 gap-12">
-          {/* Brand */}
-          <div ref={brandRef} className="lg:col-span-1">
-            <a href="#home" className="flex items-center gap-3 mb-6">
-              <span className="neu-sm px-3 py-2 text-[var(--neu-accent)] font-bold text-xl rounded-[var(--radius-md)]">
+    <footer ref={footerRef} className="relative bg-[var(--neu-bg)]">
+      {/* Top decorative line */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--neu-accent)] to-transparent opacity-30" />
+
+      <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-16 lg:py-20">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-16 mb-16">
+          {/* Brand Section */}
+          <div ref={brandRef} className="lg:col-span-5">
+            <a href="#home" className="inline-flex items-center gap-3 mb-6 group">
+              <span className="neu px-3 py-2 text-[var(--neu-accent)] font-bold text-xl rounded-xl group-hover:scale-105 transition-transform">
                 {"</>"}
               </span>
-              <span className="font-semibold text-[var(--neu-foreground)] text-lg">
+              <span className="font-bold text-xl text-[var(--neu-foreground)] tracking-tight">
                 Al Ghifari
               </span>
             </a>
-            <p className="text-body-md text-[var(--neu-foreground)] opacity-70 mb-6 leading-relaxed">
-              Mahasiswa Teknik Informatika yang passionate di web development. Terbuka untuk project freelance dan kolaborasi.
+            <p className="text-body-sm text-[var(--neu-foreground)] opacity-60 mb-8 leading-relaxed max-w-sm">
+              Mahasiswa Teknik Informatika yang hobi menjelajahi teknologi dan mengulik AI.
             </p>
+
             {/* Social Links */}
-            <div className="flex gap-4">
+            <div className="flex items-center gap-3">
               {socialLinks.map((link, index) => (
                 <SocialButton key={index} link={link} index={index} />
               ))}
             </div>
           </div>
 
+          {/* Spacer for larger screens */}
+          <div className="hidden lg:block lg:col-span-1" />
+
           {/* Link Columns */}
-          {footerLinks.map((column, index) => (
-            <FooterColumn key={index} column={column} index={index} />
-          ))}
+          <div className="lg:col-span-6 grid grid-cols-2 gap-8 lg:gap-12">
+            {footerLinks.map((column, index) => (
+              <FooterColumn key={index} column={column} index={index} />
+            ))}
+          </div>
         </div>
+
+
       </div>
     </footer>
   );

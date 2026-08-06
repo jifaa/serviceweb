@@ -142,7 +142,7 @@ export function About() {
 
           <div className="space-y-5">
             <p className="text-body-lg text-[var(--neu-foreground)]">
-              Hai! Kenalin saya Al Ghifari, seorang mahasiswa Teknik Informatika yang hobi menjelajadi dunia pemrograman dan AI.
+              Hai! Kenalin saya Al Ghifari, seorang mahasiswa Teknik Informatika yang hobi menjelajahi dunia pemrograman dan AI.
             </p>
             <p className="text-body-md text-[var(--neu-foreground)] opacity-80">
               Saya sangat menyukai mengubah sebuah ide menjadi produk digital. Fokus utama saya adalah web development dan AI Engineer, mulai dari
